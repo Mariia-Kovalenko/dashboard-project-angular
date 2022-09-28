@@ -1,0 +1,14 @@
+<!-- dashboard -->
+<app-page-top currentRoute="boards"></app-page-top>
+<!-- add board btn -->
+<button class="add-board"></button>
+
+<!-- boards list -->
+<div class="boards__list">
+    <!-- board -->
+    <app-board
+    *ngFor="let board of boards; let i = index"
+    [board]="board"
+    [index]="i"
+    ></app-board>
+</div>
