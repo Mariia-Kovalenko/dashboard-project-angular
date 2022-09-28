@@ -13,10 +13,10 @@ export class BoardsService {
       '2022-09-09',
       'My board',
       [
-        new Task('My Task', State.TODO),
-        new Task('My Task 2', State.DONE),
-        new Task('My Task 3', State.IN_PROGRESS),
-        new Task('My Task 4', State.TODO)
+        new Task('My Task', State.TODO, []),
+        new Task('My Task 2', State.DONE, []),
+        new Task('My Task 3', State.IN_PROGRESS, []),
+        new Task('My Task 4', State.TODO, [])
       ]
     ),
     new Board(
@@ -24,7 +24,7 @@ export class BoardsService {
       '2022-09-09',
       'My board',
       [
-        new Task('My Task 2', State.TODO)
+        new Task('My Task 2', State.TODO, [])
       ]
     )
   ];

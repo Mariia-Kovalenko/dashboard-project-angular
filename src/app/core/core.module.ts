@@ -6,6 +6,7 @@ import { BoardComponent } from './components/board/board.component';
 import { BoardDetailsComponent } from './components/board-details/board-details.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { PageTopComponent } from './components/page-top/page-top.component';
+import { TaskComponent } from './components/task/task.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { PageTopComponent } from './components/page-top/page-top.component';
     DashboardComponent,
     BoardComponent,
     BoardDetailsComponent,
-    PageTopComponent
+    PageTopComponent,
+    TaskComponent
   ],
   imports: [
     CommonModule,

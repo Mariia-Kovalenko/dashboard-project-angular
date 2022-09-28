@@ -36,9 +36,9 @@ export class BoardDetailsComponent implements OnInit {
     this.progressTasks = this.currentBoard.tasks.filter(task => task.state === State.IN_PROGRESS);
     this.doneTasks = this.currentBoard.tasks.filter(task => task.state === State.DONE);
 
-    // console.log('New tasks:' , this.newTasks);
-    // console.log('IP tasks:' , this.progressTasks);
-    // console.log('Done tasks:' , this.doneTasks);
+    console.log('New tasks:' , this.newTasks);
+    console.log('IP tasks:' , this.progressTasks);
+    console.log('Done tasks:' , this.doneTasks);
   }
 
 }
