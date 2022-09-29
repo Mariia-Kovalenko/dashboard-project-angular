@@ -7,6 +7,7 @@ import { BoardDetailsComponent } from './components/board-details/board-details.
 import { AppRoutingModule } from '../app-routing.module';
 import { PageTopComponent } from './components/page-top/page-top.component';
 import { TaskComponent } from './components/task/task.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { TaskComponent } from './components/task/task.component';
   imports: [
     CommonModule,
     AppRoutingModule,
+    ReactiveFormsModule
   ],
   exports: [
     HeaderComponent,

@@ -10,7 +10,7 @@ export class BoardsService {
   boards: Board[] = [
     new Board(
       'Board 1',
-      '2022-09-09',
+      this.transformDate(String(Date.now())),
       'My board',
       [
         new Task('My Task', State.TODO, []),
@@ -21,12 +21,12 @@ export class BoardsService {
     ),
     new Board(
       'Board 2',
-      '2022-09-09',
+      this.transformDate(String(Date.now())),
       'My board',
       [
         new Task('My Task 2', State.TODO, [])
       ]
-    )
+    ),
   ];
 
   constructor() { }
@@ -38,4 +38,27 @@ export class BoardsService {
   getBoard(id: number) {
     return this.boards[id];
   }
+
+  addBoard(name: string, desc: string) {
+    this.boards.push(
+      new Board(name, this.transformDate(String(Date.now())), desc, [])
+    )
+  }
+
+  // add pipe for that
+  transformDate(date: string) {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm: number | string = today.getMonth() + 1; // Months start at 0!
+    let dd: number | string = today.getDate();
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    return dd + '-' + mm + '-' + yyyy;
+  }
 }
+
