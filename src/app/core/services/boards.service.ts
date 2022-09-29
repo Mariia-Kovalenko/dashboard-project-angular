@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Board } from 'src/app/shared/board.model';
 import { State } from 'src/app/shared/task-state.model';
 import { Task } from 'src/app/shared/task.model';
@@ -7,6 +8,8 @@ import { Task } from 'src/app/shared/task.model';
   providedIn: 'root'
 })
 export class BoardsService {
+  boardAdded = new Subject<boolean>();
+
   boards: Board[] = [
     new Board(
       'Board 1',
@@ -43,6 +46,13 @@ export class BoardsService {
     this.boards.push(
       new Board(name, this.transformDate(String(Date.now())), desc, [])
     )
+    this.boardAdded.next(true);
+  }
+
+  updateBoard(id: number, name: string, desc: string) {
+    this.boards[id] =
+      new Board(name, this.transformDate(String(Date.now())), desc, [])
+    this.boardAdded.next(true);
   }
 
   // add pipe for that

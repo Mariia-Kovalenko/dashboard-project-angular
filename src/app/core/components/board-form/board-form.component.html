@@ -1,34 +1,11 @@
-<!-- dashboard -->
-<app-page-top currentRoute="boards"></app-page-top>
-<!-- add board btn -->
-<button class="add-board" (click)="onOpenAddModal()"></button>
-
-<!-- boards list -->
-<div class="boards__list">
-    <!-- board -->
-    <app-board
-    *ngFor="let board of boards; let i = index"
-    [board]="board"
-    [index]="i"
-    [mode]="'edit'"
-    (openFormModal)="onOpenEditModal($event)"
-    ></app-board>
-</div>
-
-<app-board-form 
-    *ngIf="showModal" 
-    [mode]="mode" 
-    [boardToUpdate]="boardToUpdate"
-    (closeFormModal)="onCloseModal($event)"></app-board-form>
-
-<!-- 
-<div *ngIf="showModal" class="add-board__modal modal">
+<div 
+    class="add-board__modal modal">
     <div class="modal__inner">
         <form 
         class="add-board__form"
         [formGroup]="form"
         (ngSubmit)="onSubmit()">
-        <h3 class="modal__name">New Board</h3>
+        <h3 class="modal__name">{{mode === 'add' ? 'Add' : 'Edit'}} Board</h3>
             <div class="form__inputs">
                 <div class="form-group">
                     <label>Form name</label>
@@ -49,9 +26,13 @@
                     class="input-error">Please, enter a valid description</span>
                 </div>
             </div>
-            <button class="btn add-board__btn" type="submit">Add</button>
+            <div class="form__buttons">
+                <button *ngIf="mode === 'add'" class="btn add-board__btn" type="submit">Add</button>
+                <button *ngIf="mode === 'edit'" class="btn add-board__btn" type="submit">Save</button>
+                <!-- <button class="btn add-board__btn" type="submit">Add</button> -->
+            </div>
         </form>
-        <div class="close" (click)="onToggleForm()"></div>
+        <div class="close" (click)="onCloseForm()"></div>
     </div>
     
-</div> -->
+</div>
