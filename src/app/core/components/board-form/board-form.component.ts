@@ -14,21 +14,17 @@ export class BoardFormComponent implements OnInit {
   @Input() mode!: string;
   @Input() boardToUpdate!: number;
   @Output() closeFormModal = new EventEmitter<string>();
-  // formSubmitted = new Subject<{name: string, desc: string}>();
+  
   constructor(private boardsService: BoardsService) { }
 
   ngOnInit(): void {
-    // this.boards = this.boardsService.getBoards();
-    // console.log('form mode: ', this.mode);
     this.form = new FormGroup({
       'name': new FormControl('', [Validators.required, Validators.minLength(4)]),
       'description': new FormControl('', [Validators.required, Validators.maxLength(15)])
     });
-    // console.log(this.boards);
   }
 
   onSubmit() {
-    // console.log(this.form);
     if (this.form.valid) {
       if (this.mode === 'add') {
         this.boardsService.addBoard(this.form.value.name, this.form.value.description);
