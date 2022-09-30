@@ -4,13 +4,27 @@
     <div class="board__name" 
     [routerLink]="[index]"
     (click)="onOpenBoard()">{{board.name}}</div>
-    <div class="board__date">{{board.creationDate}}</div>
+    <div class="board__date">
+        <img src="../assets/images/calendar.svg" alt="calendar">
+        <span>{{board.creationDate}}</span>
+    </div>
     <div class="board__desc">{{board.description}}</div>
+    <div class="board__tasks-per-col">
+        <div class="board__tasks-num">
+            <span>To Do: {{newTasks.length}}</span>
+        </div>
+        <div class="board__tasks-num">
+            <span>In Progress: {{progressTasks.length}}</span>
+        </div>
+        <div class="board__tasks-num">
+            <span>Done: {{doneTasks.length}}</span>
+        </div>
+    </div>
     <div class="board__buttons">
         <button 
         class="board__btn"
         (click)="onOpenBoard()">
-            <img src="../assets/images/edit.svg" alt="edit" />
+            <img src="../assets/images/edit.svg" alt="edit"/>
         </button>
         <button class="board__btn">
             <img src="../assets/images/delete.svg" alt="del" />

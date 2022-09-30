@@ -2,34 +2,40 @@
 <div class="board-details">
     <div class="board-details__tasks">
         <div class="board-details__column tasks" #toDos>
-            <div class="tasks__title">TO DO</div>
             <div class="tasks__container">
                 <!-- add task button -->
+                <div class="tasks__title">to do <span class="tasks-count">&#8226; {{newTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
                 <!-- tasks list -->
                     <app-task
                     *ngFor="let newTask of newTasks"
                     [name]="newTask.name"></app-task>
+
+                    <div class="task empty-task">Add or drag task here</div>
             </div>
         </div>
         <div class="board-details__column tasks" #inProgress>
-            <div class="tasks__title">IN PROGRESS</div>
             <div class="tasks__container">
                 <!-- add task button -->
+                <div class="tasks__title">in progress <span class="tasks-count">&#8226; {{progressTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
                 <!-- tasks list -->
                     <app-task
                     *ngFor="let progressTask of progressTasks"
                     [name]="progressTask.name"></app-task>
+
+                    <div class="task empty-task">Add or drag task here</div>
             </div>
         </div>
         <div class="board-details__column tasks" #done>
-            <div class="tasks__title">DONE</div>
             <div class="tasks__container">
+                <div class="tasks__title">done <span class="tasks-count">&#8226; {{doneTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
                     <app-task
                     *ngFor="let doneTask of doneTasks "
                     [name]="doneTask.name"></app-task>
+
+                    <div class="task empty-task">Add or drag task here</div>
             </div>
         </div>
     </div>
