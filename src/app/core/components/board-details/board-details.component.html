@@ -7,18 +7,24 @@
                 <div class="tasks__title">to do <span class="tasks-count">&#8226; {{newTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
                 <!-- tasks list -->
+                <div class="tasks__list"
+                appDragArea
+                [column]="'toDo'"
+                (itemDropped)="onItemDropped($event)">
+                    <div 
+                    *ngIf="!newTasks.length"
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'toDo'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+
                     <app-task
                     *ngFor="let newTask of newTasks"
                     [name]="newTask.name"
                     (itemDragged) = "setDraggedItem($event)"
                     draggable="true"
                     appDraggable></app-task>
-
-                    <div 
-                    class="task empty-task"
-                    appDragArea
-                    [column]="'toDo'"
-                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+                </div>
             </div>
         </div>
         <div class="board-details__column tasks" #inProgress>
@@ -27,24 +33,34 @@
                 <div class="tasks__title">in progress <span class="tasks-count">&#8226; {{progressTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
                 <!-- tasks list -->
+                <div class="tasks__list"
+                appDragArea
+                [column]="'inProgress'"
+                (itemDropped)="onItemDropped($event)">
+                    <div 
+                    *ngIf="!progressTasks.length"
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'inProgress'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+
                     <app-task
                     *ngFor="let progressTask of progressTasks"
                     [name]="progressTask.name"
                     (itemDragged) = "setDraggedItem($event)"
                     draggable="true"
                     appDraggable></app-task>
-
-                    <div 
-                    class="task empty-task"
-                    appDragArea
-                    [column]="'inProgress'"
-                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+                </div>
             </div>
         </div>
         <div class="board-details__column tasks" #done>
             <div class="tasks__container">
                 <div class="tasks__title">done <span class="tasks-count">&#8226; {{doneTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
+                <div class="tasks__list"
+                appDragArea
+                [column]="'done'"
+                (itemDropped)="onItemDropped($event)">
                     <app-task
                     *ngFor="let doneTask of doneTasks "
                     [name]="doneTask.name"
@@ -53,10 +69,12 @@
                     appDraggable></app-task>
 
                     <div 
+                    *ngIf="!doneTasks.length"
                     class="task empty-task"
                     appDragArea
                     [column]="'done'"
                     (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+                </div>
             </div>
         </div>
     </div>
