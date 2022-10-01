@@ -19,13 +19,11 @@ export class DraggableDirective {
     setTimeout(() => {
       this.dragging = true;
     }, 0);
-    console.log('drag start');
   }
 
   @HostListener('dragend') onDragEnd() {
     setTimeout(() => {
       this.dragging = false;
     }, 0);
-    console.log('drag end');
   }
 }
