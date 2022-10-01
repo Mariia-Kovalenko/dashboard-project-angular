@@ -16,6 +16,7 @@ export class BoardDetailsComponent implements OnInit {
   newTasks: Task[] = [];
   progressTasks: Task[] = [];
   doneTasks: Task[] = [];
+  draggedItem: string = ''
 
   constructor(private boardsService: BoardsService,
     private route: ActivatedRoute,
@@ -36,9 +37,45 @@ export class BoardDetailsComponent implements OnInit {
     this.progressTasks = this.currentBoard.tasks.filter(task => task.state === State.IN_PROGRESS);
     this.doneTasks = this.currentBoard.tasks.filter(task => task.state === State.DONE);
 
-    console.log('New tasks:' , this.newTasks);
-    console.log('IP tasks:' , this.progressTasks);
-    console.log('Done tasks:' , this.doneTasks);
+    // console.log('New tasks:' , this.newTasks);
+    // console.log('IP tasks:' , this.progressTasks);
+    // console.log('Done tasks:' , this.doneTasks);
   }
 
+  onItemDropped(event: string) {
+    console.log(`Task ${this.draggedItem} dropped to column ${event}`);
+    const taskToMove = this.draggedItem;
+    let newState!: State;
+    switch (event) {
+      case 'toDo':
+        newState = State.TODO;
+        console.log(newState);
+        
+        break;
+      case 'inProgress':
+        newState = State.IN_PROGRESS;
+        console.log(newState);
+        break;
+      case 'done':
+        newState = State.DONE;
+        console.log(newState);
+        break;
+    }
+    // move task to column
+    const taskToUpdateIndex = this.currentBoard.tasks.findIndex(task => task.name === taskToMove);
+    console.log('update ', taskToUpdateIndex);
+    
+    if (taskToUpdateIndex >= 0) {
+      // console.log(this.currentBoard.tasks[taskToUpdateIndex]);
+      this.currentBoard.tasks[taskToUpdateIndex].state = newState;
+      this.splitTasksByState();
+    }
+    this.draggedItem = '';
+    // move item to other column
+  }
+
+  setDraggedItem(event: string) {
+    this.draggedItem = event;
+    // console.log('item dragged:', event);
+  }
 }

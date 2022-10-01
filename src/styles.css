@@ -334,8 +334,8 @@ body {
     transition: .3s;
 }
 
-.empty-task:hover {
-    background-color: #f2f1f19c;
+.empty-task.hover {
+    background-color: #f2f1f1b6;
 }
 
 @media screen and (max-width: 768px){
@@ -443,4 +443,12 @@ label {
     margin: 0 auto;
     height: 40px;
     flex: 0 0 auto;
+}
+
+/* app task dragging */
+.hide {
+    display: none;
+}
+app-task {
+    cursor: grab;
 }

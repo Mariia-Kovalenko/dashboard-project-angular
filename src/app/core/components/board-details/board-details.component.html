@@ -9,9 +9,16 @@
                 <!-- tasks list -->
                     <app-task
                     *ngFor="let newTask of newTasks"
-                    [name]="newTask.name"></app-task>
+                    [name]="newTask.name"
+                    (itemDragged) = "setDraggedItem($event)"
+                    draggable="true"
+                    appDraggable></app-task>
 
-                    <div class="task empty-task">Add or drag task here</div>
+                    <div 
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'toDo'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
             </div>
         </div>
         <div class="board-details__column tasks" #inProgress>
@@ -22,9 +29,16 @@
                 <!-- tasks list -->
                     <app-task
                     *ngFor="let progressTask of progressTasks"
-                    [name]="progressTask.name"></app-task>
+                    [name]="progressTask.name"
+                    (itemDragged) = "setDraggedItem($event)"
+                    draggable="true"
+                    appDraggable></app-task>
 
-                    <div class="task empty-task">Add or drag task here</div>
+                    <div 
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'inProgress'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
             </div>
         </div>
         <div class="board-details__column tasks" #done>
@@ -33,9 +47,16 @@
                 <button class="add-task-btn"></button>
                     <app-task
                     *ngFor="let doneTask of doneTasks "
-                    [name]="doneTask.name"></app-task>
+                    [name]="doneTask.name"
+                    (itemDragged) = "setDraggedItem($event)"
+                    draggable="true"
+                    appDraggable></app-task>
 
-                    <div class="task empty-task">Add or drag task here</div>
+                    <div 
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'done'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
             </div>
         </div>
     </div>

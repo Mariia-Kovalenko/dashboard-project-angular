@@ -9,6 +9,8 @@ import { PageTopComponent } from './components/page-top/page-top.component';
 import { TaskComponent } from './components/task/task.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BoardFormComponent } from './components/board-form/board-form.component';
+import { DraggableDirective } from './draggable/draggable.directive';
+import { DragAreaDirective } from './draggable/drag-area.directive';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { BoardFormComponent } from './components/board-form/board-form.component
     BoardDetailsComponent,
     PageTopComponent,
     TaskComponent,
-    BoardFormComponent
+    BoardFormComponent,
+    DraggableDirective,
+    DragAreaDirective
   ],
   imports: [
     CommonModule,
