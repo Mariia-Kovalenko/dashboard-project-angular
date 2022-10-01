@@ -20,7 +20,7 @@
 
                     <app-task
                     *ngFor="let newTask of newTasks"
-                    [name]="newTask.name"
+                    [task]="newTask"
                     (itemDragged) = "setDraggedItem($event)"
                     draggable="true"
                     appDraggable></app-task>
@@ -46,7 +46,7 @@
 
                     <app-task
                     *ngFor="let progressTask of progressTasks"
-                    [name]="progressTask.name"
+                    [task]="progressTask"
                     (itemDragged) = "setDraggedItem($event)"
                     draggable="true"
                     appDraggable></app-task>
@@ -63,7 +63,7 @@
                 (itemDropped)="onItemDropped($event)">
                     <app-task
                     *ngFor="let doneTask of doneTasks "
-                    [name]="doneTask.name"
+                    [task]="doneTask"
                     (itemDragged) = "setDraggedItem($event)"
                     draggable="true"
                     appDraggable></app-task>

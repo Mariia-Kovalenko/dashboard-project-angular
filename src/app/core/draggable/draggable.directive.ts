@@ -1,4 +1,5 @@
 import { Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
+import { Task } from 'src/app/shared/task.model';
 
 @Directive({
   selector: '[appDraggable]'
@@ -8,13 +9,13 @@ export class DraggableDirective {
   constructor() { }
   @HostBinding('class.hide') dragging = false;
 
-  @Input() name!: string;
+  @Input() task!: Task;
 
   @Output() itemDragged = new EventEmitter();
 
   @HostListener('dragstart') onDragStart() {
     // emit event to define which task is being dragged
-    this.itemDragged.emit(this.name)
+    this.itemDragged.emit(this.task)
     setTimeout(() => {
       this.dragging = true;
     }, 0);

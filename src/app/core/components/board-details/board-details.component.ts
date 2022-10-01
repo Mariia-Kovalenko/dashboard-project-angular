@@ -16,7 +16,7 @@ export class BoardDetailsComponent implements OnInit {
   newTasks: Task[] = [];
   progressTasks: Task[] = [];
   doneTasks: Task[] = [];
-  draggedItem: string = ''
+  draggedItem!: Task;
 
   constructor(private boardsService: BoardsService,
     private route: ActivatedRoute,
@@ -43,7 +43,7 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   onItemDropped(event: string) {
-    console.log(`Task ${this.draggedItem} dropped to column ${event}`);
+    console.log(`Task ${this.draggedItem.name} dropped to column ${event}`);
     const taskToMove = this.draggedItem;
     let newState!: State;
     switch (event) {
@@ -62,7 +62,7 @@ export class BoardDetailsComponent implements OnInit {
         break;
     }
     // move task to column
-    const taskToUpdateIndex = this.currentBoard.tasks.findIndex(task => task.name === taskToMove);
+    const taskToUpdateIndex = this.currentBoard.tasks.findIndex(task => task.id === taskToMove.id);
     console.log('update ', taskToUpdateIndex);
     
     if (taskToUpdateIndex >= 0) {
@@ -70,12 +70,10 @@ export class BoardDetailsComponent implements OnInit {
       this.currentBoard.tasks[taskToUpdateIndex].state = newState;
       this.splitTasksByState();
     }
-    this.draggedItem = '';
-    // move item to other column
   }
 
-  setDraggedItem(event: string) {
+  setDraggedItem(event: Task) {
     this.draggedItem = event;
-    // console.log('item dragged:', event);
+    // console.log('item dragged:', event.name);
   }
 }

@@ -16,10 +16,10 @@ export class BoardsService {
       this.transformDate(String(Date.now())),
       'My board',
       [
-        new Task('My Task', State.TODO, []),
-        new Task('My Task 2', State.DONE, []),
-        new Task('My Task 3', State.IN_PROGRESS, []),
-        new Task('My Task 4', State.TODO, [])
+        new Task('101', 'My Task', State.TODO, []),
+        new Task('102', 'My Task 2', State.DONE, []),
+        new Task('103', 'My Task 3', State.IN_PROGRESS, []),
+        new Task('104', 'My Task 4', State.TODO, [])
       ]
     ),
     new Board(
@@ -27,7 +27,7 @@ export class BoardsService {
       this.transformDate(String(Date.now())),
       'My board',
       [
-        new Task('My Task 2', State.TODO, [])
+        new Task('105', 'My Task 2', State.TODO, [])
       ]
     ),
   ];
