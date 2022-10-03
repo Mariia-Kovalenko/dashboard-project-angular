@@ -1,8 +1,17 @@
 <app-page-top currentRoute={{currentBoard.name}}></app-page-top>
 <div class="board-details">
     <div class="board-details__tasks">
-        <div class="board-details__column tasks" #toDos>
-            <div class="tasks__container">
+        <div class="board-details__column tasks">
+            <div 
+            [ngClass]="{tasks__container: true, 
+                blue: toDosColor.blue, 
+                purple: toDosColor.purple, 
+                white: toDosColor.white}">
+                <div id="toDos" class="choose-color">
+                    <button class="color blue" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                </div>
                 <!-- add task button -->
                 <div class="tasks__title">to do <span class="tasks-count">&#8226; {{newTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
@@ -27,8 +36,17 @@
                 </div>
             </div>
         </div>
-        <div class="board-details__column tasks" #inProgress>
-            <div class="tasks__container">
+        <div class="board-details__column tasks">
+            <div 
+            [ngClass]="{tasks__container: true, 
+                blue: inProgressColor.blue, 
+                purple: inProgressColor.purple, 
+                white: inProgressColor.white}">
+                <div id="inProgress" class="choose-color">
+                    <button class="color blue" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                </div>
                 <!-- add task button -->
                 <div class="tasks__title">in progress <span class="tasks-count">&#8226; {{progressTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
@@ -53,8 +71,17 @@
                 </div>
             </div>
         </div>
-        <div class="board-details__column tasks" #done>
-            <div class="tasks__container">
+        <div class="board-details__column tasks">
+            <div
+            [ngClass]="{tasks__container: true, 
+                blue: doneColor.blue, 
+                purple: doneColor.purple, 
+                white: doneColor.white}">
+                <div id="done" class="choose-color">
+                    <button class="color blue" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                </div>
                 <div class="tasks__title">done <span class="tasks-count">&#8226; {{doneTasks.length}}</span></div>
                 <button class="add-task-btn"></button>
                 <div class="tasks__list"

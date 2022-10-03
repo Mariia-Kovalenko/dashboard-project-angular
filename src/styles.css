@@ -6,6 +6,9 @@
     --grey: #D9D9D9;
     --dark-grey: #494949;
     --light-purple: #6A7CEC;
+
+    --purple-theme: #deeefa;
+    --creme: #A6977B;
 }
 *, :before, :after, body {
     box-sizing: border-box;
@@ -261,17 +264,45 @@ body {
     border-radius: 20px;
     background-color: white;
     filter: drop-shadow(0px 0px 6px rgba(73, 73, 73, 0.3));
+    position: relative;
 }
+.choose-color {
+    display: flex;
+    gap: 4px;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    padding: 5px 7px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: grey;
+    cursor: pointer;
+}
+.blue {
+    background-color: #9cd8fe;
+}
+.purple {
+    background-color: #bac6f4;
+}
+.color.white {
+    background-color: white;
+    border: 1px solid grey;
+}
+.white {
+    background-color: white;
+}
+
 .tasks__title {
-    /* text-align: center; */
     text-transform: uppercase;
     font-size: 16px;
     margin-bottom: 10px;
     font-weight: 500;
-    /* padding: 8px 0;
-    border-radius: 15px;
-    background-color: white;
-    filter: drop-shadow(0px 0px 6px rgba(73, 73, 73, 0.3)); */
 }
 .tasks-count {
     color: var(--dark-grey);
@@ -317,14 +348,14 @@ body {
     position: relative;
     padding: 15px;
     border-radius: 10px;
-    background-color: #e9e7e79c;
+    background-color: #e9e7e7;
     color: var(--dark-bg);
     margin-bottom: 10px;
     /* filter: drop-shadow(0px 0px 1px rgba(0, 12, 78, 0.3)); */
 }
 
 .empty-task {
-    background-color: transparent;
+    background-color:white;
     border: 1px dashed #a1a1a1;
     display: flex;
     align-items: center;

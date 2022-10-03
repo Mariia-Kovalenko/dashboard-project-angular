@@ -11,6 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BoardFormComponent } from './components/board-form/board-form.component';
 import { DraggableDirective } from './draggable/draggable.directive';
 import { DragAreaDirective } from './draggable/drag-area.directive';
+import { ChangeBgDirective } from '../features/change-bg.directive';
+import { FeaturesModule } from '../features/features.module';
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import { DragAreaDirective } from './draggable/drag-area.directive';
   imports: [
     CommonModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FeaturesModule
   ],
   exports: [
     HeaderComponent,

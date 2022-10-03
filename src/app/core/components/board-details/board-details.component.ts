@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Board } from 'src/app/shared/board.model';
 import { BoardsService } from '../../services/boards.service';
@@ -17,6 +17,23 @@ export class BoardDetailsComponent implements OnInit {
   progressTasks: Task[] = [];
   doneTasks: Task[] = [];
   draggedItem!: Task;
+
+  // classes
+  toDosColor = {
+    blue: false,
+    purple: false,
+    white: true
+  }
+  inProgressColor = {
+    blue: false,
+    purple: false,
+    white: true
+  }
+  doneColor = {
+    blue: false,
+    purple: false,
+    white: true
+  }
 
   constructor(private boardsService: BoardsService,
     private route: ActivatedRoute,
@@ -67,5 +84,42 @@ export class BoardDetailsComponent implements OnInit {
 
   setDraggedItem(event: Task) {
     this.draggedItem = event;
+  }
+
+  onChangeBg(event: {color: string, element: string}) {
+    // console.log(`Color for ${event.element} must be changed to ${event.color}`);
+
+    switch (event.element) {
+      case 'toDos':
+        this.applyColorSet(event.color, this.toDosColor)
+        break;
+      case 'inProgress':
+        this.applyColorSet(event.color, this.inProgressColor)
+        break;
+      case 'done':
+        this.applyColorSet(event.color, this.doneColor)
+        break;
+      default:
+        break;
+    }
+  }
+
+  applyColorSet(colorToSet: string, 
+    classesObj: {
+      blue: boolean,
+      purple: boolean,
+      white: boolean
+    }) {
+    const newColorSet = Object.fromEntries(Object.entries(this.toDosColor).map(color => {
+      if (color[0] === colorToSet) {
+        color[1] = true
+      } else {
+        color[1] = false;
+      }
+      return color;
+    }));
+    classesObj.blue = newColorSet['blue'];
+    classesObj.purple = newColorSet['purple'];
+    classesObj.white = newColorSet['white'];
   }
 }
