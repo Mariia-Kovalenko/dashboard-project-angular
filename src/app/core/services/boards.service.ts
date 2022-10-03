@@ -50,8 +50,8 @@ export class BoardsService {
   }
 
   updateBoard(id: number, name: string, desc: string) {
-    this.boards[id] =
-      new Board(name, this.transformDate(String(Date.now())), desc, [])
+    this.boards[id].name = name;
+    this.boards[id].description = desc
     this.boardAdded.next(true);
   }
 

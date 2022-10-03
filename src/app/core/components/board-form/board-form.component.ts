@@ -18,9 +18,17 @@ export class BoardFormComponent implements OnInit {
   constructor(private boardsService: BoardsService) { }
 
   ngOnInit(): void {
+    const nameValidators = [Validators.minLength(4)];
+    const descriptionValidators = [Validators.maxLength(15)];
+
+    if (this.mode === 'add') {
+      nameValidators.push(Validators.required)
+      descriptionValidators.push(Validators.required)
+    }
+
     this.form = new FormGroup({
-      'name': new FormControl('', [Validators.required, Validators.minLength(4)]),
-      'description': new FormControl('', [Validators.required, Validators.maxLength(15)])
+      'name': new FormControl('', nameValidators),
+      'description': new FormControl('', descriptionValidators)
     });
   }
 
@@ -29,7 +37,9 @@ export class BoardFormComponent implements OnInit {
       if (this.mode === 'add') {
         this.boardsService.addBoard(this.form.value.name, this.form.value.description);
       } else if (this.mode === 'edit') {
-        this.boardsService.updateBoard(this.boardToUpdate, this.form.value.name, this.form.value.description);
+        this.boardsService.updateBoard(this.boardToUpdate, 
+          this.form.value.name ? this.form.value.name : this.boardsService.boards[this.boardToUpdate].name, 
+          this.form.value.description ? this.form.value.description : this.boardsService.boards[this.boardToUpdate].description);
       }
       this.form.reset();
     }

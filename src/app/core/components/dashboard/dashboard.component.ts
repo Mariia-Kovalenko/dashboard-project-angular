@@ -32,10 +32,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.boards = this.boardsService.getBoards();
         }
       )
-    // this.form = new FormGroup({
-    //   'name': new FormControl('', [Validators.required, Validators.minLength(4)]),
-    //   'description': new FormControl('', [Validators.required, Validators.maxLength(15)])
-    // });
     console.log(this.boards);
   }
 
@@ -58,16 +54,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.idChangeSub.unsubscribe();
   }
-
-  // onSubmit() {
-  //   console.log(this.form);
-  //   if (this.form.valid) {
-  //     this.boardsService.addBoard(this.form.value.name, this.form.value.description);
-  //     this.form.reset();
-  //     this.showModal = !this.showModal;
-  //     console.log(this.boardsService.getBoards());
-  //     this.boards = this.boardsService.getBoards();
-  //   }
-  // }
 
 }
