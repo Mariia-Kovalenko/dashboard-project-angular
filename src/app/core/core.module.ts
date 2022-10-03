@@ -13,6 +13,7 @@ import { DraggableDirective } from './draggable/draggable.directive';
 import { DragAreaDirective } from './draggable/drag-area.directive';
 import { ChangeBgDirective } from '../features/change-bg.directive';
 import { FeaturesModule } from '../features/features.module';
+import { TaskFormComponent } from './components/task-form/task-form.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { FeaturesModule } from '../features/features.module';
     TaskComponent,
     BoardFormComponent,
     DraggableDirective,
-    DragAreaDirective
+    DragAreaDirective,
+    TaskFormComponent
   ],
   imports: [
     CommonModule,

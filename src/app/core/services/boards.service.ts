@@ -9,6 +9,7 @@ import { Task } from 'src/app/shared/task.model';
 })
 export class BoardsService {
   boardAdded = new Subject<boolean>();
+  taskAdded = new Subject<boolean>();
 
   boards: Board[] = [
     new Board(
@@ -53,6 +54,26 @@ export class BoardsService {
     this.boards[id].name = name;
     this.boards[id].description = desc
     this.boardAdded.next(true);
+  }
+
+  addTaskToBoard(id: number, taskName: string, state: State) {
+    const newTaskId = Math.floor(Math.random()  * (500 - 105) + 105);  
+    this.boards[id].tasks.push(new Task(String(newTaskId), taskName, state, []));
+    this.taskAdded.next(true);
+  }
+
+  updateTask(params: {id: number, taskId: string, taskName?: string, taskState?: State}) {
+    const {id, taskId, taskState, taskName} = params;
+    const taskIndex = this.boards[id].tasks.findIndex(task => task.id === taskId);
+
+    // console.log(this.boards[id].tasks[taskIndex], taskName); 
+    if (taskName) {
+      this.boards[id].tasks[taskIndex].name = taskName;
+    }
+    if (taskState) {
+      this.boards[id].tasks[taskIndex].state = taskState;
+    }
+    this.taskAdded.next(true);
   }
 
   // add pipe for that

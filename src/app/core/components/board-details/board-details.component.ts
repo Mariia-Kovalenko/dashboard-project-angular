@@ -1,9 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Board } from 'src/app/shared/board.model';
 import { BoardsService } from '../../services/boards.service';
 import { State } from 'src/app/shared/task-state.model';
 import { Task } from 'src/app/shared/task.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-board-details',
@@ -17,6 +18,17 @@ export class BoardDetailsComponent implements OnInit {
   progressTasks: Task[] = [];
   doneTasks: Task[] = [];
   draggedItem!: Task;
+  taskToEditId!: string;
+  showFormModal: boolean = false;
+  formDetails: {
+    mode: string,
+    column?: string,
+    taskToEdit?: string
+  } = {
+    mode: 'add',
+  }
+
+  private idChangeSub!: Subscription;
 
   // classes
   toDosColor = {
@@ -44,8 +56,18 @@ export class BoardDetailsComponent implements OnInit {
       .subscribe((params: Params) => {
         this.id = +params['id'];
         this.currentBoard = this.boardsService.getBoard(this.id);
-            this.splitTasksByState();
+        this.splitTasksByState();
       })
+      this.idChangeSub = this.boardsService.taskAdded
+      .subscribe(
+        (taskAdded: boolean) => {
+          this.showFormModal = false;
+          console.log('change subscr:', taskAdded);
+          // console.log(this.boardsService.boards[this.id]);
+          
+          this.splitTasksByState();
+        }
+      )
   }
 
   splitTasksByState() {
@@ -72,13 +94,17 @@ export class BoardDetailsComponent implements OnInit {
         newState = this.draggedItem.state;
     }
     // move task to column
-    const taskToUpdateIndex = this.currentBoard.tasks.findIndex(task => task.id === taskToMove.id);
-    console.log('update ', taskToUpdateIndex);
+    const taskToUpdate= this.currentBoard.tasks.find(task => task.id === taskToMove.id);
+    // console.log('update ', taskToUpdateIndex);
     
     // update task state
-    if (taskToUpdateIndex >= 0) {
-      this.currentBoard.tasks[taskToUpdateIndex].state = newState;
-      this.splitTasksByState();
+    if (taskToUpdate) {
+      // this.currentBoard.tasks[taskToUpdateIndex].state = newState;
+      console.log(taskToUpdate.id);
+      this.boardsService.updateTask({id: this.id, taskId: taskToUpdate.id, taskState: newState});
+      // update task state in service
+
+      // this.splitTasksByState();
     }
   }
 
@@ -121,5 +147,41 @@ export class BoardDetailsComponent implements OnInit {
     classesObj.blue = newColorSet['blue'];
     classesObj.purple = newColorSet['purple'];
     classesObj.white = newColorSet['white'];
+  }
+
+  onOpenTaskAddForm(btn: HTMLButtonElement) {
+    // console.log(btn.id);
+    this.showFormModal = true;
+    this.formDetails = {
+      mode: 'add',
+      column: btn.id
+    }
+  }
+
+  onEditTask(event: string) {
+    this.taskToEditId = event;
+    console.log('Task to edit:', this.taskToEditId);
+    // open form in edit mode
+    this.showFormModal = true;
+    this.formDetails = {
+      mode: 'edit',
+      taskToEdit: this.taskToEditId
+    }
+  }
+
+  onAddNewTask(event: {boardId: number, taskName: string, state: State}) {
+    const {boardId, taskName, state} = event;
+    this.boardsService.addTaskToBoard(boardId, taskName, state);
+    this.showFormModal = false;
+  }
+
+  onUpdateTask(event: {boardId: number, taskName?: string, taskDescription?: string}) {
+    const {boardId, taskName, taskDescription} = event;
+    this.boardsService.updateTask({id: boardId, taskId: this.taskToEditId, taskName});
+  }
+
+  onCloseForm(event: string) {
+    this.showFormModal = false;
+    console.log(event);
   }
 }

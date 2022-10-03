@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BoardsService } from '../../services/boards.service';
-import { Subject } from 'rxjs';
-import { Board } from 'src/app/shared/board.model';
 
 @Component({
   selector: 'app-board-form',

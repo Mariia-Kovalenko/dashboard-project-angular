@@ -14,7 +14,11 @@
                 </div>
                 <!-- add task button -->
                 <div class="tasks__title">to do <span class="tasks-count">&#8226; {{newTasks.length}}</span></div>
-                <button class="add-task-btn"></button>
+                <button 
+                id="add-todo" 
+                #addToDo
+                class="add-task-btn" 
+                (click)="onOpenTaskAddForm(addToDo)"></button>
                 <!-- tasks list -->
                 <div class="tasks__list"
                 appDragArea
@@ -31,6 +35,7 @@
                     *ngFor="let newTask of newTasks"
                     [task]="newTask"
                     (itemDragged) = "setDraggedItem($event)"
+                    (editTask)="onEditTask($event)"
                     draggable="true"
                     appDraggable></app-task>
                 </div>
@@ -49,7 +54,11 @@
                 </div>
                 <!-- add task button -->
                 <div class="tasks__title">in progress <span class="tasks-count">&#8226; {{progressTasks.length}}</span></div>
-                <button class="add-task-btn"></button>
+                <button
+                id="add-in-progress" 
+                #addInProgress
+                class="add-task-btn" 
+                (click)="onOpenTaskAddForm(addInProgress)"></button>
                 <!-- tasks list -->
                 <div class="tasks__list"
                 appDragArea
@@ -66,6 +75,7 @@
                     *ngFor="let progressTask of progressTasks"
                     [task]="progressTask"
                     (itemDragged) = "setDraggedItem($event)"
+                    (editTask)="onEditTask($event)"
                     draggable="true"
                     appDraggable></app-task>
                 </div>
@@ -82,8 +92,12 @@
                     <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
                     <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
                 </div>
+                <!-- add task btn -->
                 <div class="tasks__title">done <span class="tasks-count">&#8226; {{doneTasks.length}}</span></div>
-                <button class="add-task-btn"></button>
+                <button id="add-done"
+                #addDone
+                class="add-task-btn" 
+                (click)="onOpenTaskAddForm(addDone)"></button>
                 <div class="tasks__list"
                 appDragArea
                 [column]="'done'"
@@ -92,6 +106,7 @@
                     *ngFor="let doneTask of doneTasks "
                     [task]="doneTask"
                     (itemDragged) = "setDraggedItem($event)"
+                    (editTask)="onEditTask($event)"
                     draggable="true"
                     appDraggable></app-task>
 
@@ -106,5 +121,13 @@
         </div>
     </div>
 </div>
+
+<app-task-form 
+    *ngIf="showFormModal"
+    [openTaskForm]="formDetails"
+    (closeFormModal)="onCloseForm($event)"
+    (addTaskToBoard)="onAddNewTask($event)"
+    (updateTask)="onUpdateTask($event)"
+    ></app-task-form>
 
 
