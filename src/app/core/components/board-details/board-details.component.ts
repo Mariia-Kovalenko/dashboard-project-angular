@@ -60,11 +60,11 @@ export class BoardDetailsComponent implements OnInit {
       })
       this.idChangeSub = this.boardsService.taskAdded
       .subscribe(
-        (taskAdded: boolean) => {
+        (taskAdded: Board) => {
           this.showFormModal = false;
           console.log('change subscr:', taskAdded);
           console.log(this.boardsService.boards[this.id]);
-          this.currentBoard = this.boardsService.getBoard(this.id);
+          this.currentBoard = taskAdded;
           this.splitTasksByState();
         }
       )

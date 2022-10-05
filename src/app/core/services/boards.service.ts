@@ -9,7 +9,7 @@ import { Task } from 'src/app/shared/task.model';
 })
 export class BoardsService {
   boardAdded = new Subject<boolean>();
-  taskAdded = new Subject<boolean>();
+  taskAdded = new Subject<Board>();
 
   boards: Board[] = [
     new Board(
@@ -59,14 +59,14 @@ export class BoardsService {
   addTaskToBoard(id: number, taskName: string, state: State) {
     const newTaskId = Math.floor(Math.random()  * (500 - 105) + 105);  
     this.boards[id].tasks.push(new Task(String(newTaskId), taskName, state, []));
-    this.taskAdded.next(true);
+    this.taskAdded.next(this.boards[id]);
   }
 
   deleteTask(id: number, taskId: string) {
     const taskToDelete = this.boards[id].tasks.findIndex(task => task.id === taskId);
     console.log('Delete task with index ', taskToDelete);
     this.boards[id].tasks.splice(taskToDelete, 1);
-    this.taskAdded.next(false);
+    this.taskAdded.next(this.boards[id]);
   }
 
   updateTask(params: {id: number, taskId: string, taskName?: string, taskState?: State}) {
@@ -80,7 +80,7 @@ export class BoardsService {
     if (taskState) {
       this.boards[id].tasks[taskIndex].state = taskState;
     }
-    this.taskAdded.next(true);
+    this.taskAdded.next(this.boards[id]);
   }
 
   // add pipe for that
