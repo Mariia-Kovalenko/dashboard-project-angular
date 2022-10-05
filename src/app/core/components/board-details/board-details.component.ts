@@ -27,8 +27,8 @@ export class BoardDetailsComponent implements OnInit {
   } = {
     mode: 'add',
   }
-
-  private idChangeSub!: Subscription;
+  
+  idChangeSub!: Subscription;
 
   // classes
   toDosColor = {
@@ -63,8 +63,8 @@ export class BoardDetailsComponent implements OnInit {
         (taskAdded: boolean) => {
           this.showFormModal = false;
           console.log('change subscr:', taskAdded);
-          // console.log(this.boardsService.boards[this.id]);
-          
+          console.log(this.boardsService.boards[this.id]);
+          this.currentBoard = this.boardsService.getBoard(this.id);
           this.splitTasksByState();
         }
       )
@@ -168,6 +168,10 @@ export class BoardDetailsComponent implements OnInit {
       taskToEdit: this.taskToEditId
     }
   }
+  onDeleteTask(event: string) {
+    console.log('Task to delete:', event);
+    this.boardsService.deleteTask(this.id, event);
+  }
 
   onAddNewTask(event: {boardId: number, taskName: string, state: State}) {
     const {boardId, taskName, state} = event;
@@ -178,6 +182,7 @@ export class BoardDetailsComponent implements OnInit {
   onUpdateTask(event: {boardId: number, taskName?: string, taskDescription?: string}) {
     const {boardId, taskName, taskDescription} = event;
     this.boardsService.updateTask({id: boardId, taskId: this.taskToEditId, taskName});
+    this.showFormModal = false;
   }
 
   onCloseForm(event: string) {

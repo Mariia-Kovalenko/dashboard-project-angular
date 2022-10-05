@@ -71,6 +71,7 @@ export class TaskFormComponent implements OnInit {
         // console.log('Update task');
         this.updateTask.emit({boardId: this.boardId, taskName: this.form.value.name, taskDescription: this.form.value.description})
       }
+      this.form.reset();
     }
   }
 

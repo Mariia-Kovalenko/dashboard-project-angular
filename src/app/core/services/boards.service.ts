@@ -62,6 +62,13 @@ export class BoardsService {
     this.taskAdded.next(true);
   }
 
+  deleteTask(id: number, taskId: string) {
+    const taskToDelete = this.boards[id].tasks.findIndex(task => task.id === taskId);
+    console.log('Delete task with index ', taskToDelete);
+    this.boards[id].tasks.splice(taskToDelete, 1);
+    this.taskAdded.next(false);
+  }
+
   updateTask(params: {id: number, taskId: string, taskName?: string, taskState?: State}) {
     const {id, taskId, taskState, taskName} = params;
     const taskIndex = this.boards[id].tasks.findIndex(task => task.id === taskId);

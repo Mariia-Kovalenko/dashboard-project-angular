@@ -12,6 +12,7 @@ export class TaskComponent implements OnInit {
   id: string = ''
 
   @Output() editTask = new EventEmitter<string>()
+  @Output() deleteTask = new EventEmitter<string>()
 
   constructor() { }
 
@@ -22,6 +23,10 @@ export class TaskComponent implements OnInit {
 
   onEditTask() {
     this.editTask.emit(this.id);
+  }
+
+  onDeleteTask() {
+    this.deleteTask.emit(this.id);
   }
 
 }

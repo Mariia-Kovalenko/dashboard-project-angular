@@ -36,6 +36,7 @@
                     [task]="newTask"
                     (itemDragged) = "setDraggedItem($event)"
                     (editTask)="onEditTask($event)"
+                    (deleteTask)="onDeleteTask($event)"
                     draggable="true"
                     appDraggable></app-task>
                 </div>
@@ -76,6 +77,7 @@
                     [task]="progressTask"
                     (itemDragged) = "setDraggedItem($event)"
                     (editTask)="onEditTask($event)"
+                    (deleteTask)="onDeleteTask($event)"
                     draggable="true"
                     appDraggable></app-task>
                 </div>
@@ -107,6 +109,7 @@
                     [task]="doneTask"
                     (itemDragged) = "setDraggedItem($event)"
                     (editTask)="onEditTask($event)"
+                    (deleteTask)="onDeleteTask($event)"
                     draggable="true"
                     appDraggable></app-task>
 
