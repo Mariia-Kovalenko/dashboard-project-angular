@@ -1,9 +1,32 @@
 <div class="page__top">
     <h1 class="page__title">{{currentRoute}}</h1>
-    <div class="manage__boards">
-        <button class="btn filter dropdown">Filter</button>
-        <button class="btn filter dropdown">Sort</button>
-        <button class="btn order active">ACS</button>
-        <button class="btn order">DESC</button>
+    <div class="manage__boards">    
+        <form class="filter"
+        [formGroup]="filter"
+        (ngSubmit)="onSubmit()">
+            <img class="filter-icon" src="../assets/images/filter.svg" alt="filter">
+            <input 
+            formControlName="name" 
+            class="filter__input" 
+            placeholder="{{placeholder}}">
+        </form>  
+        <!-- <button class="btn filter dropdown">Sort</button> -->
+        <div class="dropdown">
+            <button class="btn order">ASC</button>
+            <div class="dropdown-content">
+                <button class="dropdown-btn" (click)="onFilterBoardsByName('ascending')">Name</button>
+                <button class="dropdown-btn" (click)="onFilterBoardsByDate('ascending')">Date</button>
+                <button class="dropdown-btn" (click)="onFilterBoardsByTasks('ascending')">№ Tasks</button>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn order">DESC</button>
+            <div class="dropdown-content">
+                <button class="dropdown-btn" (click)="onFilterBoardsByName('descending')">Name</button>
+                <button class="dropdown-btn" (click)="onFilterBoardsByDate('descending')">Date</button>
+                <button class="dropdown-btn" (click)="onFilterBoardsByTasks('descending')">№ Tasks</button>
+            </div>
+        </div>
+        
     </div>
 </div>

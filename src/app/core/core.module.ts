@@ -7,7 +7,7 @@ import { BoardDetailsComponent } from './components/board-details/board-details.
 import { AppRoutingModule } from '../app-routing.module';
 import { PageTopComponent } from './components/page-top/page-top.component';
 import { TaskComponent } from './components/task/task.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BoardFormComponent } from './components/board-form/board-form.component';
 import { DraggableDirective } from './draggable/draggable.directive';
 import { DragAreaDirective } from './draggable/drag-area.directive';
@@ -33,7 +33,8 @@ import { TaskFormComponent } from './components/task-form/task-form.component';
     CommonModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FeaturesModule
+    FeaturesModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent,

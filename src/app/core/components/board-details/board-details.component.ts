@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Board } from 'src/app/shared/board.model';
 import { BoardsService } from '../../services/boards.service';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './board-details.component.html',
   styleUrls: ['./board-details.component.css']
 })
-export class BoardDetailsComponent implements OnInit {
+export class BoardDetailsComponent implements OnInit, OnDestroy {
   currentBoard!: Board;
   id: number = 0;
   newTasks: Task[] = [];
@@ -58,13 +58,14 @@ export class BoardDetailsComponent implements OnInit {
         this.currentBoard = this.boardsService.getBoard(this.id);
         this.splitTasksByState();
       })
-      this.idChangeSub = this.boardsService.taskAdded
+      this.idChangeSub = this.boardsService.boardsManagened
       .subscribe(
-        (taskAdded: Board) => {
+        (boardManaged: Board[]) => {
           this.showFormModal = false;
-          console.log('change subscr:', taskAdded);
+          // console.log('change subscr:', boardManaged);
+          // this.currentBoard = taskAdded;
+          this.currentBoard = boardManaged[this.id];
           console.log(this.boardsService.boards[this.id]);
-          this.currentBoard = taskAdded;
           this.splitTasksByState();
         }
       )
@@ -188,5 +189,9 @@ export class BoardDetailsComponent implements OnInit {
   onCloseForm(event: string) {
     this.showFormModal = false;
     console.log(event);
+  }
+
+  ngOnDestroy() {
+    this.idChangeSub.unsubscribe();
   }
 }

@@ -25,14 +25,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.boards = this.boardsService.getBoards();
-    this.idChangeSub = this.boardsService.boardAdded
+    this.idChangeSub = this.boardsService.boardsManagened
       .subscribe(
-        (boardAdded: boolean) => {
-          this.showModal = !boardAdded;
-          this.boards = this.boardsService.getBoards();
+        (boardsManagened: Board[]) => {
+          this.showModal = false;
+          this.boards = boardsManagened;
+          // this.boards = this.boardsService.getBoards();
         }
       )
-    console.log(this.boards);
+    // console.log(this.boards);
   }
 
   onOpenAddModal() {
