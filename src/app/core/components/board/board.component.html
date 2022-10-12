@@ -1,12 +1,10 @@
 <div 
-    class="board"
-    >
+    class="board">
     <div class="board__name" 
-    [routerLink]="[index]"
-    (click)="onOpenBoard()">{{board.name}}</div>
+    [routerLink]="[id]">{{board.name}}</div>
     <div class="board__date">
         <img src="../assets/images/calendar.svg" alt="calendar">
-        <span>{{board.creationDate}}</span>
+        <span>{{board.created_date}}</span>
     </div>
     <div class="board__desc">{{board.description}}</div>
     <div class="board__tasks-per-col">
@@ -26,7 +24,8 @@
         (click)="onOpenBoard()">
             <img src="../assets/images/edit.svg" alt="edit"/>
         </button>
-        <button class="board__btn">
+        <button class="board__btn"
+        (click)="onDeleteBoard()">
             <img src="../assets/images/delete.svg" alt="del" />
         </button>
     </div>

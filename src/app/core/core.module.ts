@@ -14,7 +14,7 @@ import { DragAreaDirective } from './draggable/drag-area.directive';
 import { ChangeBgDirective } from '../features/change-bg.directive';
 import { FeaturesModule } from '../features/features.module';
 import { TaskFormComponent } from './components/task-form/task-form.component';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,8 @@ import { TaskFormComponent } from './components/task-form/task-form.component';
     AppRoutingModule,
     ReactiveFormsModule,
     FeaturesModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   exports: [
     HeaderComponent,

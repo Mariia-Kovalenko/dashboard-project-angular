@@ -7,16 +7,20 @@
 <div class="boards__list">
     <!-- board -->
     <app-board
-    *ngFor="let board of boards; let i = index"
+    *ngFor="let board of boards"
     [board]="board"
-    [index]="i"
+    [id]="board._id"
     [mode]="'edit'"
     (openFormModal)="onOpenEditModal($event)"
+    (deleteBoard)="onDeleteBoard($event)"
     ></app-board>
+    <div *ngIf="isFetching === true" class="loader">Loading...</div>
 </div>
 
 <app-board-form 
+    [authToken]="authToken"
     *ngIf="showModal" 
     [mode]="mode" 
     [boardToUpdate]="boardToUpdate"
-    (closeFormModal)="onCloseModal($event)"></app-board-form>
+    (closeFormModal)="onCloseModal($event)"
+    (error)="onError($event)"></app-board-form>

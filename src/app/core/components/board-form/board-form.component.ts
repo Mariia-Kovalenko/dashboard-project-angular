@@ -10,8 +10,10 @@ import { BoardsService } from '../../services/boards.service';
 export class BoardFormComponent implements OnInit {
   form!: FormGroup;
   @Input() mode!: string;
-  @Input() boardToUpdate!: number;
-  @Output() closeFormModal = new EventEmitter<string>();
+  @Input() authToken!: string;
+  @Input() boardToUpdate!: string;
+  @Output() closeFormModal = new EventEmitter<boolean>();
+  @Output() error = new EventEmitter<string>();
   
   constructor(private boardsService: BoardsService) { }
 
@@ -33,18 +35,39 @@ export class BoardFormComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       if (this.mode === 'add') {
-        this.boardsService.addBoard(this.form.value.name, this.form.value.description);
+        this.boardsService.addBoard(
+          this.form.value.name, 
+          this.form.value.description,
+          this.authToken)
+            .subscribe(data => {
+              console.log(data);
+              this.onCloseForm();
+            }, error => {
+              console.log(error);
+              this.onError(error.message)
+            });
       } else if (this.mode === 'edit') {
-        this.boardsService.updateBoard(this.boardToUpdate, 
-          this.form.value.name ? this.form.value.name : this.boardsService.boards[this.boardToUpdate].name, 
-          this.form.value.description ? this.form.value.description : this.boardsService.boards[this.boardToUpdate].description);
+        this.boardsService.updateBoard(
+          this.boardToUpdate,
+          this.form.value.name,
+          this.authToken)
+          .subscribe(data => {
+            this.onCloseForm();
+          }, error => {
+            console.log(error);
+            this.onError(error.message)
+          })
       }
       this.form.reset();
     }
   }
 
   onCloseForm() {
-    this.closeFormModal.emit('closed');
+    this.closeFormModal.emit(true);
+  }
+
+  onError(message: string) {
+    this.error.emit(message);
   }
 
 }

@@ -15,6 +15,7 @@ export class TaskFormComponent implements OnInit {
   boardId!: number;
   currentBoard!: Board;
   mode!: string;
+  @Input() authToken!: string;
   @Input() openTaskForm!: {mode: string, column?: string};
   @Output() addTaskToBoard = new EventEmitter<{boardId: number, taskName: string, state: State}>();
   @Output() updateTask = new EventEmitter<{boardId: number, taskName?: string, taskDescription?: string}>();

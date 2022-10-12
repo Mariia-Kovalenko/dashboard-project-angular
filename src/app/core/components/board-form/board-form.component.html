@@ -16,7 +16,7 @@
                     *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
                     class="input-error">Please, enter a valid name</span>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="mode === 'add'">
                     <label>Board description</label>
                     <input 
                     formControlName="description"

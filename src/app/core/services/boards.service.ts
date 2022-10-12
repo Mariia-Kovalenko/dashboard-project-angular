@@ -1,58 +1,60 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
+import { map, Subject, mergeMap } from 'rxjs';
 import { Board } from 'src/app/shared/board.model';
 import { State } from 'src/app/shared/task-state.model';
 import { Task } from 'src/app/shared/task.model';
+import {boardsURL, tasksURL} from 'src/app/shared/URLs';
+
+interface Boards {
+  boards: Board[]
+}
+interface Tasks {
+  tasks: Task[]
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardsService {
   boardsManagened = new Subject<Board[]>();
-  taskManaged = new Subject<boolean>();
+  tasksManaged = new Subject<{tasks: Task[], board: string}>();
 
-  boards: Board[] = [
-    new Board(
-      'Board 1',
-      this.transformDate(String(Date.now())),
-      'My board',
-      [
-        new Task('101', 'My Task', State.TODO, []),
-        new Task('102', 'My Task 2', State.DONE, []),
-        new Task('103', 'My Task 3', State.IN_PROGRESS, []),
-        new Task('104', 'My Task 4', State.TODO, [])
-      ]
-    ),
-    new Board(
-      'Board 2',
-      '03-09-2022',
-      'My board',
-      [
-        new Task('105', 'My Task 1', State.TODO, []),
-        new Task('103', 'My Task 2', State.IN_PROGRESS, []),
-        new Task('103', 'Cool Task 3', State.IN_PROGRESS, [])
-      ]
-    ),
-    new Board(
-      'My Board 4',
-      '06-12-2022',
-      'My board',
-      [
-        new Task('105', 'My Task 1', State.TODO, []),
-        new Task('104', 'New Task 2', State.TODO, [])
-      ]
-    ),
-    new Board(
-      'New Board 3',
-      '07-08-2022',
-      'My board',
-      [
-        new Task('105', 'Task 1', State.TODO, [])
-      ]
-    ),
-  ];
+  boards: Board[]  = [];
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+  }
+
+  fetchBoards(authToken: string) {
+    return this.http.get<Boards>(boardsURL,
+    {
+      headers: new HttpHeaders({'authorization': authToken})
+    })
+      .pipe(map(responseData => {
+        const boards = responseData.boards.map(board => {
+          const {_id, name, description, created_date, created_by} = board;
+          const date = this.transformDate(created_date);
+
+          return {_id, name, description, created_date: date, created_by}
+        });
+        return boards
+      }))
+  }
+
+  fetchBoardById(id: string, authToken: string) {
+    return this.http.get<{board: Board}>(boardsURL + id, 
+    {
+      headers: new HttpHeaders({'authorization': authToken})
+    })
+  }
+
+  fetchTasksForBoard(id: string, authToken: string) {
+    return this.http.get<Tasks>(tasksURL + id,
+    {
+      headers: new HttpHeaders({'authorization': authToken})
+    })
+  }
 
   getBoards() {
     return [...this.boards];
@@ -107,90 +109,121 @@ export class BoardsService {
     }
   }
 
-  filterBoardsByTasks(order: string): Board[] {
-    switch (order) {
-      case 'ascending':
-        // this.boards.sort((a, b) => a.tasks.length > b.tasks.length ? 1 : (a.tasks.length < b.tasks.length) ? -1 : 0);
-        this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length > b.tasks.length ? 1 : (a.tasks.length < b.tasks.length) ? -1 : 0));
-        return [...this.boards]
-      case 'descending':
-        // this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0);
-        this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0));
-        return [...this.boards]
-      default:
-        return [...this.boards]
-    }
-  }
+  // filterBoardsByTasks(order: string): Board[] {
+  //   switch (order) {
+  //     case 'ascending':
+  //       // this.boards.sort((a, b) => a.tasks.length > b.tasks.length ? 1 : (a.tasks.length < b.tasks.length) ? -1 : 0);
+  //       this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length > b.tasks.length ? 1 : (a.tasks.length < b.tasks.length) ? -1 : 0));
+  //       return [...this.boards]
+  //     case 'descending':
+  //       // this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0);
+  //       this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0));
+  //       return [...this.boards]
+  //     default:
+  //       return [...this.boards]
+  //   }
+  // }
 
-  filterBoardsByDate(order: string) {
-    const date = new Date('06-12-2021').getTime();
-    const date_2 = new Date('07-08-2021').getTime();
+  // filterBoardsByDate(order: string) {
+  //   const date = new Date('06-12-2021').getTime();
+  //   const date_2 = new Date('07-08-2021').getTime();
 
-    console.log(date < date_2);
+  //   console.log(date < date_2);
     
     
-    switch (order) {
-      case 'ascending':
-        this.boards.sort((a, b) => {
-          const date1 = new Date(a.creationDate).getTime()
-          const date2 = new Date(b.creationDate).getTime()
-          return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
-        });
-        this.boardsManagened.next(this.boards.sort((a, b) => {
-          const date1 = new Date(a.creationDate).getTime()
-          const date2 = new Date(b.creationDate).getTime()
-          return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
-        }));
-        return [...this.boards]
-      case 'descending':
-        this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0);
-        this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0));
-        return [...this.boards]
-      default:
-        return [...this.boards]
-    }
-  }
+  //   switch (order) {
+  //     case 'ascending':
+  //       this.boards.sort((a, b) => {
+  //         const date1 = new Date(a.created_date).getTime()
+  //         const date2 = new Date(b.created_date).getTime()
+  //         return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
+  //       });
+  //       this.boardsManagened.next(this.boards.sort((a, b) => {
+  //         const date1 = new Date(a.created_date).getTime()
+  //         const date2 = new Date(b.created_date).getTime()
+  //         return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
+  //       }));
+  //       return [...this.boards]
+  //     case 'descending':
+  //       this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0);
+  //       this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0));
+  //       return [...this.boards]
+  //     default:
+  //       return [...this.boards]
+  //   }
+  // }
 
-  addBoard(name: string, desc: string) {
-    this.boards.push(
-      new Board(name, this.transformDate(String(Date.now())), desc, [])
+  addBoard(name: string, desc: string, authToken: string) {
+    return this.http.post(boardsURL, 
+      {
+        name: name,
+        description: desc
+      },
+      {
+        headers: new HttpHeaders({'authorization': authToken})
+      }
     )
-    this.boardsManagened.next(this.boards);
+    // this.boardsManagened.next(this.boards);
   }
 
-  updateBoard(id: number, name: string, desc: string) {
-    this.boards[id].name = name;
-    this.boards[id].description = desc
-    this.boardsManagened.next(this.boards);
+  updateBoard(id: string, name: string, authToken: string) {
+    return this.http.put(boardsURL + id, 
+      {
+        name: name
+      },
+      {
+        headers: new HttpHeaders({'authorization': authToken})
+      }
+    )
   }
 
-  addTaskToBoard(id: number, taskName: string, state: State) {
-    const newTaskId = Math.floor(Math.random()  * (500 - 105) + 105);  
-    this.boards[id].tasks.push(new Task(String(newTaskId), taskName, state, []));
-    this.boardsManagened.next(this.boards);
+  deleteBoard(id: string, authToken: string) {
+    return this.http.delete(boardsURL + id, 
+      {
+        headers: new HttpHeaders({'authorization': authToken})
+      })
   }
 
-  deleteTask(id: number, taskId: string) {
-    const taskToDelete = this.boards[id].tasks.findIndex(task => task.id === taskId);
-    console.log('Delete task with index ', taskToDelete);
-    this.boards[id].tasks.splice(taskToDelete, 1);
-    // this.taskAdded.next(true);
-    this.boardsManagened.next(this.boards);
-  }
+  // addTaskToBoard(id: number, taskName: string, state: State) {
+  //   const newTaskId = Math.floor(Math.random()  * (500 - 105) + 105);  
+  //   this.boards[id].tasks.push(new Task(String(newTaskId), taskName, state, []));
+  //   this.boardsManagened.next(this.boards);
+  // }
 
-  updateTask(params: {id: number, taskId: string, taskName?: string, taskState?: State}) {
-    const {id, taskId, taskState, taskName} = params;
-    const taskIndex = this.boards[id].tasks.findIndex(task => task.id === taskId);
+  // deleteTask(id: number, taskId: string) {
+  //   const taskToDelete = this.boards[id].tasks.findIndex(task => task.id === taskId);
+  //   console.log('Delete task with index ', taskToDelete);
+  //   this.boards[id].tasks.splice(taskToDelete, 1);
+  //   // this.taskAdded.next(true);
+  //   this.boardsManagened.next(this.boards);
+  // }
 
-    // console.log(this.boards[id].tasks[taskIndex], taskName); 
+  updateTask(params: {
+    boardId: string, 
+    taskId: string, 
+    taskName?: string, 
+    taskState?: State},
+    authToken: string) {
+    const {boardId, taskId, taskState, taskName} = params;
+
+    let queryParams = {};
+
     if (taskName) {
-      this.boards[id].tasks[taskIndex].name = taskName;
+      queryParams = {
+        name: taskName
+      }
     }
     if (taskState) {
-      this.boards[id].tasks[taskIndex].state = taskState;
+      queryParams = {
+        state: taskState
+      }
     }
-    // this.taskAdded.next(true);
-    this.boardsManagened.next(this.boards);
+
+    return this.http.patch<{ok: boolean, message: string}>(`${tasksURL}${boardId}/${taskId}`, 
+    queryParams,
+    {
+      headers: new HttpHeaders({'authorization': authToken})
+    })
   }
 
   // add pipe for that

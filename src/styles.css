@@ -305,7 +305,7 @@ body {
     flex: 0 1 30%;
 }
 .tasks__container {
-    min-height: 100px;
+    min-height: 230px;
     padding: 20px;
     border-radius: 20px;
     background-color: white;

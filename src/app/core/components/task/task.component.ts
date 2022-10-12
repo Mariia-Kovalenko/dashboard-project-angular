@@ -18,7 +18,7 @@ export class TaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.name = this.task.name;
-    this.id = this.task.id;
+    this.id = this.task._id;
   }
 
   onEditTask() {

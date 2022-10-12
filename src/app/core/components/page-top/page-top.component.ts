@@ -51,11 +51,11 @@ export class PageTopComponent implements OnInit {
   }
 
   onFilterBoardsByTasks(order: string) {
-    const res = this.boardsService.filterBoardsByTasks(order);
+    // const res = this.boardsService.filterBoardsByTasks(order);
   }
 
   onFilterBoardsByDate(order: string) {
-    this.boardsService.filterBoardsByDate(order);
+    // this.boardsService.filterBoardsByDate(order);
   }
 
   onSubmit() {

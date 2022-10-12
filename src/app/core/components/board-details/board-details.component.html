@@ -3,7 +3,8 @@
     <div class="board-details__tasks">
         <div class="board-details__column tasks">
             <div 
-            [ngClass]="{tasks__container: true, 
+            class="tasks__container"
+            [ngClass]="{ 
                 blue: toDosColor.blue, 
                 purple: toDosColor.purple, 
                 white: toDosColor.white}">
@@ -44,7 +45,8 @@
         </div>
         <div class="board-details__column tasks">
             <div 
-            [ngClass]="{tasks__container: true, 
+            class="tasks__container"
+            [ngClass]="{ 
                 blue: inProgressColor.blue, 
                 purple: inProgressColor.purple, 
                 white: inProgressColor.white}">
@@ -85,7 +87,8 @@
         </div>
         <div class="board-details__column tasks">
             <div
-            [ngClass]="{tasks__container: true, 
+            class="tasks__container"
+            [ngClass]="{ 
                 blue: doneColor.blue, 
                 purple: doneColor.purple, 
                 white: doneColor.white}">
@@ -126,11 +129,14 @@
 </div>
 
 <app-task-form 
+    [authToken]="authToken"
     *ngIf="showFormModal"
     [openTaskForm]="formDetails"
     (closeFormModal)="onCloseForm($event)"
     (addTaskToBoard)="onAddNewTask($event)"
     (updateTask)="onUpdateTask($event)"
     ></app-task-form>
+
+<div *ngIf="error" class="error">Error  Occured</div>
 
 
