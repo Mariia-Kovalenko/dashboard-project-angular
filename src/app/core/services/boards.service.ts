@@ -56,94 +56,26 @@ export class BoardsService {
     })
   }
 
-  findBoardByName(filterValue: string) {
-    if (filterValue) {
-      // this.boards = this.boards.filter(board => board.name.toLowerCase().startsWith(filterValue.toLowerCase()));
-      this.boardsManagened.next(
-        this.boards.filter(board => 
-          board.name.toLowerCase().startsWith(filterValue.toLowerCase())
-        )
-      );
-    } else {
-      this.boardsManagened.next([...this.boards])
+  findBoardsByName(name: string, authToken: string) {
+    return this.http.get<{boards: Board[]}>(boardsURL + 'find_name' + `/${name}`,
+    {
+      headers: new HttpHeaders({'authorization': authToken})
     }
+    ).pipe(map(responseData => {
+      const boards = responseData.boards.map(board => {
+        const {_id, name, description, created_date, created_by} = board;
+        const date = this.transformDate(created_date);
+
+        return {_id, name, description, created_date: date, created_by}
+      });
+      return boards
+    }))
   }
 
   findTaskByName(boardId: number, taskName: string) {
-    // if (taskName) {
-    //   this.boardsManagened.next(
-    //     [...this.boards.filter((board, i) => {
-    //       if (i === boardId) {
-    //         board.tasks = board.tasks.filter(task => 
-    //           task.name.toLowerCase().startsWith(taskName.toLowerCase())
-    //         )
-    //       }
-    //       return board;
-    //     })]
-    //   );
-    // } else {
-    //   this.boardsManagened.next([...this.boards])
-    // }
+    // this.http.get()
   }
 
-  filterBoardsByName(order: string): Board[] {
-    switch (order) {
-      case 'ascending':
-        // this.boards.sort((a, b) => a.name > b.name ? 1 : (a.name < b.name) ? -1 : 0);
-        this.boardsManagened.next(this.boards.sort((a, b) => a.name > b.name ? 1 : (a.name < b.name) ? -1 : 0));
-        return [...this.boards]
-      case 'descending':
-        // this.boards.sort((a, b) => a.name < b.name ? 1 : (a.name > b.name) ? -1 : 0);
-        this.boardsManagened.next(this.boards.sort((a, b) => a.name < b.name ? 1 : (a.name > b.name) ? -1 : 0));
-        return [...this.boards]
-      default:
-        return [...this.boards]
-    }
-  }
-
-  // filterBoardsByTasks(order: string): Board[] {
-  //   switch (order) {
-  //     case 'ascending':
-  //       // this.boards.sort((a, b) => a.tasks.length > b.tasks.length ? 1 : (a.tasks.length < b.tasks.length) ? -1 : 0);
-  //       this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length > b.tasks.length ? 1 : (a.tasks.length < b.tasks.length) ? -1 : 0));
-  //       return [...this.boards]
-  //     case 'descending':
-  //       // this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0);
-  //       this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0));
-  //       return [...this.boards]
-  //     default:
-  //       return [...this.boards]
-  //   }
-  // }
-
-  // filterBoardsByDate(order: string) {
-  //   const date = new Date('06-12-2021').getTime();
-  //   const date_2 = new Date('07-08-2021').getTime();
-
-  //   console.log(date < date_2);
-    
-    
-  //   switch (order) {
-  //     case 'ascending':
-  //       this.boards.sort((a, b) => {
-  //         const date1 = new Date(a.created_date).getTime()
-  //         const date2 = new Date(b.created_date).getTime()
-  //         return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
-  //       });
-  //       this.boardsManagened.next(this.boards.sort((a, b) => {
-  //         const date1 = new Date(a.created_date).getTime()
-  //         const date2 = new Date(b.created_date).getTime()
-  //         return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
-  //       }));
-  //       return [...this.boards]
-  //     case 'descending':
-  //       this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0);
-  //       this.boardsManagened.next(this.boards.sort((a, b) => a.tasks.length < b.tasks.length ? 1 : (a.tasks.length > b.tasks.length) ? -1 : 0));
-  //       return [...this.boards]
-  //     default:
-  //       return [...this.boards]
-  //   }
-  // }
 
   addBoard(name: string, desc: string, authToken: string) {
     return this.http.post(boardsURL, 
@@ -155,7 +87,6 @@ export class BoardsService {
         headers: new HttpHeaders({'authorization': authToken})
       }
     )
-    // this.boardsManagened.next(this.boards);
   }
 
   updateBoard(id: string, name: string, authToken: string) {

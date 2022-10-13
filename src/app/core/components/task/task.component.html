@@ -1,11 +1,14 @@
 <div class="task">
     <div class="task__name">{{ name }}</div>
     <div class="board__buttons">
-        <button id="edit-task" class="board__btn" (click)="onEditTask()">
-        <img src="../assets/images/edit.svg" alt="edit" />
+        <button id="edit-task" class="board__btn" title="Edit" (click)="onEditTask()">
+            <img src="../assets/images/edit.svg" alt="edit" />
         </button>
-        <button class="board__btn" (click)="onDeleteTask()">
-        <img src="../assets/images/delete.svg" alt="del" />
+        <button class="board__btn" title="Delete" (click)="onDeleteTask()">
+            <img src="../assets/images/delete.svg" alt="del" />
+        </button>
+        <button *ngIf="task.state === 'done'" title="Archive" class="board__btn" (click)="onArchiveTask()">
+            <img src="../assets/images/archive.svg" alt="del" />
         </button>
     </div>
 </div>

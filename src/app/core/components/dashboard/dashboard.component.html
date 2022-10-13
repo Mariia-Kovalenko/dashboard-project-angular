@@ -1,10 +1,13 @@
 <!-- dashboard -->
-<app-page-top currentRoute="dashboard"></app-page-top>
+<app-page-top 
+    currentRoute="dashboard"
+    (findBoards)="getBoardsByName($event)"
+    (filterBoards)="filterBoards($event)"></app-page-top>
 <!-- add board btn -->
 <button class="add-board" (click)="onOpenAddModal()"></button>
 
 <!-- boards list -->
-<div class="boards__list">
+<div class="boards__list" *ngIf="!isFetching && !dataNotFound">
     <!-- board -->
     <app-board
     *ngFor="let board of boards"
@@ -15,7 +18,13 @@
     (openFormModal)="onOpenEditModal($event)"
     (deleteBoard)="onDeleteBoard($event)"
     ></app-board>
-    <div *ngIf="isFetching === true" class="loader">Loading...</div>
+
+</div>
+
+<div *ngIf="isFetching" class="loader"></div>
+<div *ngIf="dataNotFound && !isFetching" class="error-message" >
+    <img src="../../../../assets/images/error-loading-data.svg" alt="error">
+    <div>Data not found</div>
 </div>
 
 <app-board-form 

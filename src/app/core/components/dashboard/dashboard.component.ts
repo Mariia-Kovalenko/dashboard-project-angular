@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   mode: string = 'add';
   boardToUpdate!: string;
   isFetching: boolean = true;
+  dataNotFound: boolean = false;
   error = false;
 
   private boardsSub!: Subscription;
@@ -47,7 +48,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.boardsService.fetchBoards(this.authToken)
     .subscribe(
         data => {
-          this.boards = data;
+          if (data.length) {
+            this.boards = data;
+          } else {
+            this.dataNotFound = true;
+          }
           this.isFetching = false;
         }, error => {
           console.log(error);
@@ -56,19 +61,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     )
   }
 
-  // getTasksForBoards(boards: Board[]) {
-  //   boards.forEach(board => {
-  //     this.boardsService.fetchTasksForBoard(board._id, this.authToken)
-  //       .subscribe(data => {
-  //         // console.log(typeof [...data.tasks]);
-  //         this.tasks.push(...data.tasks);
-  //       })
-  //   })
-  // }
-
-  // setTasksForBoard(id: string) {
-  //   return this.tasks.filter(task => task.board_id === id);
-  // }
+  getBoardsByName(event: string) {
+    this.isFetching = true;
+    this.boardsService.findBoardsByName(event, this.authToken)
+      .subscribe(data => {
+        console.log(data);
+        if (data.length) {
+          this.boards = data;
+          this.dataNotFound = false;
+        } else if (!data.length) {
+          this.dataNotFound = true;
+        }
+        this.isFetching = false;
+    }, error => {
+      console.log(error);
+      this.error = true;
+    });
+  }
 
   onDeleteBoard(event: string) {
     this.boardsService.deleteBoard(event, this.authToken)
@@ -77,6 +86,65 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }, error => {
       this.error = true;
     })
+  }
+
+  filterBoards(event: {order: string, criteria: string}) {
+    switch (event.criteria) {
+      case 'name':
+        this.filterBoardsByName(event.order);
+        break;
+      case 'date':
+        this.filterBoardsByDate(event.order);
+        break;
+      case 'tasks':
+        this.filterBoardsByTasks(event.order);
+        break;
+      default:
+        break
+    }
+  }
+
+  filterBoardsByName(order: string): void {
+    switch (order) {
+      case 'ascending':
+        this.boards = this.boards.sort((a, b) => a.name > b.name ? 1 : (a.name < b.name) ? -1 : 0);
+        break;
+        case 'descending':
+          this.boards = this.boards.sort((a, b) => a.name < b.name ? 1 : (a.name > b.name) ? -1 : 0);
+          break;
+      default:
+        break
+    }
+  }
+
+  filterBoardsByTasks(order: string): void {
+    console.log(this.tasks);
+  }
+
+  filterBoardsByDate(order: string): void {
+      switch (order) {
+      case 'ascending':
+        this.boards = this.boards.sort((a, b) => {
+          const date1 = new Date(a.created_date).getTime()
+          const date2 = new Date(b.created_date).getTime()
+          return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
+        });
+        // this.boardsManagened.next(this.boards.sort((a, b) => {
+        //   const date1 = new Date(a.created_date).getTime()
+        //   const date2 = new Date(b.created_date).getTime()
+        //   return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
+        // }));
+        break;
+      case 'descending':
+        this.boards = this.boards.sort((a, b) => {
+          const date1 = new Date(a.created_date).getTime()
+          const date2 = new Date(b.created_date).getTime()
+          return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
+        });
+        break
+      default:
+        break
+    }
   }
 
   onOpenAddModal() {

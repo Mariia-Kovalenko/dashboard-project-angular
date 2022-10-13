@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ThisReceiver } from '@angular/compiler';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { BoardsService } from '../../services/boards.service';
 
 @Component({
@@ -10,17 +12,20 @@ import { BoardsService } from '../../services/boards.service';
 })
 export class PageTopComponent implements OnInit {
   @Input('currentRoute') currentRoute: string = '';
+  authToken: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzQxYWY4MTRiOGMzNGI3MzZlNDdhMmYiLCJpYXQiOjE2NjU1NjQ2MzN9.3DP4x-HQ8QSszsojtqvN1H8jxiosbNkKFh804HBLEuo';
 
   id!: number;
   filter!: FormGroup;
   filterValue: string = '';
   placeholder: string = 'Enter '
 
+  @Output() findBoards = new EventEmitter<string>()
+  @Output() filterBoards = new EventEmitter<{order: string, criteria: string}>()
+
   constructor(private boardsService: BoardsService,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // console.log(this.currentRoute);
     this.route.params  
       .subscribe((params: Params) => {
         this.id = +params['id'];
@@ -35,32 +40,40 @@ export class PageTopComponent implements OnInit {
       'name': new FormControl('')
     });
 
-    this.filter.valueChanges.subscribe(val => {
+    this.filter.valueChanges
+    .pipe(
+      debounceTime(250),
+      distinctUntilChanged(),
+    )
+    .subscribe(val => {
       this.filterValue = val.name;
-      
       if (this.currentRoute !== 'dashboard') {
-        this.boardsService.findTaskByName(this.id, this.filterValue);
+        // this.boardsService.findTaskByName(this.id, this.filterValue);
       } else {
-        this.boardsService.findBoardByName(this.filterValue);
+        this.findBoards.emit(this.filterValue);
       }
     })
   }
 
   onFilterBoardsByName(order: string) {
-    const res = this.boardsService.filterBoardsByName(order);
+    this.filterBoards.emit({order: order, criteria: 'name'});
   }
 
   onFilterBoardsByTasks(order: string) {
-    // const res = this.boardsService.filterBoardsByTasks(order);
+    this.filterBoards.emit({order: order, criteria: 'tasks'});
   }
 
   onFilterBoardsByDate(order: string) {
-    // this.boardsService.filterBoardsByDate(order);
+    this.filterBoards.emit({order: order, criteria: 'date'});
   }
 
   onSubmit() {
     // console.log(this.filterValue);
-    this.boardsService.findBoardByName(this.filterValue);
+    if (!this.authToken) {
+      console.log('No token provided');
+      return;
+    }
+    this.findBoards.emit(this.filterValue);
   }
 
 }

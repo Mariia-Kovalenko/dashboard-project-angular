@@ -29,4 +29,8 @@ export class TaskComponent implements OnInit {
     this.deleteTask.emit(this.id);
   }
 
+  onArchiveTask() {
+    
+  }
+
 }
