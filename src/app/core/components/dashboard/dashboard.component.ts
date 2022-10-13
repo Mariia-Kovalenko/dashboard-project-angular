@@ -14,12 +14,14 @@ import { Subscription } from 'rxjs';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   boards: Board[] = [];
-  // tasks: Task[] = [];
+  tasks: Task[] = [];
+
   showModal: boolean = false;
   mode: string = 'add';
   boardToUpdate!: string;
   isFetching: boolean = true;
   error = false;
+
   private boardsSub!: Subscription;
   authToken: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzQxYWY4MTRiOGMzNGI3MzZlNDdhMmYiLCJpYXQiOjE2NjU1NjQ2MzN9.3DP4x-HQ8QSszsojtqvN1H8jxiosbNkKFh804HBLEuo';
   // private tasksSub!: Subscription;
@@ -53,6 +55,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
     )
   }
+
+  // getTasksForBoards(boards: Board[]) {
+  //   boards.forEach(board => {
+  //     this.boardsService.fetchTasksForBoard(board._id, this.authToken)
+  //       .subscribe(data => {
+  //         // console.log(typeof [...data.tasks]);
+  //         this.tasks.push(...data.tasks);
+  //       })
+  //   })
+  // }
+
+  // setTasksForBoard(id: string) {
+  //   return this.tasks.filter(task => task.board_id === id);
+  // }
 
   onDeleteBoard(event: string) {
     this.boardsService.deleteBoard(event, this.authToken)

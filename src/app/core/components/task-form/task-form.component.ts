@@ -12,13 +12,13 @@ import { BoardsService } from '../../services/boards.service';
 })
 export class TaskFormComponent implements OnInit {
   form!: FormGroup;
-  boardId!: number;
+  boardId!: string;
   currentBoard!: Board;
   mode!: string;
   @Input() authToken!: string;
   @Input() openTaskForm!: {mode: string, column?: string};
-  @Output() addTaskToBoard = new EventEmitter<{boardId: number, taskName: string, state: State}>();
-  @Output() updateTask = new EventEmitter<{boardId: number, taskName?: string, taskDescription?: string}>();
+  @Output() addTaskToBoard = new EventEmitter<{boardId: string, taskName: string}>();
+  @Output() updateTask = new EventEmitter<{boardId: string, taskName : string}>();
   @Output() closeFormModal = new EventEmitter<string>();
 
   constructor( private boardsService: BoardsService,
@@ -37,14 +37,13 @@ export class TaskFormComponent implements OnInit {
     }
 
     this.form = new FormGroup({
-      'name': new FormControl('', nameValidators),
-      'description': new FormControl('', descriptionValidators)
+      'name': new FormControl('', nameValidators)
     });
     
     this.route.params  
       .subscribe((params: Params) => {
-        this.boardId = +params['id'];
-        this.currentBoard = this.boardsService.getBoard(this.boardId);
+        this.boardId = params['id'];
+        // this.currentBoard = this.boardsService.getBoard(this.boardId);
         // console.log('Current board is ', this.currentBoard.name);
       })
   }
@@ -52,32 +51,19 @@ export class TaskFormComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       if (this.mode === 'add') {
-        // console.log('add new task for board', this.boardId);
-        let newState!: State;
-
-        switch (this.openTaskForm.column) {
-          case 'add-todo':
-            newState = State.TODO;
-            break;
-          case 'add-in-progress':
-            newState = State.IN_PROGRESS;
-            break;
-          case 'add-done':
-            newState = State.DONE;
-            break;
-      }
-
-        this.addTaskToBoard.emit({boardId: this.boardId, taskName: this.form.value.name, state: newState});
+        this.addTaskToBoard.emit({boardId: this.boardId, taskName: this.form.value.name});
       } else if (this.mode === 'edit') {
-        // console.log('Update task');
-        this.updateTask.emit({boardId: this.boardId, taskName: this.form.value.name, taskDescription: this.form.value.description})
+        this.updateTask.emit({boardId: this.boardId, taskName: this.form.value.name})
       }
       this.form.reset();
+    } else {
+      console.log('form invalid');
+      
     }
   }
 
   onCloseForm() {
-    this.closeFormModal.emit('closed');
+    this.closeFormModal.emit();
   }
 }
 

@@ -26,11 +26,13 @@
                 [column]="'toDo'"
                 (itemDropped)="onItemDropped($event)">
                     <div 
-                    *ngIf="!newTasks.length"
+                    *ngIf="!newTasks.length && !isFetching"
                     class="task empty-task"
                     appDragArea
                     [column]="'toDo'"
                     (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+
+                    <div *ngIf="isFetching" class="task empty-task">Loading...</div>
 
                     <app-task
                     *ngFor="let newTask of newTasks"
@@ -68,11 +70,13 @@
                 [column]="'inProgress'"
                 (itemDropped)="onItemDropped($event)">
                     <div 
-                    *ngIf="!progressTasks.length"
+                    *ngIf="!progressTasks.length && !isFetching"
                     class="task empty-task"
                     appDragArea
                     [column]="'inProgress'"
                     (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+
+                    <div *ngIf="isFetching" class="task empty-task">Loading...</div>
 
                     <app-task
                     *ngFor="let progressTask of progressTasks"
@@ -107,6 +111,15 @@
                 appDragArea
                 [column]="'done'"
                 (itemDropped)="onItemDropped($event)">
+                    <div 
+                    *ngIf="!doneTasks.length && !isFetching"
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'done'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+
+                    <div *ngIf="isFetching" class="task empty-task">Loading...</div>
+
                     <app-task
                     *ngFor="let doneTask of doneTasks "
                     [task]="doneTask"
@@ -115,13 +128,6 @@
                     (deleteTask)="onDeleteTask($event)"
                     draggable="true"
                     appDraggable></app-task>
-
-                    <div 
-                    *ngIf="!doneTasks.length"
-                    class="task empty-task"
-                    appDragArea
-                    [column]="'done'"
-                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
                 </div>
             </div>
         </div>
@@ -132,7 +138,7 @@
     [authToken]="authToken"
     *ngIf="showFormModal"
     [openTaskForm]="formDetails"
-    (closeFormModal)="onCloseForm($event)"
+    (closeFormModal)="onCloseForm()"
     (addTaskToBoard)="onAddNewTask($event)"
     (updateTask)="onUpdateTask($event)"
     ></app-task-form>

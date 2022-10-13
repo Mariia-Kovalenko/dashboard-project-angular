@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Board } from 'src/app/shared/board.model';
 import { State } from 'src/app/shared/task-state.model';
@@ -15,6 +15,7 @@ export class BoardComponent implements OnInit {
   @Input('board') board!: Board;
   @Input() id!: string;
   @Input() mode: string = '';
+  @Input() authToken: string = '';
 
   @Output() openFormModal = new EventEmitter<{mode:string, index: string}>();
   @Output() deleteBoard = new EventEmitter<string>();
@@ -23,19 +24,20 @@ export class BoardComponent implements OnInit {
   progressTasks: Task[] = [];
   doneTasks: Task[] = [];
 
-  constructor(private boardService: BoardsService) { }
+  constructor(private boardsService: BoardsService) { }
 
   ngOnInit(): void {
-    // get tasks for current board
-
-    // if (this.board.tasks) {
-    //   this.newTasks = this.board.tasks.filter(task => task.state === State.TODO);
-    //   this.progressTasks = this.board.tasks.filter(task => task.state === State.IN_PROGRESS);
-    //   this.doneTasks = this.board.tasks.filter(task => task.state === State.DONE);
-    // } else {
-    // this.boardService.fetchTasksForBoard(this.board._id);
-    // }
+    this.getTasksForBoard(this.board._id);
   }
+
+  getTasksForBoard(id: string) {
+    this.boardsService.fetchTasksForBoard(id, this.authToken)
+    .subscribe(data => {
+      this.newTasks = data.tasks.filter(task => task.state === State.TODO);
+      this.progressTasks = data.tasks.filter(task => task.state === State.IN_PROGRESS);
+      this.doneTasks = data.tasks.filter(task => task.state === State.DONE);
+      })
+    }
 
   onOpenBoard() {
     this.openFormModal.emit({mode: this.mode, index: this.id});

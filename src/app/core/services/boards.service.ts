@@ -56,14 +56,6 @@ export class BoardsService {
     })
   }
 
-  getBoards() {
-    return [...this.boards];
-  }
-
-  getBoard(id: number) {
-    return this.boards[id];
-  }
-
   findBoardByName(filterValue: string) {
     if (filterValue) {
       // this.boards = this.boards.filter(board => board.name.toLowerCase().startsWith(filterValue.toLowerCase()));
@@ -184,19 +176,22 @@ export class BoardsService {
       })
   }
 
-  // addTaskToBoard(id: number, taskName: string, state: State) {
-  //   const newTaskId = Math.floor(Math.random()  * (500 - 105) + 105);  
-  //   this.boards[id].tasks.push(new Task(String(newTaskId), taskName, state, []));
-  //   this.boardsManagened.next(this.boards);
-  // }
+  addTaskToBoard(id: string, taskName: string, state: string, authToken: string) {
+    return this.http.post(tasksURL + id, {
+      name: taskName,
+      state: state
+    },
+    {
+      headers: new HttpHeaders({'authorization': authToken})
+    })
+  }
 
-  // deleteTask(id: number, taskId: string) {
-  //   const taskToDelete = this.boards[id].tasks.findIndex(task => task.id === taskId);
-  //   console.log('Delete task with index ', taskToDelete);
-  //   this.boards[id].tasks.splice(taskToDelete, 1);
-  //   // this.taskAdded.next(true);
-  //   this.boardsManagened.next(this.boards);
-  // }
+  deleteTask(boardId: string, taskId: string, authToken: string) {
+    return this.http.delete(`${tasksURL}${boardId}/${taskId}`,
+    {
+      headers: new HttpHeaders({'authorization': authToken})
+    })
+  }
 
   updateTask(params: {
     boardId: string, 
