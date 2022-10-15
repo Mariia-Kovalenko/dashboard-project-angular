@@ -57,19 +57,35 @@ export class BoardsService {
   }
 
   findBoardsByName(name: string, authToken: string) {
-    return this.http.get<{boards: Board[]}>(boardsURL + 'find_name' + `/${name}`,
-    {
-      headers: new HttpHeaders({'authorization': authToken})
+    if (!name) {
+      return this.http.get<Boards>(boardsURL,
+        {
+          headers: new HttpHeaders({'authorization': authToken})
+        })
+          .pipe(map(responseData => {
+            const boards = responseData.boards.map(board => {
+              const {_id, name, description, created_date, created_by} = board;
+              const date = this.transformDate(created_date);
+    
+              return {_id, name, description, created_date: date, created_by}
+            });
+            return boards
+          }))
+    } else {
+      return this.http.get<{boards: Board[]}>(boardsURL + `/${name}` + '/find_name',
+      {
+        headers: new HttpHeaders({'authorization': authToken})
+      }
+      ).pipe(map(responseData => {
+        const boards = responseData.boards.map(board => {
+          const {_id, name, description, created_date, created_by} = board;
+          const date = this.transformDate(created_date);
+  
+          return {_id, name, description, created_date: date, created_by}
+        });
+        return boards
+      }))
     }
-    ).pipe(map(responseData => {
-      const boards = responseData.boards.map(board => {
-        const {_id, name, description, created_date, created_by} = board;
-        const date = this.transformDate(created_date);
-
-        return {_id, name, description, created_date: date, created_by}
-      });
-      return boards
-    }))
   }
 
   findTaskByName(boardId: number, taskName: string) {

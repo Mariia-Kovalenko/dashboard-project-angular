@@ -6,7 +6,7 @@ import { AuthComponent } from "./core/components/auth/auth.component";
 
 
 const appRoutes: Routes = [
-    {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+    {path: '', redirectTo: '/auth', pathMatch: 'full'},
     {
         path: 'dashboard',
         component: DashboardComponent,

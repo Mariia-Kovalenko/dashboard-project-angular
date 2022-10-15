@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.boardsService.findBoardsByName(event, this.authToken)
       .subscribe({
         next: data => {
-          console.log(data);
+          // console.log(data);
           if (data.length) {
             this.boards = data;
             this.dataNotFound = false;

@@ -16,6 +16,8 @@ import { FeaturesModule } from '../features/features.module';
 import { TaskFormComponent } from './components/task-form/task-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthComponent } from './components/auth/auth.component';
+import { LoaderComponent } from '../shared/components/loader/loader.component';
+import { ErrorComponent } from '../shared/components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { AuthComponent } from './components/auth/auth.component';
     DraggableDirective,
     DragAreaDirective,
     TaskFormComponent,
-    AuthComponent
+    AuthComponent,
+    LoaderComponent,
+    ErrorComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +41,7 @@ import { AuthComponent } from './components/auth/auth.component';
     ReactiveFormsModule,
     FeaturesModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   exports: [
     HeaderComponent,
