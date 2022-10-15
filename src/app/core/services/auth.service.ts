@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 import {authURL} from '../../shared/URLs';
 
 
@@ -25,5 +26,16 @@ export class AuthService {
         email,
         password
       })
+      // .pipe(catchError( err => {
+      //   let errorMessage = 'Unknown error occured';
+      //   if (!err.error) {
+      //     console.log('no error field');
+      //     throw errorMessage;
+      //   }
+      //   if (err.status === 403) {
+      //     return err.error.message + ': wrong credentials'
+      //   }
+      //   throw errorMessage;
+      // }))
   }
 }

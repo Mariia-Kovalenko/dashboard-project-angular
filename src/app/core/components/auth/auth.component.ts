@@ -9,6 +9,9 @@ import { AuthService } from '../../services/auth.service';
 })
 export class AuthComponent implements OnInit {
   isLoginMode = true;
+  isLoading = false;
+  error = false;
+  errorMessage = '';
 
   constructor(private authService: AuthService) { }
 
@@ -27,14 +30,24 @@ export class AuthComponent implements OnInit {
     const email = form.value.email;
     const password = form.value.password;
 
+    this.isLoading = true;
+
     if (this.isLoginMode) {
       this.authService.login(email, password)
       .subscribe({
         next: data => {
           console.log(data);
+          this.isLoading = false;
+          if (!this.error) {
+            this.error = false;
+          }
         },
         error: err => {
-          console.log(err);
+          this.error = true;
+          this.isLoading = false;
+          if (err.status === 403) {
+            this.errorMessage = err.error.message + ': wrong credentials'
+          }
         }
       })
     } else {
@@ -42,15 +55,23 @@ export class AuthComponent implements OnInit {
       .subscribe({
         next: data => {
           console.log(data);
+          this.isLoading = false;
+
+          if (!this.error) {
+            this.error = false;
+          }
+          this.onSwitchMode();
         },
         error: err => {
           console.log(err);
-          
+          this.error = true;
+          this.isLoading = false;
+          if (err.status === 400) {
+            this.errorMessage = err.error;
+          }
         }
       })
     }
-    
-
     form.reset();
   }
 

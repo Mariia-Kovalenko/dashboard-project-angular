@@ -1,8 +1,11 @@
 <div class="auth">
+    <app-loader *ngIf="isLoading"></app-loader>
+    <app-error *ngIf="error" [message]="errorMessage"></app-error>
     <form 
     class="auth__form"
     #authForm="ngForm"
-    (ngSubmit)="onSubmit(authForm)">
+    (ngSubmit)="onSubmit(authForm)"
+    *ngIf="!isLoading">
         <h1 class="auth__title">
             {{isLoginMode ? 'Sign In' : 'Sign Up'}}
         </h1>

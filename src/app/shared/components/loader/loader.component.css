@@ -9,8 +9,8 @@
     animation: rotation 1s linear infinite;
     position: absolute;
     left: 50%;
-    top: 60%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translateX(-50%, -50%);
     }
 
     @keyframes rotation {
