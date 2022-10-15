@@ -38,6 +38,53 @@ body {
     color: var(--grey); */
 }
 
+/* Authentication */
+.auth {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.auth__form {
+    width: 500px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.auth-form__inputs {
+    margin-bottom: 20px;
+}
+.auth__title {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.form-label::after {
+    content: '*';
+    padding-left: 3px;
+    color: red;
+}
+
+.form-redirect {
+    font-size: 13px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.redirect-btn {
+    color: var(--light-purple);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 510px) {
+    .auth__form {
+        width: 100%;
+    }
+}
+
 .loader {
     width: 48px;
     height: 48px;
@@ -127,8 +174,7 @@ body {
 }
 .btn {
     background-color: var(--grey);
-    /* border: 1px solid #a1a1a1; */
-    /* border-radius: 10px; */
+    cursor: pointer;
     color: inherit;
     display: flex;
     align-items: center;
@@ -168,7 +214,8 @@ body {
 }
 
 .btn:hover {
-    background-color: #9290906f;
+    opacity: .8;
+    /* background-color: #9290906f; */
 }
 .filter {
     position: relative;
@@ -546,11 +593,17 @@ label {
     display: block;
     margin-bottom: 10px;
 }
-.add-board__btn {
+.submit-btn {
     width: 200px;
     margin: 0 auto;
     height: 40px;
     flex: 0 0 auto;
+    border-radius: 10px;
+    color: white;
+    background-color: var(--light-purple)
+}
+.submit-btn[disabled] {
+    opacity: .6;
 }
 
 /* app task dragging */

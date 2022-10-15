@@ -15,6 +15,7 @@ import { ChangeBgDirective } from '../features/change-bg.directive';
 import { FeaturesModule } from '../features/features.module';
 import { TaskFormComponent } from './components/task-form/task-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthComponent } from './components/auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
     BoardFormComponent,
     DraggableDirective,
     DragAreaDirective,
-    TaskFormComponent
+    TaskFormComponent,
+    AuthComponent
   ],
   imports: [
     CommonModule,
