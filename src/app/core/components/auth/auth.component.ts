@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
+import { AuthResponseData, AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -13,7 +15,8 @@ export class AuthComponent implements OnInit {
   error = false;
   errorMessage = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -32,46 +35,35 @@ export class AuthComponent implements OnInit {
 
     this.isLoading = true;
 
-    if (this.isLoginMode) {
-      this.authService.login(email, password)
-      .subscribe({
-        next: data => {
-          console.log(data);
-          this.isLoading = false;
-          if (!this.error) {
-            this.error = false;
-          }
-        },
-        error: err => {
-          this.error = true;
-          this.isLoading = false;
-          if (err.status === 403) {
-            this.errorMessage = err.error.message + ': wrong credentials'
-          }
-        }
-      })
-    } else {
-      this.authService.register(name, email, password)
-      .subscribe({
-        next: data => {
-          console.log(data);
-          this.isLoading = false;
+    let authObs: Observable<AuthResponseData>;
 
-          if (!this.error) {
-            this.error = false;
-          }
-          this.onSwitchMode();
-        },
-        error: err => {
-          console.log(err);
-          this.error = true;
-          this.isLoading = false;
-          if (err.status === 400) {
-            this.errorMessage = err.error;
-          }
-        }
-      })
+    if (this.isLoginMode) {
+      authObs = this.authService.login(email, password)
+    } else {
+      authObs = this.authService.register(name, email, password)
     }
+
+    authObs.subscribe({
+      next: data => {
+        this.isLoading = false;
+        if (this.error) {
+          this.error = false;
+        }
+        if (this.isLoginMode) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.onSwitchMode();
+        }
+      },
+      error: err => {
+        // console.log(err);
+        
+        this.error = true;
+        this.isLoading = false;
+        this.errorMessage = err;
+      }
+    })
+
     form.reset();
   }
 
