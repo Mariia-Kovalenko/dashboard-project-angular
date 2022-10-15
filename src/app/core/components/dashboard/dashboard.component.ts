@@ -46,46 +46,54 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getBoardsFromServer() {
     this.boardsService.fetchBoards(this.authToken)
-    .subscribe(
-        data => {
-          if (data.length) {
-            this.boards = data;
-          } else {
-            this.dataNotFound = true;
-          }
-          this.isFetching = false;
-        }, error => {
-          console.log(error);
-          this.error = true;
+    .subscribe({
+      next: data => {
+        if (data.length) {
+          this.boards = data;
+        } else {
+          this.dataNotFound = true;
         }
-    )
+        this.isFetching = false;
+      },
+      error: err => {
+        console.log(err);
+        this.error = true;
+      }
+    })
   }
 
   getBoardsByName(event: string) {
     this.isFetching = true;
     this.boardsService.findBoardsByName(event, this.authToken)
-      .subscribe(data => {
-        console.log(data);
-        if (data.length) {
-          this.boards = data;
-          this.dataNotFound = false;
-        } else if (!data.length) {
-          this.dataNotFound = true;
-        }
-        this.isFetching = false;
-    }, error => {
-      console.log(error);
-      this.error = true;
-    });
+      .subscribe({
+        next: data => {
+          console.log(data);
+          if (data.length) {
+            this.boards = data;
+            this.dataNotFound = false;
+          } else if (!data.length) {
+            this.dataNotFound = true;
+          }
+          this.isFetching = false;
+      }, 
+      error: error => {
+        console.log(error);
+        this.error = true;
+      }
+      });
   }
 
   onDeleteBoard(event: string) {
     this.boardsService.deleteBoard(event, this.authToken)
-    .subscribe(() => {
-      this.getBoardsFromServer();
-    }, error => {
-      this.error = true;
-    })
+    .subscribe({
+      next: () => {
+        this.getBoardsFromServer();
+      }, 
+      error: () => {
+        this.error = true;
+      }
+    }
+    )
   }
 
   filterBoards(event: {order: string, criteria: string}) {

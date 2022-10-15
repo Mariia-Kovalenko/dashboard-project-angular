@@ -70,13 +70,15 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
       .subscribe((params: Params) => {
         this.boardId = params['id'];
         this.boardsService.fetchBoardById(this.boardId, this.authToken)
-          .subscribe(data => {
-            this.currentBoard = data.board
-            // console.log(this.currentBoard);
-          },
-          error => {
-            console.log(error);
-            this.error = true;
+          .subscribe({
+            next: data => {
+              this.currentBoard = data.board
+              // console.log(this.currentBoard);
+            },
+            error: error => {
+              console.log(error);
+              this.error = true;
+            }
           })
 
           this.getTasksForBoard();
@@ -128,10 +130,15 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
         taskId: taskToUpdate._id, 
         taskState: newState},
         this.authToken)
-      .subscribe(data => {
-        // console.log('response:', data);
-        if (data.ok) {
-          this.getTasksForBoard();
+      .subscribe({
+        next: data => {
+          // console.log('response:', data);
+          if (data.ok) {
+            this.getTasksForBoard();
+          }
+        },
+        error: err => {
+          console.log(err);
         }
       })
     }
@@ -139,17 +146,17 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   getTasksForBoard() {
     this.boardsService.fetchTasksForBoard(this.boardId, this.authToken)
-          .subscribe(
-            data => {
+          .subscribe({
+            next: data => {
               this.allTasks = data.tasks;
               this.splitTasksByState(this.allTasks);
               this.isFetching = false;
             },
-            error => {
+            error: error => {
               console.log(error);
               this.error = true;
             }
-          )
+          })
   }
 
 

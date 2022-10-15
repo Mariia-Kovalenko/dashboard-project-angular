@@ -39,23 +39,29 @@ export class BoardFormComponent implements OnInit {
           this.form.value.name, 
           this.form.value.description,
           this.authToken)
-            .subscribe(data => {
-              console.log(data);
-              this.onCloseForm();
-            }, error => {
-              console.log(error);
-              this.onError(error.message)
+            .subscribe({
+              next: data => {
+                console.log(data);
+                this.onCloseForm();
+              }, 
+              error: error => {
+                console.log(error);
+                this.onError(error.message)
+              }
             });
       } else if (this.mode === 'edit') {
         this.boardsService.updateBoard(
           this.boardToUpdate,
           this.form.value.name,
           this.authToken)
-          .subscribe(data => {
-            this.onCloseForm();
-          }, error => {
-            console.log(error);
-            this.onError(error.message)
+          .subscribe({
+            next: data => {
+              this.onCloseForm();
+            }, 
+            error: error => {
+              console.log(error);
+              this.onError(error.message)
+            }
           })
       }
       this.form.reset();
