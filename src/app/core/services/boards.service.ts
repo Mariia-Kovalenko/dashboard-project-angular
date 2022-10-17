@@ -29,15 +29,8 @@ export class BoardsService {
   }
 
   fetchBoards() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap(user => {
-        return this.http.get<Boards>(boardsURL,
-          {
-            headers: new HttpHeaders({'authorization': 'Bearer ' + user.jwt_token})
-          })
-      }),
-      map(responseData => {
+    return this.http.get<Boards>(boardsURL,
+      ).pipe(map(responseData => {
         const boards = responseData.boards.map(board => {
           const {_id, name, description, created_date, created_by} = board;
           const date = this.transformDate(created_date);
@@ -46,20 +39,19 @@ export class BoardsService {
         });
         return boards
       }))
+
   }
 
   fetchBoardById(id: string, authToken: string) {
     return this.http.get<{board: Board}>(boardsURL + id, 
     {
       headers: new HttpHeaders({'authorization': authToken})
-    })
+    }
+    )
   }
 
   fetchTasksForBoard(id: string, authToken: string) {
-    return this.http.get<Tasks>(tasksURL + id,
-    {
-      headers: new HttpHeaders({'authorization': authToken})
-    })
+    return this.http.get<Tasks>(tasksURL + id)
   }
 
   findBoardsByName(name: string) {

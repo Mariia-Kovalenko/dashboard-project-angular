@@ -4,6 +4,7 @@ import { catchError, tap} from 'rxjs/operators';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import {authURL} from '../../shared/URLs';
 import { LocalStorageService } from './local-storage.service';
+import { Router } from '@angular/router';
 
 export interface AuthResponseData {ok: boolean, message?: string, jwt_token?: string}
 
@@ -14,7 +15,9 @@ export class AuthService {
 
   user = new BehaviorSubject<{jwt_token: string}>({jwt_token: ''});
 
-  constructor(private http: HttpClient, private localStorage: LocalStorageService) { }
+  constructor(private http: HttpClient, 
+    private localStorage: LocalStorageService,
+    private router: Router) { }
 
   register(name: string, email: string, password: string) {
     return this.http.post<AuthResponseData>(authURL + 'register', 
@@ -47,6 +50,11 @@ export class AuthService {
             }
           }
         }));
+  }
+
+  logout() {
+    this.user.next({jwt_token: ''});
+    this.router.navigate(['/auth']);
   }
 
   private handleError(err: HttpErrorResponse) {

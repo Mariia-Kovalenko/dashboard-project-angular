@@ -14,10 +14,11 @@ import { DragAreaDirective } from './draggable/drag-area.directive';
 import { ChangeBgDirective } from '../features/change-bg.directive';
 import { FeaturesModule } from '../features/features.module';
 import { TaskFormComponent } from './components/task-form/task-form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthComponent } from './components/auth/auth.component';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { ErrorComponent } from '../shared/components/error/error.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ErrorComponent } from '../shared/components/error/error.component';
     HeaderComponent,
     DashboardComponent,
     BoardDetailsComponent
-  ]
+  ],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}]
 })
 export class CoreModule { }
