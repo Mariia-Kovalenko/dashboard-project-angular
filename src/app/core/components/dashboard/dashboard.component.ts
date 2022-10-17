@@ -5,6 +5,7 @@ import { Task } from 'src/app/shared/task.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -45,7 +46,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getBoardsFromServer() {
-    this.boardsService.fetchBoards(this.authToken)
+    this.boardsService.fetchBoards()
     .subscribe({
       next: data => {
         if (data.length) {
@@ -64,7 +65,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getBoardsByName(event: string) {
     this.isFetching = true;
-    this.boardsService.findBoardsByName(event, this.authToken)
+    this.boardsService.findBoardsByName(event)
       .subscribe({
         next: data => {
           // console.log(data);

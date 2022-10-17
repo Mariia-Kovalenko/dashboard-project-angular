@@ -45,6 +45,7 @@ export class AuthComponent implements OnInit {
 
     authObs.subscribe({
       next: data => {
+        console.log(data);
         this.isLoading = false;
         if (this.error) {
           this.error = false;
@@ -56,7 +57,7 @@ export class AuthComponent implements OnInit {
         }
       },
       error: err => {
-        // console.log(err);
+        console.log(err);
         
         this.error = true;
         this.isLoading = false;

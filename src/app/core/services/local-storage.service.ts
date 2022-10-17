@@ -10,8 +10,8 @@ export class LocalStorageService {
     localStorage.setItem(key, value);
   }
 
-  get(key: string) {
-      return localStorage.getItem(key);
+  get(key: string): string {
+    return localStorage.getItem(key) || '';
   }
 
   remove(key: string) {
