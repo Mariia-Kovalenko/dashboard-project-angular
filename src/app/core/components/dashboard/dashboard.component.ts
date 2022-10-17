@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    
     this.getBoardsFromServer();
     
     this.boardsSub = this.boardsService.boardsManagened

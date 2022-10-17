@@ -52,6 +52,16 @@ export class AuthService {
         }));
   }
 
+  autoLogin() {
+    const token = this.localStorage.get('token');
+
+    if (!token) {
+      return;
+    } else {
+      this.user.next({jwt_token: token});
+    }
+  }
+
   logout() {
     this.user.next({jwt_token: ''});
     this.router.navigate(['/auth']);
