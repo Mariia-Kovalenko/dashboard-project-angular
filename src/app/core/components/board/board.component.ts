@@ -31,7 +31,7 @@ export class BoardComponent implements OnInit {
   }
 
   getTasksForBoard(id: string) {
-    this.boardsService.fetchTasksForBoard(id, this.authToken)
+    this.boardsService.fetchTasksForBoard(id)
     .subscribe(data => {
       this.newTasks = data.tasks.filter(task => task.state === State.TODO);
       this.progressTasks = data.tasks.filter(task => task.state === State.IN_PROGRESS);

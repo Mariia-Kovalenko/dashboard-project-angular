@@ -42,57 +42,36 @@ export class BoardsService {
 
   }
 
-  fetchBoardById(id: string, authToken: string) {
-    return this.http.get<{board: Board}>(boardsURL + id, 
-    {
-      headers: new HttpHeaders({'authorization': authToken})
-    }
-    )
+  fetchBoardById(id: string) {
+    return this.http.get<{board: Board}>(boardsURL + id)
   }
 
-  fetchTasksForBoard(id: string, authToken: string) {
+  fetchTasksForBoard(id: string) {
     return this.http.get<Tasks>(tasksURL + id)
   }
 
   findBoardsByName(name: string) {
     if (!name) {
-      return this.authService.user.pipe(
-        take(1),
-        exhaustMap(user => {
-          return this.http.get<Boards>(boardsURL,
-            {
-              headers: new HttpHeaders({'authorization': 'Bearer ' + user.jwt_token})
-            })
-        }),
-        map(responseData => {
-          const boards = responseData.boards.map(board => {
-            const {_id, name, description, created_date, created_by} = board;
-            const date = this.transformDate(created_date);
-  
+      return this.http.get<Boards>(boardsURL)
+      .pipe( map(responseData => {
+        const boards = responseData.boards.map(board => {
+          const {_id, name, description, created_date, created_by} = board;
+          const date = this.transformDate(created_date);
             return {_id, name, description, created_date: date, created_by}
-          });
-          return boards
-        }))
+        });
+        return boards
+      }))
     } else {
-
-      return this.authService.user.pipe(
-        take(1),
-        exhaustMap(user => {
-          return this.http.get<{boards: Board[]}>(boardsURL + `/${name}` + '/find_name',
-            {
-              headers: new HttpHeaders({'authorization': 'Bearer ' + user.jwt_token})
-            }
-      )
-        }),
-        map(responseData => {
-          const boards = responseData.boards.map(board => {
-            const {_id, name, description, created_date, created_by} = board;
-            const date = this.transformDate(created_date);
-  
-            return {_id, name, description, created_date: date, created_by}
-          });
-          return boards
-        }))
+          return this.http.get<{boards: Board[]}>(boardsURL + `/${name}` + '/find_name')
+          .pipe(map(responseData => {
+            const boards = responseData.boards.map(board => {
+              const {_id, name, description, created_date, created_by} = board;
+              const date = this.transformDate(created_date);
+    
+              return {_id, name, description, created_date: date, created_by}
+            });
+            return boards
+          }))
     }
   }
 
@@ -101,59 +80,43 @@ export class BoardsService {
   }
 
 
-  addBoard(name: string, desc: string, authToken: string) {
+  addBoard(name: string, desc: string) {
     return this.http.post(boardsURL, 
       {
         name: name,
         description: desc
-      },
-      {
-        headers: new HttpHeaders({'authorization': authToken})
       }
     )
   }
 
-  updateBoard(id: string, name: string, authToken: string) {
+  updateBoard(id: string, name: string) {
     return this.http.put(boardsURL + id, 
       {
         name: name
-      },
-      {
-        headers: new HttpHeaders({'authorization': authToken})
       }
     )
   }
 
-  deleteBoard(id: string, authToken: string) {
-    return this.http.delete(boardsURL + id, 
-      {
-        headers: new HttpHeaders({'authorization': authToken})
-      })
+  deleteBoard(id: string) {
+    return this.http.delete(boardsURL + id)
   }
 
-  addTaskToBoard(id: string, taskName: string, state: string, authToken: string) {
+  addTaskToBoard(id: string, taskName: string, state: string) {
     return this.http.post(tasksURL + id, {
       name: taskName,
       state: state
-    },
-    {
-      headers: new HttpHeaders({'authorization': authToken})
     })
   }
 
-  deleteTask(boardId: string, taskId: string, authToken: string) {
-    return this.http.delete(`${tasksURL}${boardId}/${taskId}`,
-    {
-      headers: new HttpHeaders({'authorization': authToken})
-    })
+  deleteTask(boardId: string, taskId: string) {
+    return this.http.delete(`${tasksURL}${boardId}/${taskId}`)
   }
 
   updateTask(params: {
     boardId: string, 
     taskId: string, 
     taskName?: string, 
-    taskState?: State},
-    authToken: string) {
+    taskState?: State}) {
     const {boardId, taskId, taskState, taskName} = params;
 
     let queryParams = {};
@@ -170,10 +133,7 @@ export class BoardsService {
     }
 
     return this.http.patch<{ok: boolean, message: string}>(`${tasksURL}${boardId}/${taskId}`, 
-    queryParams,
-    {
-      headers: new HttpHeaders({'authorization': authToken})
-    })
+    queryParams)
   }
 
   // add pipe for that

@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onDeleteBoard(event: string) {
-    this.boardsService.deleteBoard(event, this.authToken)
+    this.boardsService.deleteBoard(event)
     .subscribe({
       next: () => {
         this.getBoardsFromServer();

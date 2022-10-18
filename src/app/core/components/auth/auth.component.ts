@@ -45,13 +45,15 @@ export class AuthComponent implements OnInit {
 
     authObs.subscribe({
       next: data => {
-        console.log(data);
+        console.log('Auth componen', data);
         this.isLoading = false;
         if (this.error) {
           this.error = false;
         }
         if (this.isLoginMode) {
-          this.router.navigate(['/dashboard']);
+          console.log('navigate to dashboards');
+          
+          this.router.navigate(['dashboard']);
         } else {
           this.onSwitchMode();
         }

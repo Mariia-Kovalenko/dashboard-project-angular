@@ -63,6 +63,7 @@ export class AuthService {
   }
 
   logout() {
+    this.localStorage.remove('token')
     this.user.next({jwt_token: ''});
     this.router.navigate(['/auth']);
   }

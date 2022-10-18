@@ -69,7 +69,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     this.route.params  
       .subscribe((params: Params) => {
         this.boardId = params['id'];
-        this.boardsService.fetchBoardById(this.boardId, this.authToken)
+        this.boardsService.fetchBoardById(this.boardId)
           .subscribe({
             next: data => {
               this.currentBoard = data.board
@@ -128,8 +128,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
       this.boardsService.updateTask({
         boardId: this.boardId, 
         taskId: taskToUpdate._id, 
-        taskState: newState},
-        this.authToken)
+        taskState: newState})
       .subscribe({
         next: data => {
           // console.log('response:', data);
@@ -145,7 +144,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   }
 
   getTasksForBoard() {
-    this.boardsService.fetchTasksForBoard(this.boardId, this.authToken)
+    this.boardsService.fetchTasksForBoard(this.boardId)
           .subscribe({
             next: data => {
               this.allTasks = data.tasks;
@@ -218,7 +217,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   onDeleteTask(event: string) {
     // console.log('Task to delete:', event);
-    this.boardsService.deleteTask(this.boardId, event, this.authToken)
+    this.boardsService.deleteTask(this.boardId, event)
     .subscribe(data => {
       this.getTasksForBoard()
     })
@@ -239,7 +238,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     }
     
     const {boardId, taskName} = event;
-    this.boardsService.addTaskToBoard(boardId, taskName, state, this.authToken)
+    this.boardsService.addTaskToBoard(boardId, taskName, state)
     .subscribe(data => {
       this.onCloseForm();
       this.getTasksForBoard();
@@ -251,8 +250,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     this.boardsService.updateTask({
       boardId: boardId, 
       taskId: this.taskToEditId, 
-      taskName: taskName}, 
-      this.authToken)
+      taskName: taskName})
       .subscribe(data => {
         if (data.ok) {
           this.getTasksForBoard();

@@ -37,8 +37,7 @@ export class BoardFormComponent implements OnInit {
       if (this.mode === 'add') {
         this.boardsService.addBoard(
           this.form.value.name, 
-          this.form.value.description,
-          this.authToken)
+          this.form.value.description)
             .subscribe({
               next: data => {
                 console.log(data);
@@ -52,8 +51,7 @@ export class BoardFormComponent implements OnInit {
       } else if (this.mode === 'edit') {
         this.boardsService.updateBoard(
           this.boardToUpdate,
-          this.form.value.name,
-          this.authToken)
+          this.form.value.name)
           .subscribe({
             next: data => {
               this.onCloseForm();
