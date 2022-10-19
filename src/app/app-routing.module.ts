@@ -11,11 +11,12 @@ const appRoutes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
             path: 'dashboard/:id', 
             component: BoardDetailsComponent,
+            canActivate: [AuthGuard],
     },
     {path: 'auth',  component: AuthComponent},
 ]

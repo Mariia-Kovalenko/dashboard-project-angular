@@ -33,9 +33,9 @@ export class BoardsService {
       ).pipe(map(responseData => {
         const boards = responseData.boards.map(board => {
           const {_id, name, description, created_date, created_by} = board;
-          const date = this.transformDate(created_date);
+          // const date = this.transformDate(created_date);
 
-          return {_id, name, description, created_date: date, created_by}
+          return {_id, name, description, created_date, created_by}
         });
         return boards
       }))
@@ -53,22 +53,24 @@ export class BoardsService {
   findBoardsByName(name: string) {
     if (!name) {
       return this.http.get<Boards>(boardsURL)
-      .pipe( map(responseData => {
+      .pipe( 
+        map(responseData => {
         const boards = responseData.boards.map(board => {
           const {_id, name, description, created_date, created_by} = board;
-          const date = this.transformDate(created_date);
-            return {_id, name, description, created_date: date, created_by}
+          // const date = this.transformDate(created_date);
+            return {_id, name, description, created_date, created_by}
         });
         return boards
-      }))
+      })
+      )
     } else {
-          return this.http.get<{boards: Board[]}>(boardsURL + `/${name}` + '/find_name')
+          return this.http.get<Boards>(boardsURL + `/${name}` + '/find_name')
           .pipe(map(responseData => {
             const boards = responseData.boards.map(board => {
               const {_id, name, description, created_date, created_by} = board;
-              const date = this.transformDate(created_date);
+              // const date = this.transformDate(created_date);
     
-              return {_id, name, description, created_date: date, created_by}
+              return {_id, name, description, created_date, created_by}
             });
             return boards
           }))

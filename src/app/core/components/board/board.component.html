@@ -4,7 +4,7 @@
     [routerLink]="[id]">{{board.name}}</div>
     <div class="board__date">
         <img src="../assets/images/calendar.svg" alt="calendar">
-        <span>{{board.created_date}}</span>
+        <span>{{board.created_date | date}}</span>
     </div>
     <div class="board__desc">{{board.description}}</div>
     <div class="board__tasks-per-col">
