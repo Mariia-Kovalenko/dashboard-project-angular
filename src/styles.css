@@ -131,12 +131,8 @@ body {
     font-weight: 500;
     text-transform: capitalize;
 }
-.manage__boards {
-    display: flex;
-    align-items: flex-end;
-    gap: 20px;
-}
 .btn {
+    display: block;
     background-color: var(--grey);
     cursor: pointer;
     color: inherit;
@@ -200,11 +196,43 @@ body {
     outline: none;
 }
 
+.manage__boards {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.filter__input {
+    display: block;
+    width: 100%;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+
 .order {
-    width: 70px;
+    min-width: 70px;
 }
 .order.active {
     background-color: #a1a1a16f;
+}
+
+@media screen and (max-width: 425px) {
+    .logo {
+        font-size: 16px;
+    }
+    .manage__boards {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .filter, .filter, .filter-buttons,
+    .dropdown, .order, .dropdown-content {
+        width: 100%;
+    }
 }
 
 .add-board {

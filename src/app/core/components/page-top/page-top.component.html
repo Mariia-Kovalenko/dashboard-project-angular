@@ -10,23 +10,26 @@
             class="filter__input" 
             placeholder="{{placeholder}}">
         </form>  
-        <!-- <button class="btn filter dropdown">Sort</button> -->
-        <div class="dropdown">
-            <button class="btn order">ASC</button>
-            <div class="dropdown-content">
-                <button class="dropdown-btn" (click)="onFilterBoardsByName('ascending')">Name</button>
-                <button class="dropdown-btn" (click)="onFilterBoardsByDate('ascending')">Date</button>
-                <button class="dropdown-btn" (click)="onFilterBoardsByTasks('ascending')">№ Tasks</button>
+        <div class="filter-buttons">
+            <!-- <button class="btn filter dropdown">Sort</button> -->
+            <div class="dropdown">
+                <button class="btn filter-btn order">ASC</button>
+                <div class="dropdown-content">
+                    <button class="dropdown-btn" (click)="onFilterBoardsByName('ascending')">Name</button>
+                    <button class="dropdown-btn" (click)="onFilterBoardsByDate('ascending')">Date</button>
+                    <button class="dropdown-btn" (click)="onFilterBoardsByTasks('ascending')">№ Tasks</button>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="btn filter-btn order">DESC</button>
+                <div class="dropdown-content">
+                    <button class="dropdown-btn" (click)="onFilterBoardsByName('descending')">Name</button>
+                    <button class="dropdown-btn" (click)="onFilterBoardsByDate('descending')">Date</button>
+                    <button class="dropdown-btn" (click)="onFilterBoardsByTasks('descending')">№ Tasks</button>
+                </div>
             </div>
         </div>
-        <div class="dropdown">
-            <button class="btn order">DESC</button>
-            <div class="dropdown-content">
-                <button class="dropdown-btn" (click)="onFilterBoardsByName('descending')">Name</button>
-                <button class="dropdown-btn" (click)="onFilterBoardsByDate('descending')">Date</button>
-                <button class="dropdown-btn" (click)="onFilterBoardsByTasks('descending')">№ Tasks</button>
-            </div>
-        </div>
+        
         
     </div>
 </div>
