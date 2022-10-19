@@ -18,8 +18,8 @@ export class BoardFormComponent implements OnInit {
   constructor(private boardsService: BoardsService) { }
 
   ngOnInit(): void {
-    const nameValidators = [Validators.minLength(4)];
-    const descriptionValidators = [Validators.maxLength(15)];
+    const nameValidators = [Validators.minLength(4), Validators.maxLength(20)];
+    const descriptionValidators = [Validators.minLength(4), Validators.maxLength(45)];
 
     if (this.mode === 'add') {
       nameValidators.push(Validators.required)

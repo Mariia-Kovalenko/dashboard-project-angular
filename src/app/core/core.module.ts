@@ -19,6 +19,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { ErrorComponent } from '../shared/components/error/error.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { ShortenPipe } from '../shared/pipes/shorten.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     TaskFormComponent,
     AuthComponent,
     LoaderComponent,
-    ErrorComponent
+    ErrorComponent,
+    ShortenPipe
   ],
   imports: [
     CommonModule,
