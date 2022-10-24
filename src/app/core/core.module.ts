@@ -20,6 +20,11 @@ import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { ErrorComponent } from '../shared/components/error/error.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { ShortenPipe } from '../shared/pipes/shorten.pipe';
+import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/profile/profile-tabs/edit-profile/edit-profile.component';
+import { UserBoardsComponent } from './components/profile/profile-tabs/user-boards/user-boards.component';
+import { UserProfileComponent } from './components/profile/profile-tabs/user-profile/user-profile.component';
+import { UserBoardComponent } from './components/profile/user-board/user-board.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,12 @@ import { ShortenPipe } from '../shared/pipes/shorten.pipe';
     AuthComponent,
     LoaderComponent,
     ErrorComponent,
-    ShortenPipe
+    ShortenPipe,
+    ProfileComponent,
+    EditProfileComponent,
+    UserBoardsComponent,
+    UserProfileComponent,
+    UserBoardComponent
   ],
   imports: [
     CommonModule,

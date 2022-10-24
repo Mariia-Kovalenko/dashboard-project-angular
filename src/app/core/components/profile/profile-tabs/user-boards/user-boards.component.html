@@ -1,0 +1,7 @@
+<div class="user__boards">
+    <div class="details__title">Boards ({{boards.length}})</div>
+    <div class="user__boards">
+        <app-loader *ngIf="isLoading"></app-loader>
+        <app-user-board *ngFor="let board of boards" [board]="board"></app-user-board>
+    </div>
+</div>

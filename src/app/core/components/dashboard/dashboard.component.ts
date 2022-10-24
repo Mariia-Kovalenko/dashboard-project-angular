@@ -117,10 +117,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   filterBoardsByName(order: string): void {
     switch (order) {
       case 'ascending':
-        this.boards = this.boards.sort((a, b) => a.name > b.name ? 1 : (a.name < b.name) ? -1 : 0);
+        this.boards = this.boards.sort((a, b) => a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 :
+          (a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) ? -1 : 0);
         break;
         case 'descending':
-          this.boards = this.boards.sort((a, b) => a.name < b.name ? 1 : (a.name > b.name) ? -1 : 0);
+          this.boards = this.boards.sort((a, b) => a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase() ? 1 : 
+          (a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) ? -1 : 0);
           break;
       default:
         break

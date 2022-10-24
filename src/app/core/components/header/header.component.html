@@ -3,9 +3,16 @@
     <nav class="nav" *ngIf="isAuthenticated">
       <ul class="nav__list">
         <li class="nav__item"><a routerLink="/dashboard" class="nav__link">All Boards</a></li>
-        <li class="nav__item"><a href="#" class="nav__link">Archived</a></li>
+        <li class="nav__item"><a href="#" class="nav__link">Archived Tasks</a></li>
+        <li class="nav__item profile">
+          <a routerLink="/profile/info" class="nav__link">
+            <img src="../../../../assets/images/profile.svg" alt="profile">
+          </a>
+        </li>
         <li class="nav__item">
-          <a routerLink="/auth" class="nav__link auth-link" (click)="onLogout()">Log Out</a>
+          <a routerLink="/auth" class="nav__link auth-link" (click)="onLogout()">
+            <img src="../../../../assets/images/logout.svg" alt="logout">
+          </a>
         </li>
       </ul>
     </nav>

@@ -4,6 +4,10 @@ import { DashboardComponent } from "./core/components/dashboard/dashboard.compon
 import { BoardDetailsComponent } from "./core/components/board-details/board-details.component";
 import { AuthComponent } from "./core/components/auth/auth.component";
 import { AuthGuard } from "./core/components/auth/auth.guard";
+import { ProfileComponent } from "./core/components/profile/profile.component";
+import { EditProfileComponent } from "./core/components/profile/profile-tabs/edit-profile/edit-profile.component";
+import { UserProfileComponent } from "./core/components/profile/profile-tabs/user-profile/user-profile.component";
+import { UserBoardsComponent } from "./core/components/profile/profile-tabs/user-boards/user-boards.component";
 
 
 const appRoutes: Routes = [
@@ -12,6 +16,25 @@ const appRoutes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard],
+    },
+    {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'info',
+                component: UserProfileComponent
+            },
+            {
+                path: 'user-boards',
+                component: UserBoardsComponent
+            },
+            {
+                path: 'edit',
+                component: EditProfileComponent
+            },
+        ]
     },
     {
             path: 'dashboard/:id', 
