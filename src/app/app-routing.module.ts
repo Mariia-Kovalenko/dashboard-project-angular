@@ -31,7 +31,7 @@ const appRoutes: Routes = [
                 component: UserBoardsComponent
             },
             {
-                path: 'edit',
+                path: 'edit/:id',
                 component: EditProfileComponent
             },
         ]

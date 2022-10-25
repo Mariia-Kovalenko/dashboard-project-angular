@@ -1,3 +1,4 @@
+<app-error *ngIf="error" [message]="errorMessage"></app-error>
 <div class="user-profile">
     <div class="profile__side side">
         <app-loader *ngIf="isLoading"></app-loader>
@@ -14,7 +15,7 @@
         <ul class="details__tabs">
             <li class="details__tab" routerLinkActive="active-tab" routerLink="info">Profile Info</li>
             <li class="details__tab" routerLinkActive="active-tab" routerLink="user-boards">Created Boards</li>
-            <li class="details__tab" routerLinkActive="active-tab" routerLink="edit">Edit</li>
+            <li class="details__tab" routerLinkActive="active-tab" routerLink="edit/{{user._id}}">Edit</li>
         </ul>
         <div class="details__content">
             <router-outlet></router-outlet>

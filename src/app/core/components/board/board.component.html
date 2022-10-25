@@ -6,7 +6,7 @@
         <img src="../assets/images/calendar.svg" alt="calendar">
         <span>{{board.created_date | date}}</span>
     </div>
-    <div class="board__desc">{{board.description | shorten:30}}</div>
+    <div class="board__desc">{{board.description | shorten:20}}</div>
     <div class="board__tasks-per-col">
         <div class="board__tasks-num">
             <span>To Do: {{newTasks.length}}</span>

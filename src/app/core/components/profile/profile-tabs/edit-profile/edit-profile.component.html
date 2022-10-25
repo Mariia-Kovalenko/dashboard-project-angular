@@ -1,18 +1,38 @@
 <div class="user__edit">
     <div class="details__title">Edit profile info</div>
-    <form class="user-edit__form">
+    <form class="user-edit__form"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()">
         <div class="form__inputs">
             <div class="form-group">
                 <label for="username">User Name</label>
-                <input class="form__input form__input-small" id="username" type="text">
+                <input 
+                formControlName="name"
+                class="form__input form__input-small" 
+                id="username" 
+                type="text">
+                <span 
+                    *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
+                    class="input-error">Please, enter a valid name</span>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input class="form__input form__input-small" id="email" type="text">
+                <input 
+                formControlName="email"
+                class="form__input form__input-small" 
+                id="email" 
+                type="text">
+                <span 
+                *ngIf="!form.get('email')?.valid && form.get('email')?.touched"
+                class="input-error">Please, enter a valid email</span>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input class="form__input form__input-small" id="password" type="text">
+                <input 
+                formControlName="password"
+                class="form__input form__input-small" 
+                id="password" 
+                type="text">
             </div>
         </div>
         <div class="form__buttons">

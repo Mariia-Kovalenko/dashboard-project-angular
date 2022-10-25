@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { boardsURL, usersURL } from 'src/app/shared/URLs';
-import { catchError, throwError } from 'rxjs';
+import { catchError, Subject, throwError } from 'rxjs';
 import { Board } from 'src/app/shared/board.model';
 
 export interface UserResponseData {
@@ -17,16 +17,35 @@ export interface UserResponseData {
 })
 export class UsersService {
 
+  @Output() userUpdated = new Subject<{name: string, email: string}>();
+  @Output() error = new Subject<{message: string}>();
+
   constructor(private http: HttpClient,
     private authService: AuthService) { }
 
   getUserInfo() {
-    return this.http.get<{user: {_id: string, name: string, email: string, created_date: string}}>(usersURL + '/me')
+    return this.http.get<{user: {_id: string, name: string, email: string, created_date: string}}>(usersURL + 'me')
     .pipe(catchError(this.handleError))
   }
 
   getUserBoards() {
     return this.http.get<{boards: Board[]}>(boardsURL + '/my_boards')
+  }
+
+  updateUser(name: string, email: string, password: string) {
+    const credentials = {name, email, password}
+    this.http.patch<{message: string, user: {name: string, email: string}}>(usersURL + 'me', credentials)
+    .subscribe({
+      next: data => {
+        // console.log(data);
+        // emit event
+        this.userUpdated.next(data.user);
+      }, error: err => {
+        // console.log(err);
+        // process error
+        this.error.next({message: err.error.message});
+      }
+    })
   }
 
   private handleError(err: HttpErrorResponse) {

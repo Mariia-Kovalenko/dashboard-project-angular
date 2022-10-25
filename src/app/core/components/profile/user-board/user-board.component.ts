@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BoardsService } from 'src/app/core/services/boards.service';
 import { Board } from 'src/app/shared/board.model';
 
 @Component({
@@ -14,9 +15,22 @@ export class UserBoardComponent implements OnInit {
     description: '',
     created_date: ''
   };
-  constructor() { }
+
+  tasksNum: number = 0;
+  constructor(private boardsService: BoardsService) { }
 
   ngOnInit(): void {
+    this.boardsService.fetchTasksForBoard(this.board._id)
+      .subscribe({
+        next: data => {
+          console.log(data);
+          this.tasksNum = data.tasks.length
+        },
+        error: err => {
+          console.log(err);
+          
+        }
+      })
   }
 
 }

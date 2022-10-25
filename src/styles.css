@@ -721,9 +721,14 @@ app-task {
 }
 
 .user__board {
-    padding-left: 10px;
+    padding: 6px 0px 6px 10px;
     border-left: 2px solid var(--light-purple);
     margin-bottom: 15px;
+    cursor: pointer;
+    transition: .3s;
+}
+.user__board:hover {
+    background-color: #f2f2f2;
 }
 .user__board-name {
     font-weight: 500;
@@ -761,6 +766,16 @@ app-task {
     margin: 10px 0;
 }
 
+.user__credentials {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.user__credentials span {
+    color: var(--dark-grey);
+}
+
 @media screen and (max-width: 680px) {
     .user-profile{
         flex-direction: column;
@@ -768,4 +783,16 @@ app-task {
     .side {
         width: 100%;
     }
+    .profile__side {
+        height: 250px;
+    }
+    .profile__details {
+        height: 380px;
+    }
+}
+
+@media screen and (max-width: 567px) {
+    .user-edit__form {
+        width: 100%;
+    } 
 }

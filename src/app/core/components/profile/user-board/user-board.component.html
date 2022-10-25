@@ -1,8 +1,9 @@
-<div class="user__board">
+<div class="user__board"
+    routerLink="/dashboard/{{board._id}}">
     <div class="user__board-name">{{board.name}}</div>
     <div class="user__board-desc">{{board.description}}</div>
     <div class="user__board-info">
-        <div class="user__board-tasks">?? tasks</div>
+        <div class="user__board-tasks">{{tasksNum}} tasks</div>
     <div class="user__board-date">
         <img height="16px" src="../../../../assets/images/calendar.svg">
         <span>{{board.created_date | date}}</span>
