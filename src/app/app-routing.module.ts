@@ -21,6 +21,7 @@ const appRoutes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         children: [
             {
                 path: 'info',
