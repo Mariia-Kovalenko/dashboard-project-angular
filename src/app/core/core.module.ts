@@ -25,6 +25,7 @@ import { EditProfileComponent } from './components/profile/profile-tabs/edit-pro
 import { UserBoardsComponent } from './components/profile/profile-tabs/user-boards/user-boards.component';
 import { UserProfileComponent } from './components/profile/profile-tabs/user-profile/user-profile.component';
 import { UserBoardComponent } from './components/profile/user-board/user-board.component';
+import { ArchivedTasksComponent } from './components/archived-tasks/archived-tasks.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { UserBoardComponent } from './components/profile/user-board/user-board.c
     EditProfileComponent,
     UserBoardsComponent,
     UserProfileComponent,
-    UserBoardComponent
+    UserBoardComponent,
+    ArchivedTasksComponent
   ],
   imports: [
     CommonModule,

@@ -2,7 +2,7 @@
     class="board">
     <div class="board__name" 
     [routerLink]="[id]">{{board.name | shorten:15}}</div>
-    <div class="board__date">
+    <div class="date">
         <img src="../assets/images/calendar.svg" alt="calendar">
         <span>{{board.created_date | date}}</span>
     </div>

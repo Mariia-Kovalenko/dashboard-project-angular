@@ -8,6 +8,7 @@ import { ProfileComponent } from "./core/components/profile/profile.component";
 import { EditProfileComponent } from "./core/components/profile/profile-tabs/edit-profile/edit-profile.component";
 import { UserProfileComponent } from "./core/components/profile/profile-tabs/user-profile/user-profile.component";
 import { UserBoardsComponent } from "./core/components/profile/profile-tabs/user-boards/user-boards.component";
+import { ArchivedTasksComponent } from "./core/components/archived-tasks/archived-tasks.component";
 
 
 const appRoutes: Routes = [
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
             canActivate: [AuthGuard],
     },
     {path: 'auth',  component: AuthComponent},
+    {path: 'archive',  component: ArchivedTasksComponent},
 ]
 
 @NgModule({

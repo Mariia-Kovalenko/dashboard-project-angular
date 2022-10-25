@@ -1,5 +1,9 @@
 <div class="task">
     <div class="task__name">{{ name }}</div>
+    <div class="date">
+        <img src="../assets/images/calendar.svg" alt="calendar">
+        <span>{{task.created_date | date}}</span>
+    </div>
     <div class="board__buttons">
         <button id="edit-task" class="board__btn" title="Edit" (click)="onEditTask()">
             <img src="../assets/images/edit.svg" alt="edit" />

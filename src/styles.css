@@ -38,6 +38,22 @@ body {
     color: var(--grey); */
 }
 
+.no-data {
+    background-color: rgb(252, 243, 225);
+    width: 300px;
+    padding: 10px;
+    border-radius: 6px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    font-size: 14px;
+    color:brown;
+}
+
 /* Authentication */
 .auth {
     height: 100vh;
@@ -78,6 +94,7 @@ body {
     text-decoration: underline;
     cursor: pointer;
 }
+
 
 @media screen and (max-width: 510px) {
     .auth__form {
@@ -283,7 +300,7 @@ body {
 }
 
 /* boards list */
-.boards__list {
+.items__grid{
     padding: 30px 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -293,12 +310,9 @@ body {
 .board{
     min-width: 250px;
     min-height: 150px;
-    background-color: white;
-    /* background-color: var(--grey); */
-    /* border-radius: 10px; */
     padding: 15px;
     position: relative;
-    /* border: 1.5px solid #e5e5e56a; */
+    background-color: white;
     filter: drop-shadow(0px 0px 6px rgba(73, 73, 73, 0.3));
     border-radius: 10px;
 }
@@ -325,7 +339,7 @@ body {
 .board__name:hover {
     color: var(--light-purple);
 }
-.board__date {
+.date {
     font-size: 12px;
     color: #a6a6a6;
     font-style: italic;
@@ -477,6 +491,10 @@ body {
     color: var(--dark-bg);
     margin-bottom: 10px;
     /* filter: drop-shadow(0px 0px 1px rgba(0, 12, 78, 0.3)); */
+}
+
+.task__name {
+    margin-bottom: 5px;
 }
 
 .empty-task {
@@ -795,4 +813,14 @@ app-task {
     .user-edit__form {
         width: 100%;
     } 
+}
+
+/* archived task */
+.archived__tasks {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.archived__task{
+    background-color: white;
+    filter: drop-shadow(0px 0px 6px rgba(73, 73, 73, 0.3));
 }

@@ -13,6 +13,7 @@ export class TaskComponent implements OnInit {
 
   @Output() editTask = new EventEmitter<string>()
   @Output() deleteTask = new EventEmitter<string>()
+  @Output() archiveTask = new EventEmitter<string>()
 
   constructor() { }
 
@@ -30,7 +31,7 @@ export class TaskComponent implements OnInit {
   }
 
   onArchiveTask() {
-    
+    this.archiveTask.emit(this.id);
   }
 
 }

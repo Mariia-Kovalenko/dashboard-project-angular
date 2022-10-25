@@ -6,5 +6,6 @@ export class Task {
         public board_id: string,
         public name: string,
         public state: State,
+        public created_date: string,
         public comments: string[]) {}
 }

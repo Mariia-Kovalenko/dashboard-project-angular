@@ -7,7 +7,7 @@
 <button class="add-board" (click)="onOpenAddModal()"></button>
 
 <!-- boards list -->
-<div class="boards__list" *ngIf="!isFetching && !dataNotFound">
+<div class="items__grid" *ngIf="!isFetching && !dataNotFound">
     <!-- board -->
     <app-board
     *ngFor="let board of boards"

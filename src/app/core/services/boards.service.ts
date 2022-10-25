@@ -114,6 +114,10 @@ export class BoardsService {
     return this.http.delete(`${tasksURL}${boardId}/${taskId}`)
   }
 
+  archiveTask(boardId: string, taskId: string) {
+    return this.http.post(`${tasksURL}${boardId}/${taskId}`, {})
+  }
+
   updateTask(params: {
     boardId: string, 
     taskId: string, 
@@ -136,6 +140,17 @@ export class BoardsService {
 
     return this.http.patch<{ok: boolean, message: string}>(`${tasksURL}${boardId}/${taskId}`, 
     queryParams)
+  }
+
+  getArchivedTasks() {
+    return this.http.get<{tasks: Task[]}>(tasksURL + 'archive')
+    .pipe(map(responseData => {
+      const tasks = responseData.tasks.map(task => {
+        const {_id, name, created_date, comments} = task;
+        return {_id, name, created_date, comments}
+      });
+      return tasks
+    }))
   }
 
   // add pipe for that

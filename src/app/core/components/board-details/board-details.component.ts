@@ -223,6 +223,14 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
+  onArchiveTask(event: string) {
+    console.log('task to be archived', event);
+    this.boardsService.archiveTask(this.boardId, event)
+    .subscribe(data => {
+      this.getTasksForBoard()
+    })
+  }
+
   onAddNewTask(event: {boardId: string, taskName: string}) {
     let state: State = State.TODO;
     switch (this.formDetails.column) {
