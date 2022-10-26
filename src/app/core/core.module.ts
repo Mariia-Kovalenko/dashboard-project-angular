@@ -26,6 +26,7 @@ import { UserBoardsComponent } from './components/profile/profile-tabs/user-boar
 import { UserProfileComponent } from './components/profile/profile-tabs/user-profile/user-profile.component';
 import { UserBoardComponent } from './components/profile/user-board/user-board.component';
 import { ArchivedTasksComponent } from './components/archived-tasks/archived-tasks.component';
+import { TaskDetailsComponent } from './components/task-details/task-details.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ArchivedTasksComponent } from './components/archived-tasks/archived-tas
     UserBoardsComponent,
     UserProfileComponent,
     UserBoardComponent,
-    ArchivedTasksComponent
+    ArchivedTasksComponent,
+    TaskDetailsComponent
   ],
   imports: [
     CommonModule,

@@ -29,6 +29,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   draggedItem!: Task;
   taskToEditId!: string;
   showFormModal: boolean = false;
+  showTask = false;
 
   isFetching = true;
   error = false;
@@ -40,8 +41,9 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   } = {
     mode: 'add',
   }
+
+  taskToOpen: string = '';
   
-  // idChangeSub!: Subscription;
 
   // classes
   toDosColor = {
@@ -83,12 +85,6 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
           this.getTasksForBoard();
       })
-      // this.idChangeSub = this.boardsService.boardsManagened
-      // .subscribe(
-      //   (boardManaged: Board[]) => {
-      //     this.showFormModal = false;
-      //   }
-      // )
   }
 
   splitTasksByState(tasks: Task[]) {
@@ -267,8 +263,19 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     this.showFormModal = false;
   }
 
+  onOpenTaskDetails(event: string) {
+    console.log(event);
+    this.taskToOpen = event;
+    // open task details modal
+    this.showTask = true;
+  }
+
   onCloseForm() {
     this.showFormModal = false;
+  }
+
+  onCloseTaskModal() {
+    this.showTask = false;
   }
 
   ngOnDestroy() {

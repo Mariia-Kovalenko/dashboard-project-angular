@@ -42,6 +42,7 @@
                     (itemDragged) = "setDraggedItem($event)"
                     (editTask)="onEditTask($event)"
                     (deleteTask)="onDeleteTask($event)"
+                    (openTaskDetails)="onOpenTaskDetails($event)"
                     draggable="true"
                     appDraggable></app-task>
                 </div>
@@ -86,6 +87,7 @@
                     (itemDragged) = "setDraggedItem($event)"
                     (editTask)="onEditTask($event)"
                     (deleteTask)="onDeleteTask($event)"
+                    (openTaskDetails)="onOpenTaskDetails($event)"
                     draggable="true"
                     appDraggable></app-task>
                 </div>
@@ -129,6 +131,7 @@
                     (editTask)="onEditTask($event)"
                     (deleteTask)="onDeleteTask($event)"
                     (archiveTask)="onArchiveTask($event)"
+                    (openTaskDetails)="onOpenTaskDetails($event)"
                     draggable="true"
                     appDraggable></app-task>
                 </div>
@@ -144,6 +147,12 @@
     (addTaskToBoard)="onAddNewTask($event)"
     (updateTask)="onUpdateTask($event)"
     ></app-task-form>
+
+<app-task-details 
+    *ngIf="showTask" 
+    (closeModal)="onCloseTaskModal()"
+    [id]="taskToOpen"
+    ></app-task-details>
 
 <div *ngIf="error" class="error">Error  Occured</div>
 

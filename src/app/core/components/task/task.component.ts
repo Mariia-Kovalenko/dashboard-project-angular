@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Task } from 'src/app/shared/task.model';
 
 @Component({
@@ -8,30 +9,31 @@ import { Task } from 'src/app/shared/task.model';
 })
 export class TaskComponent implements OnInit {
   @Input() task!: Task;
-  name: string = ''
-  id: string = ''
 
   @Output() editTask = new EventEmitter<string>()
   @Output() deleteTask = new EventEmitter<string>()
   @Output() archiveTask = new EventEmitter<string>()
+  @Output() openTaskDetails = new EventEmitter<string>()
 
   constructor() { }
 
   ngOnInit(): void {
-    this.name = this.task.name;
-    this.id = this.task._id;
   }
 
   onEditTask() {
-    this.editTask.emit(this.id);
+    this.editTask.emit(this.task._id);
   }
 
   onDeleteTask() {
-    this.deleteTask.emit(this.id);
+    this.deleteTask.emit(this.task._id);
   }
 
   onArchiveTask() {
-    this.archiveTask.emit(this.id);
+    this.archiveTask.emit(this.task._id);
+  }
+
+  onOpenTaskDetails() {
+    this.openTaskDetails.emit(this.task._id)
   }
 
 }

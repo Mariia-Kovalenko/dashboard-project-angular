@@ -12,6 +12,10 @@ export class TasksService {
 
   constructor(private http: HttpClient) { }
 
+  getTaskById(id: string) {
+    return this.http.get<{task: Task}>(`${tasksURL}${id}/task`)
+  }
+
   deleteTask(boardId: string, taskId: string) {
     return this.http.delete(`${tasksURL}${boardId}/${taskId}`)
   }

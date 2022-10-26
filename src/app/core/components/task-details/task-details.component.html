@@ -1,0 +1,83 @@
+<div class="task-details modal">
+    <div class="modal__inner task-details__inner">
+        <h3 class="modal__name">Task Details</h3>
+        <div class="task-details__info">
+            <div class="task-details__section-title">Details</div>
+            <div class="task-details__section">
+                <div class="item__name task-item">
+                    Task name 
+                    <span>#1245678</span> 
+                </div>
+                <div class="task__date">
+                    <div class="date">
+                        <img src="../assets/images/calendar.svg" alt="calendar">
+                        <span>Oct, 24</span>
+                    </div>
+                    <span class="task__status task-in-progress">Status</span>
+                </div>
+                <div class="item__name task-item">Board: <span>#1245678</span></div>
+                <div class="item__name task-item">Created By: <span>#1245678</span></div>
+            </div>
+            
+            <div class="task-details__section-title">Description</div>
+            <div class="task-details__section">
+                <div class="task__desc">Some cool task info</div>
+            </div>
+
+            <div class="task__comments">
+                <div class="task-details__section-title">Comments</div>
+                <div class="user__comments">
+                    <div class="user__comment comment">
+                        <div class="comment__userpic userpic">
+                            <div class="userpic__img">
+                                <img src="../../../../assets/images/profile.svg" alt="user">
+                            </div>
+                            
+                        </div>
+                        <div class="comment__details">
+                            <div class="comment__top">
+                                <div class="comment__username">Name</div>
+                                <div class="comment__date">Oct, 21</div>
+                            </div>
+                            <div class="comment__text">This is a comment</div>
+                            <button class="delete-comment">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="user__comment comment">
+                        <div class="comment__userpic userpic">
+                            <div class="userpic__img">
+                                <img src="../../../../assets/images/profile.svg" alt="user">
+                            </div>
+                            
+                        </div>
+                        <div class="comment__details">
+                            <div class="comment__top">
+                                <div class="comment__username">Name</div>
+                            </div>
+                            <form
+                            [formGroup]="form"
+                            (ngSubmit)="onSubmit()">
+                                <input 
+                                formControlName="message"
+                                class="comment-input" 
+                                type="text" 
+                                placeholder="Add comment and press Enter">
+                                <span 
+                                *ngIf="!form.get('message')?.valid"
+                                class="input-error">Maximum message length: 50 char</span>
+                            </form>
+                        </div>
+                        
+                    </div>
+
+
+                </div>
+                <div class="add-comment__form">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="close" (click)="onCloseModal()"></div>
+    </div>
+</div>
