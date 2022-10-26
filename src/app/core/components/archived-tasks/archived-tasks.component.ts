@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Comment } from 'src/app/shared/comment.model';
 import { BoardsService } from '../../services/boards.service';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-archived-tasks',
@@ -8,16 +10,16 @@ import { BoardsService } from '../../services/boards.service';
 })
 export class ArchivedTasksComponent implements OnInit {
 
-  tasks: {_id: string, comments: string[], created_date: string, name: string}[] = [];
+  tasks: {_id: string, comments: Comment[], created_date: string, name: string}[] = [];
 
   isLoading = true;
   error = false;
   noData = false;
   errorMessage: string = 'Some error occured';
-  constructor(private boardsService: BoardsService) { }
+  constructor(private tasksService: TasksService) { }
 
   ngOnInit(): void {
-    this.boardsService.getArchivedTasks()
+    this.tasksService.getArchivedTasks()
       .subscribe({
         next: data => {
           this.tasks = data;

@@ -77,11 +77,6 @@ export class BoardsService {
     }
   }
 
-  findTaskByName(boardId: number, taskName: string) {
-    // this.http.get()
-  }
-
-
   addBoard(name: string, desc: string) {
     return this.http.post(boardsURL, 
       {
@@ -103,70 +98,13 @@ export class BoardsService {
     return this.http.delete(boardsURL + id)
   }
 
-  addTaskToBoard(id: string, taskName: string, state: string) {
+  addTaskToBoard(id: string, taskName: string, description: string, state: string) {
     return this.http.post(tasksURL + id, {
       name: taskName,
+      description,
       state: state
     })
   }
 
-  deleteTask(boardId: string, taskId: string) {
-    return this.http.delete(`${tasksURL}${boardId}/${taskId}`)
-  }
-
-  archiveTask(boardId: string, taskId: string) {
-    return this.http.post(`${tasksURL}${boardId}/${taskId}`, {})
-  }
-
-  updateTask(params: {
-    boardId: string, 
-    taskId: string, 
-    taskName?: string, 
-    taskState?: State}) {
-    const {boardId, taskId, taskState, taskName} = params;
-
-    let queryParams = {};
-
-    if (taskName) {
-      queryParams = {
-        name: taskName
-      }
-    }
-    if (taskState) {
-      queryParams = {
-        state: taskState
-      }
-    }
-
-    return this.http.patch<{ok: boolean, message: string}>(`${tasksURL}${boardId}/${taskId}`, 
-    queryParams)
-  }
-
-  getArchivedTasks() {
-    return this.http.get<{tasks: Task[]}>(tasksURL + 'archive')
-    .pipe(map(responseData => {
-      const tasks = responseData.tasks.map(task => {
-        const {_id, name, created_date, comments} = task;
-        return {_id, name, created_date, comments}
-      });
-      return tasks
-    }))
-  }
-
-  // add pipe for that
-  transformDate(date: string) {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    let mm: number | string = today.getMonth() + 1; // Months start at 0!
-    let dd: number | string = today.getDate();
-
-    if (dd < 10) {
-      dd = '0' + dd;
-    }
-    if (mm < 10) {
-      mm = '0' + mm;
-    }
-    return dd + '-' + mm + '-' + yyyy;
-  }
 }
 

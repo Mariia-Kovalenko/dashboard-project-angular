@@ -5,6 +5,7 @@ import { BoardsService } from '../../services/boards.service';
 import { State } from 'src/app/shared/task-state.model';
 import { Task } from 'src/app/shared/task.model';
 import { Subscription } from 'rxjs';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-board-details',
@@ -19,8 +20,6 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     description: ''
   };
   boardId!: string;
-
-  authToken: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzQxYWY4MTRiOGMzNGI3MzZlNDdhMmYiLCJpYXQiOjE2NjU1NjQ2MzN9.3DP4x-HQ8QSszsojtqvN1H8jxiosbNkKFh804HBLEuo';
 
   allTasks: Task[] = [];
   newTasks: Task[] = [];
@@ -42,7 +41,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     mode: 'add',
   }
   
-  idChangeSub!: Subscription;
+  // idChangeSub!: Subscription;
 
   // classes
   toDosColor = {
@@ -62,6 +61,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   }
 
   constructor(private boardsService: BoardsService,
+    private tasksService: TasksService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -83,12 +83,12 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
           this.getTasksForBoard();
       })
-      this.idChangeSub = this.boardsService.boardsManagened
-      .subscribe(
-        (boardManaged: Board[]) => {
-          this.showFormModal = false;
-        }
-      )
+      // this.idChangeSub = this.boardsService.boardsManagened
+      // .subscribe(
+      //   (boardManaged: Board[]) => {
+      //     this.showFormModal = false;
+      //   }
+      // )
   }
 
   splitTasksByState(tasks: Task[]) {
@@ -125,7 +125,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     
     // update task state
     if (taskToUpdate) {
-      this.boardsService.updateTask({
+      this.tasksService.updateTask({
         boardId: this.boardId, 
         taskId: taskToUpdate._id, 
         taskState: newState})
@@ -217,7 +217,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   onDeleteTask(event: string) {
     // console.log('Task to delete:', event);
-    this.boardsService.deleteTask(this.boardId, event)
+    this.tasksService.deleteTask(this.boardId, event)
     .subscribe(data => {
       this.getTasksForBoard()
     })
@@ -225,13 +225,13 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   onArchiveTask(event: string) {
     console.log('task to be archived', event);
-    this.boardsService.archiveTask(this.boardId, event)
+    this.tasksService.archiveTask(this.boardId, event)
     .subscribe(data => {
       this.getTasksForBoard()
     })
   }
 
-  onAddNewTask(event: {boardId: string, taskName: string}) {
+  onAddNewTask(event: {boardId: string, taskName: string, description: string}) {
     let state: State = State.TODO;
     switch (this.formDetails.column) {
       case 'add-todo':
@@ -245,8 +245,8 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
         break;
     }
     
-    const {boardId, taskName} = event;
-    this.boardsService.addTaskToBoard(boardId, taskName, state)
+    const {boardId, taskName, description} = event;
+    this.boardsService.addTaskToBoard(boardId, taskName, description, state)
     .subscribe(data => {
       this.onCloseForm();
       this.getTasksForBoard();
@@ -255,7 +255,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   onUpdateTask(event: {boardId: string, taskName: string}) {
     const {boardId, taskName} = event;
-    this.boardsService.updateTask({
+    this.tasksService.updateTask({
       boardId: boardId, 
       taskId: this.taskToEditId, 
       taskName: taskName})
@@ -272,6 +272,6 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.idChangeSub.unsubscribe();
+    
   }
 }

@@ -15,12 +15,15 @@
                     *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
                     class="input-error">Please, enter a valid name</span>
                 </div>
-                <!-- <div class="form-group">
+                <div class="form-group">
                     <label>Task description</label>
                     <input 
                     formControlName="description"
                     class="input form__input">
-                </div> -->
+                    <span 
+                    *ngIf="!form.get('description')?.valid && form.get('description')?.touched"
+                    class="input-error">Please, enter a valid description</span>
+                </div>
             </div>
             <div class="form__buttons">
                 <button  *ngIf="mode === 'add'" class="btn submit-btn" type="submit">Add</button>

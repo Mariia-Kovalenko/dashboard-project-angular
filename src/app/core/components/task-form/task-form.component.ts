@@ -17,7 +17,7 @@ export class TaskFormComponent implements OnInit {
   mode!: string;
   @Input() authToken!: string;
   @Input() openTaskForm!: {mode: string, column?: string};
-  @Output() addTaskToBoard = new EventEmitter<{boardId: string, taskName: string}>();
+  @Output() addTaskToBoard = new EventEmitter<{boardId: string, taskName: string, description: string}>();
   @Output() updateTask = new EventEmitter<{boardId: string, taskName : string}>();
   @Output() closeFormModal = new EventEmitter<string>();
 
@@ -37,7 +37,8 @@ export class TaskFormComponent implements OnInit {
     }
 
     this.form = new FormGroup({
-      'name': new FormControl('', nameValidators)
+      'name': new FormControl('', nameValidators),
+      'description': new FormControl('', descriptionValidators)
     });
     
     this.route.params  
@@ -51,7 +52,11 @@ export class TaskFormComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       if (this.mode === 'add') {
-        this.addTaskToBoard.emit({boardId: this.boardId, taskName: this.form.value.name});
+        this.addTaskToBoard.emit({
+          boardId: this.boardId, 
+          taskName: this.form.value.name, 
+          description: this.form.value.description
+        });
       } else if (this.mode === 'edit') {
         this.updateTask.emit({boardId: this.boardId, taskName: this.form.value.name})
       }
@@ -66,9 +71,3 @@ export class TaskFormComponent implements OnInit {
     this.closeFormModal.emit();
   }
 }
-
-// logic:
-// 1. get board id from activeRoute
-// 2. get column
-// 3. get inputs values
-// 4. update board tasks array
