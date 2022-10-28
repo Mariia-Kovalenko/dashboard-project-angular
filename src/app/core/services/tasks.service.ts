@@ -24,8 +24,9 @@ export class TasksService {
     boardId: string, 
     taskId: string, 
     taskName?: string, 
+    taskDesc?: string, 
     taskState?: State}) {
-    const {boardId, taskId, taskState, taskName} = params;
+    const {boardId, taskId, taskState, taskDesc, taskName} = params;
 
     let queryParams = {};
 
@@ -39,9 +40,26 @@ export class TasksService {
         state: taskState
       }
     }
+    if (taskDesc) {
+      queryParams = {
+        description: taskDesc
+      }
+    }
 
     return this.http.patch<{ok: boolean, message: string}>(`${tasksURL}${boardId}/${taskId}`, 
     queryParams)
+  }
+
+  commentTask(id: string, message: string) {
+    return this.http.patch(`${tasksURL}${id}/comment`, {
+      message
+    })
+  }
+
+  deleteComment(taskId: string, commentId: string) {
+    return this.http.patch(`${tasksURL}${taskId}/delete_comment`, {
+      commentId
+    })
   }
   
   getArchivedTasks() {

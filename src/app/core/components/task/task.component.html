@@ -1,6 +1,5 @@
-<div class="task"
-    (click)="onOpenTaskDetails()">
-    <div class="task__name">{{ task.name }}</div>
+<div class="task">
+    <div class="task__name" (click)="onOpenTaskDetails()">{{ task.name }}</div>
     <div class="date">
         <img src="../assets/images/calendar.svg" alt="calendar">
         <span>{{task.created_date | date}}</span>

@@ -249,12 +249,14 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
-  onUpdateTask(event: {boardId: string, taskName: string}) {
-    const {boardId, taskName} = event;
+  onUpdateTask(event: {boardId: string, taskName: string, taskDesc: string}) {
+    const {boardId, taskName, taskDesc} = event;
     this.tasksService.updateTask({
       boardId: boardId, 
       taskId: this.taskToEditId, 
-      taskName: taskName})
+      taskName: taskName,
+      taskDesc: taskDesc
+    })
       .subscribe(data => {
         if (data.ok) {
           this.getTasksForBoard();

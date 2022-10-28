@@ -18,7 +18,7 @@ export class TaskFormComponent implements OnInit {
   @Input() authToken!: string;
   @Input() openTaskForm!: {mode: string, column?: string};
   @Output() addTaskToBoard = new EventEmitter<{boardId: string, taskName: string, description: string}>();
-  @Output() updateTask = new EventEmitter<{boardId: string, taskName : string}>();
+  @Output() updateTask = new EventEmitter<{boardId: string, taskName : string, taskDesc: string}>();
   @Output() closeFormModal = new EventEmitter<string>();
 
   constructor( private boardsService: BoardsService,
@@ -29,7 +29,7 @@ export class TaskFormComponent implements OnInit {
     this.mode = this.openTaskForm.mode;
 
     const nameValidators = [Validators.minLength(4)];
-    const descriptionValidators = [Validators.maxLength(20)];
+    const descriptionValidators = [Validators.maxLength(25)];
 
     if (this.mode === 'add') {
       nameValidators.push(Validators.required)
@@ -58,7 +58,11 @@ export class TaskFormComponent implements OnInit {
           description: this.form.value.description
         });
       } else if (this.mode === 'edit') {
-        this.updateTask.emit({boardId: this.boardId, taskName: this.form.value.name})
+        this.updateTask.emit({
+          boardId: this.boardId, 
+          taskName: this.form.value.name,
+          taskDesc: this.form.value.description
+        })
       }
       this.form.reset();
     } else {

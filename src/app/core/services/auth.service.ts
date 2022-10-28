@@ -6,7 +6,7 @@ import {authURL} from '../../shared/URLs';
 import { LocalStorageService } from './local-storage.service';
 import { Router } from '@angular/router';
 
-export interface AuthResponseData {ok: boolean, message?: string, jwt_token?: string}
+export interface AuthResponseData {ok: boolean, message?: string, jwt_token?: string, name: string}
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,7 @@ export class AuthService {
             const token = this.localStorage.get('token');
             if (!token) {
               this.localStorage.set('token', resData.jwt_token);
+              this.localStorage.set('user', resData.name);
               this.user.next({jwt_token: resData.jwt_token});
             } else if (token){
               console.log('token already exists');

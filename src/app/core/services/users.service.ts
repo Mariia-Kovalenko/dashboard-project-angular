@@ -2,7 +2,7 @@ import { Injectable, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { boardsURL, usersURL } from 'src/app/shared/URLs';
-import { catchError, Subject, throwError } from 'rxjs';
+import { catchError, Subject, take, throwError } from 'rxjs';
 import { Board } from 'src/app/shared/board.model';
 
 export interface UserResponseData {
@@ -26,6 +26,13 @@ export class UsersService {
   getUserInfo() {
     return this.http.get<{user: {_id: string, name: string, email: string, created_date: string}}>(usersURL + 'me')
     .pipe(catchError(this.handleError))
+  }
+
+  getUserName(id: string) {
+    return this.http.get<{user: {_id: string, name: string}}>(usersURL + id)
+    .pipe(
+      take(1),
+      catchError(this.handleError))
   }
 
   getUserBoards() {

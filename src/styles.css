@@ -115,7 +115,7 @@ body {
 .header {
     position: fixed;
     width: 100%;
-    z-index: 100;
+    z-index: 20;
     height: 60px;
     background-color: var(--purple);
     color: white;
@@ -561,7 +561,7 @@ body {
     height: 100%;
     width: 100%;
     position: fixed;
-    z-index: 2;
+    z-index: 30;
     top: 0;
     left: 0;
 }
@@ -835,6 +835,8 @@ app-task {
 /* task details modal */
 .task-details__inner {
     width: 600px;
+    max-height: calc(100vh - 15px);
+    overflow-y: auto;
 }
 
 .task-item:hover {
@@ -849,13 +851,13 @@ app-task {
     border-radius: 7px;
 }
 
-.task-done {
+.task_done {
     background-color: green;
 }
-.task-to-do {
+.task_to_do {
     background-color: rgb(222, 67, 36);
 }
-.task-in-progress {
+.task_in_progress {
     background-color: rgb(224, 151, 16);
 }
 
