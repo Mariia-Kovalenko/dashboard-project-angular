@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
   boards: Board[] = [];
   tasks: Task[] = [];
 
@@ -21,29 +21,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   mode: string = 'add';
   boardToUpdate!: string;
   isFetching: boolean = true;
-  dataNotFound: boolean = false;
   error = false;
-
-  private boardsSub!: Subscription;
-  authToken: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzQxYWY4MTRiOGMzNGI3MzZlNDdhMmYiLCJpYXQiOjE2NjU1NjQ2MzN9.3DP4x-HQ8QSszsojtqvN1H8jxiosbNkKFh804HBLEuo';
-  // private tasksSub!: Subscription;
+  errorMessage = 'Some error occured'
 
   constructor(private boardsService: BoardsService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    
     this.getBoardsFromServer();
-    
-    this.boardsSub = this.boardsService.boardsManagened
-      .subscribe(
-        (boardsManaged: Board[]) => {
-          // console.log('got boards from servise:', boardsManaged);
-          this.showModal = false;
-          this.boards = boardsManaged;
-        }
-    )
   }
 
   getBoardsFromServer() {
@@ -53,13 +39,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (data.length) {
           this.boards = data;
         } else {
-          this.dataNotFound = true;
+          this.error = true;
         }
         this.isFetching = false;
       },
       error: err => {
         console.log(err);
+        this.isFetching = false;
         this.error = true;
+        if (err.error.message) {
+          this.errorMessage = err.error.message
+        } else if (err.message) {
+          this.errorMessage = err.message;
+        }
       }
     })
   }
@@ -72,15 +64,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
           // console.log(data);
           if (data.length) {
             this.boards = data;
-            this.dataNotFound = false;
+            this.error = false;
           } else if (!data.length) {
-            this.dataNotFound = true;
+            this.error = true;
+            this.errorMessage = 'Data not found'
           }
           this.isFetching = false;
       }, 
-      error: error => {
-        console.log(error);
+      error: err => {
+        console.log(err);
         this.error = true;
+        if (err.error.message) {
+          this.errorMessage = err.error.message
+        } else if (err.message) {
+          this.errorMessage = err.message;
+        }
       }
       });
   }
@@ -91,8 +89,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       next: () => {
         this.getBoardsFromServer();
       }, 
-      error: () => {
+      error: (err) => {
         this.error = true;
+        if (err.error.message) {
+          this.errorMessage = err.error.message
+        } else if (err.message) {
+          this.errorMessage = err.message;
+        }
       }
     }
     )
@@ -141,11 +144,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           const date2 = new Date(b.created_date).getTime()
           return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
         });
-        // this.boardsManagened.next(this.boards.sort((a, b) => {
-        //   const date1 = new Date(a.created_date).getTime()
-        //   const date2 = new Date(b.created_date).getTime()
-        //   return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
-        // }));
         break;
       case 'descending':
         this.boards = this.boards.sort((a, b) => {
@@ -182,10 +180,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   onError(event: string) {
     console.log('Error occured: ', event);
     this.error = true;    
-  }
-
-  ngOnDestroy() {
-    this.boardsSub.unsubscribe();
   }
 
 }

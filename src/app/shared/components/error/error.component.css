@@ -1,6 +1,7 @@
 .error-message {
     background-color: rgb(252, 225, 225);
-    width: 300px;
+    min-width: 300px;
+    max-width: 500px;
     padding: 10px;
     border-radius: 6px;
     margin: 20px auto;

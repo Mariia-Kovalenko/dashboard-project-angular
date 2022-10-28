@@ -10,7 +10,6 @@ import { BoardsService } from '../../services/boards.service';
 export class BoardFormComponent implements OnInit {
   form!: FormGroup;
   @Input() mode!: string;
-  @Input() authToken!: string;
   @Input() boardToUpdate!: string;
   @Output() closeFormModal = new EventEmitter<boolean>();
   @Output() error = new EventEmitter<string>();

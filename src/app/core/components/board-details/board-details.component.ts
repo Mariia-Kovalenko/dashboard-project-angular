@@ -33,6 +33,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   isFetching = true;
   error = false;
+  errorMessage = 'Some error occured';
 
   formDetails: {
     mode: string,
@@ -79,7 +80,13 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
             },
             error: error => {
               console.log(error);
+              this.isFetching = false;
               this.error = true;
+              if (error.error.message) {
+                this.errorMessage = error.error.message
+              } else if (error.message) {
+                this.errorMessage = error.message
+              }
             }
           })
 

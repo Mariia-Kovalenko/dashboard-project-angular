@@ -7,27 +7,25 @@
 <button class="add-board" (click)="onOpenAddModal()"></button>
 
 <!-- boards list -->
-<div class="items__grid" *ngIf="!isFetching && !dataNotFound">
+<div class="items__grid" *ngIf="!isFetching && !error">
     <!-- board -->
     <app-board
     *ngFor="let board of boards"
     [board]="board"
     [id]="board._id"
     [mode]="'edit'"
-    [authToken]="authToken"
     (openFormModal)="onOpenEditModal($event)"
     (deleteBoard)="onDeleteBoard($event)"
     ></app-board>
 
 </div>
 
-<app-loader *ngIf="isFetching"></app-loader>
+<app-loader *ngIf="isFetching && !error"></app-loader>
 <app-error 
-*ngIf="dataNotFound && !isFetching"
+*ngIf="error && !isFetching"
 [message]="'Data not found'"></app-error>
 
 <app-board-form 
-    [authToken]="authToken"
     *ngIf="showModal" 
     [mode]="mode" 
     [boardToUpdate]="boardToUpdate"

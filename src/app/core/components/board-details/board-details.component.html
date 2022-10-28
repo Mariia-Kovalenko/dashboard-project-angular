@@ -1,7 +1,8 @@
 <app-page-top 
     currentRoute={{currentBoard.name}}
 ></app-page-top>
-<div class="board-details">
+<app-error *ngIf="error && !isFetching" [message]="errorMessage"></app-error>
+<div *ngIf="!error" class="board-details">
     <div class="board-details__tasks">
         <div class="board-details__column tasks">
             <div 
@@ -153,7 +154,5 @@
     (closeModal)="onCloseTaskModal()"
     [id]="taskToOpen"
     ></app-task-details>
-
-<div *ngIf="error" class="error">Error  Occured</div>
 
 
