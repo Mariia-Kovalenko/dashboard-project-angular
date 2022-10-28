@@ -11,6 +11,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userSub!: Subscription;
   isAuthenticated: boolean = false;
 
+  isBurgerOpened: boolean = false;
+
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -22,6 +24,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  onToggleMenu() {
+    this.isBurgerOpened = !this.isBurgerOpened;
   }
 
   ngOnDestroy(): void {

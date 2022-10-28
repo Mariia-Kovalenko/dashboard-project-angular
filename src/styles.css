@@ -127,22 +127,103 @@ body {
 .logo {
     font-size: 20px;
 }
+.nav {
+    display: flex;
+    align-items: center;
+}
 .nav__list {
     height: 100%;
     display: flex;
     align-items: center;
+
+    transition: .3s;
+}
+.nav__item{
+    display: flex;
+    gap: 20px;
 }
 .nav__item:not(:last-child) {
     margin-right: 20px;
 }
-.profile {
-    display: flex;
-    gap: 4px;
-    align-items: flex-start;
+.profile, .logout {
+    width: 30px;
 }
 
 .auth-link {
     color: var(--light-purple);
+}
+.burger-menu {
+    height: 20px;
+    width: 30px;
+    position: relative;
+
+    display: none;
+}
+
+.burger-line{
+    display: block;
+    width: 30px;
+    height: 2px;
+    background-color: white;
+    border-radius: 3px;
+    position: absolute;
+
+    transition: .3s;
+}
+
+.burger-line:nth-child(1) {
+    top: 0;
+    left: 0;
+}
+.burger-line:nth-child(2) {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+.burger-line:nth-child(3) {
+    bottom: 0;
+    left: 0;
+}
+
+.burger-menu.cross .burger-line:nth-child(1){
+    transform: rotate(45deg) translateY(-50%) translateY(-1px);
+    top: 50%;
+
+}
+.burger-menu.cross .burger-line:nth-child(2){
+    opacity: 0;
+}
+.burger-menu.cross .burger-line:nth-child(3){
+    transform: rotate(-45deg) translateY(50%);;
+    bottom: 50%;
+}
+
+@media screen and (max-width: 768px){
+    .burger-menu {
+        display: block;
+    }
+    .nav__list{
+        position: absolute;
+        right: -100vw;
+        top: 0;
+        height: 100vh;
+        width: 100vw;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .nav__list.show_menu {
+        right: 0;
+        background: #262840d8;
+        backdrop-filter: blur(10px) saturate(110%) brightness(100%);
+        height: 100vh;
+    }
+    .nav__item:not(:last-child) {
+        margin: 0 0 10px 0;
+    }
+    .nav__link {
+        font-size: 24px;
+    }
 }
 
 
@@ -327,7 +408,7 @@ body {
 }
 
 @media screen and (max-width: 830px){
-    .boards__list {
+    .items__grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -390,7 +471,7 @@ body {
     .page__top {
         flex-direction: column;
     } 
-    .boards__list {
+    .items__grid{
         grid-template-columns: repeat(1, 1fr);
     }
 }
