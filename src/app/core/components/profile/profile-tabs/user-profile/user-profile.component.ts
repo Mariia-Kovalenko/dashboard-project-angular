@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UserResponseData, UsersService } from 'src/app/core/services/users.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class UserProfileComponent implements OnInit {
   };
 
   isLoading = true;
+  showConfirm = false;
 
   constructor(private usersService: UsersService) { }
 
@@ -31,6 +32,19 @@ export class UserProfileComponent implements OnInit {
           console.log(err);
         }
       })
+  }
+
+  onOpenConfirm() {
+    this.showConfirm = true;
+  }
+
+  onDeleteProfile() {
+    console.log('delete user');
+    this.usersService.deleteUser();
+  }
+
+  onCancel() {
+    this.showConfirm = false;
   }
 
 }

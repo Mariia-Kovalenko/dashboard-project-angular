@@ -646,6 +646,7 @@ body {
     top: 0;
     left: 0;
 }
+
 .modal__inner {
     background-color: rgb(255, 255, 255);
     position: absolute;
@@ -663,12 +664,55 @@ body {
     filter: drop-shadow(0px 0px 20px rgba(73, 73, 73, 0.3));
     border-radius: 10px;
 }
+.modal-small {
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal__warning {
+    text-align: center;
+    font-size: 16px;
+    color: var(--dark-grey);
+    flex: 1 0 auto;
+}
+
+.modal__buttons {
+    display: flex;
+    gap: 10px;
+    flex: 0 0 auto;
+    /* margin-top: auto; */
+}
+
+
+@media screen and (max-width: 805px) {
+    .modal__inner.modal-small {
+        width: 90%
+    }
+}
 
 @media screen and (max-width: 530px) {
     .modal__inner {
         width: 100%;
     }
+    .modal__name {
+        font-size: 16px;
+    }
+    .modal__warning {
+        font-size: 14px;
+    }
 }
+
+@media screen and (max-width: 460px) {
+    .modal__buttons {
+        flex-direction: column;
+    }
+    .submit-btn {
+        width: 100%;
+    }
+}
+
 .add-item__form {
     display: flex;
     flex-direction: column;
@@ -707,16 +751,22 @@ label {
     margin-bottom: 10px;
 }
 .submit-btn {
-    width: 200px;
+    min-width: 200px;
     margin: 0 auto;
     height: 40px;
-    flex: 0 0 auto;
+    flex: 1 1 auto;
     border-radius: 10px;
     color: white;
     background-color: var(--light-purple)
 }
 .submit-btn[disabled] {
     opacity: .6;
+}
+
+.btn-bordered {
+    background-color: transparent;
+    color: var(--light-purple);
+    border: 1.5px solid var(--light-purple);
 }
 
 /* app task dragging */
@@ -870,6 +920,9 @@ app-task {
 }
 .btn-left {
     margin: 10px 0;
+}
+.btn-red {
+    background-color:rgb(184, 46, 46);
 }
 
 .user__credentials {

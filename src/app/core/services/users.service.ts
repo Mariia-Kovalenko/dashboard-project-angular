@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { boardsURL, usersURL } from 'src/app/shared/URLs';
 import { catchError, Subject, take, throwError } from 'rxjs';
 import { Board } from 'src/app/shared/board.model';
+import { LocalStorageService } from './local-storage.service';
 
 export interface UserResponseData {
   _id: string,
@@ -21,6 +22,7 @@ export class UsersService {
   @Output() error = new Subject<{message: string}>();
 
   constructor(private http: HttpClient,
+    private localStorage: LocalStorageService,
     private authService: AuthService) { }
 
   getUserInfo() {
@@ -53,6 +55,19 @@ export class UsersService {
         this.error.next({message: err.error.message});
       }
     })
+  }
+
+  deleteUser() {
+    this.http.delete(usersURL + 'me')
+      .subscribe({
+        next: data => {
+          this.localStorage.remove('user')
+          this.authService.logout()
+        }, error: err => {
+          console.log(err);
+          
+        }
+      })
   }
 
   private handleError(err: HttpErrorResponse) {

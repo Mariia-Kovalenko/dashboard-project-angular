@@ -5,5 +5,22 @@
         <div class="user__credentials">Name: <span>{{user.name}}</span></div>
         <div class="user__credentials">Email: <span>{{user.email}}</span></div>
         <div class="user__credentials">Created: <span>{{user.created_date | date}}</span></div>
+        <button class="btn submit-btn btn-left btn-red" (click)="onOpenConfirm()">Delete Profile</button>
+
+        <div *ngIf="showConfirm" class="modal">
+            <div class="modal__inner modal-small">
+                <h3 class="modal__name">You're about to delete your account</h3>
+                <div class="modal__warning">
+                    All your data, including your personal information, will be removed forever.
+                    This process cannot be undone.
+                    Are you sure you want to delete your account?
+                </div>
+                <div class="modal__buttons">
+                    <button class="btn submit-btn btn-red" (click)="onDeleteProfile()">Delete</button>
+                    <button class="btn submit-btn btn-bordered" (click)="onCancel()">Cancel</button>
+                </div>
+            </div>
+            
+        </div>
     </div>
 </div>
