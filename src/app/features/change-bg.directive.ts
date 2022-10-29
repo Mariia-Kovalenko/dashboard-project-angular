@@ -12,7 +12,6 @@ export class ChangeBgDirective {
 
   @HostListener('click') onClick() {
     console.log(this.elRef);
-    // this.colorChosen.emit(this.elRef.nativeElement.id);
     this.colorChosen.emit(
       {
         color: this.elRef.nativeElement.classList[1], 

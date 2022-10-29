@@ -7,6 +7,7 @@ import { Task } from 'src/app/shared/task.model';
 import { Subscription } from 'rxjs';
 import { TasksService } from '../../services/tasks.service';
 import { FilteringService } from '../../services/filtering.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-board-details',
@@ -66,6 +67,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   constructor(private boardsService: BoardsService,
     private tasksService: TasksService,
     private filteringService: FilteringService,
+    private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -92,6 +94,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
           })
 
           this.getTasksForBoard();
+          this.setColumnsInitialBg();
       })
   }
 
@@ -190,18 +193,34 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
       this.splitTasksByState(this.allTasks)
   }
 
+  setColumnsInitialBg() {
+    const toDosBg = this.localStorageService.get('toDosBg')
+    const inProgressBg = this.localStorageService.get('inProgressBg')
+    const doneBg = this.localStorageService.get('doneBg')
+    if (toDosBg) {
+      this.applyColorSet(toDosBg, this.toDosColor)
+    }
+    if (inProgressBg) {
+      this.applyColorSet(inProgressBg, this.inProgressColor)
+    }
+    if (doneBg) {
+      this.applyColorSet(doneBg, this.doneColor)
+    }
+  }
 
   onChangeBg(event: {color: string, element: string}) {
-    // console.log(`Color for ${event.element} must be changed to ${event.color}`);
     switch (event.element) {
       case 'toDos':
-        this.applyColorSet(event.color, this.toDosColor)
+        this.applyColorSet(event.color, this.toDosColor);
+        this.localStorageService.set('toDosBg', event.color);
         break;
       case 'inProgress':
-        this.applyColorSet(event.color, this.inProgressColor)
+        this.applyColorSet(event.color, this.inProgressColor);
+        this.localStorageService.set('inProgressBg', event.color);
         break;
       case 'done':
-        this.applyColorSet(event.color, this.doneColor)
+        this.applyColorSet(event.color, this.doneColor);
+        this.localStorageService.set('doneBg', event.color);
         break;
       default:
         break;
