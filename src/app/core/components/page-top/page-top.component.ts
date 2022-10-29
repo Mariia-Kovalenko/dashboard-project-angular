@@ -1,5 +1,5 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -10,17 +10,18 @@ import { BoardsService } from '../../services/boards.service';
   templateUrl: './page-top.component.html',
   styleUrls: ['./page-top.component.css']
 })
-export class PageTopComponent implements OnInit {
+export class PageTopComponent implements OnInit{
   @Input('currentRoute') currentRoute: string = '';
-  authToken: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzQxYWY4MTRiOGMzNGI3MzZlNDdhMmYiLCJpYXQiOjE2NjU1NjQ2MzN9.3DP4x-HQ8QSszsojtqvN1H8jxiosbNkKFh804HBLEuo';
 
   id!: number;
   filter!: FormGroup;
   filterValue: string = '';
   placeholder: string = 'Enter '
 
-  @Output() findBoards = new EventEmitter<string>()
-  @Output() filterBoards = new EventEmitter<{order: string, criteria: string}>()
+  showFilter = true;
+
+  @Output() findItems = new EventEmitter<string>()
+  @Output() filterItems = new EventEmitter<{order: string, criteria: string}>();
 
   constructor(private boardsService: BoardsService,
     private route: ActivatedRoute) { }
@@ -30,8 +31,10 @@ export class PageTopComponent implements OnInit {
       .subscribe((params: Params) => {
         this.id = +params['id'];
       })
+
     if (this.currentRoute !== 'dashboard') {
-      this.placeholder += 'task name'
+      this.placeholder += 'task name';
+      this.showFilter = false;
     } else {
       this.placeholder += 'board name'
     }
@@ -47,33 +50,28 @@ export class PageTopComponent implements OnInit {
     )
     .subscribe(val => {
       this.filterValue = val.name;
-      if (this.currentRoute !== 'dashboard') {
-        // this.boardsService.findTaskByName(this.id, this.filterValue);
-      } else {
-        this.findBoards.emit(this.filterValue);
-      }
+        this.findItems.emit(this.filterValue);
     })
   }
 
-  onFilterBoardsByName(order: string) {
-    this.filterBoards.emit({order: order, criteria: 'name'});
+  onFilterItemsByName(order: string) {
+    if (this.filter.value.name) {
+      this.filter.reset();
+    }
+    this.filterItems.emit({order: order, criteria: 'name'});
   }
 
   onFilterBoardsByTasks(order: string) {
-    this.filterBoards.emit({order: order, criteria: 'tasks'});
-  }
-
-  onFilterBoardsByDate(order: string) {
-    this.filterBoards.emit({order: order, criteria: 'date'});
-  }
-
-  onSubmit() {
-    // console.log(this.filterValue);
-    if (!this.authToken) {
-      console.log('No token provided');
-      return;
+    if (this.filter.value.name) {
+      this.filter.reset();
     }
-    this.findBoards.emit(this.filterValue);
+    this.filterItems.emit({order: order, criteria: 'tasks'});
   }
 
+  onFilterItemsByDate(order: string) {
+    if (this.filter.value.name) {
+      this.filter.reset();
+    }
+    this.filterItems.emit({order: order, criteria: 'date'});
+  }
 }

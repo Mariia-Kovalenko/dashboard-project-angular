@@ -5,12 +5,29 @@ import { map } from 'rxjs'
 import { Task } from 'src/app/shared/task.model';
 import { State } from 'src/app/shared/task-state.model';
 
+interface Tasks {
+  tasks: Task[]
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
 
   constructor(private http: HttpClient) { }
+
+  fetchTasksForBoard(id: string) {
+    return this.http.get<Tasks>(tasksURL + id)
+  }
+
+  getTasksByName(boardId: string, name: string) {
+    if (!name) {
+      return this.http.get<Tasks>(tasksURL + boardId)
+    } else {
+      return this.http.get<Tasks>(tasksURL + `${boardId}` + `/${name}` + '/find_tasks')
+    }
+    
+  }
 
   getTaskById(id: string) {
     return this.http.get<{task: Task}>(`${tasksURL}${id}/task`)

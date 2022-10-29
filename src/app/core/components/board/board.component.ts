@@ -5,6 +5,7 @@ import { State } from 'src/app/shared/task-state.model';
 import { BoardsService } from '../../services/boards.service';
 import { Task } from 'src/app/shared/task.model';
 import { HttpClient } from '@angular/common/http';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'app-board',
@@ -19,20 +20,24 @@ export class BoardComponent implements OnInit {
 
   @Output() openFormModal = new EventEmitter<{mode:string, index: string}>();
   @Output() deleteBoard = new EventEmitter<string>();
+  @Output() tasksNum = new EventEmitter<{bordId: string, tasksNum: number}>();
 
   newTasks: Task[] = [];
   progressTasks: Task[] = [];
   doneTasks: Task[] = [];
 
-  constructor(private boardsService: BoardsService) { }
+  constructor(private boardsService: BoardsService,
+    private tasksService: TasksService) { }
 
   ngOnInit(): void {
     this.getTasksForBoard(this.board._id);
   }
 
   getTasksForBoard(id: string) {
-    this.boardsService.fetchTasksForBoard(id)
+    this.tasksService.fetchTasksForBoard(id)
     .subscribe(data => {
+      this.tasksNum.emit({bordId: id, tasksNum: data.tasks.length});
+
       this.newTasks = data.tasks.filter(task => task.state === State.TODO);
       this.progressTasks = data.tasks.filter(task => task.state === State.IN_PROGRESS);
       this.doneTasks = data.tasks.filter(task => task.state === State.DONE);

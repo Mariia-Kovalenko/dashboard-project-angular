@@ -10,17 +10,13 @@ import { AuthService } from './auth.service';
 interface Boards {
   boards: Board[]
 }
-interface Tasks {
-  tasks: Task[]
-}
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardsService {
-  boardsManagened = new Subject<Board[]>();
-  tasksManaged = new Subject<{tasks: Task[], board: string}>();
+  // boardsManagened = new Subject<Board[]>();
+  // tasksManaged = new Subject<{tasks: Task[], board: string}>();
 
   boards: Board[]  = [];
 
@@ -46,10 +42,6 @@ export class BoardsService {
     return this.http.get<{board: Board}>(boardsURL + id)
   }
 
-  fetchTasksForBoard(id: string) {
-    return this.http.get<Tasks>(tasksURL + id)
-  }
-
   findBoardsByName(name: string) {
     if (!name) {
       return this.http.get<Boards>(boardsURL)
@@ -64,7 +56,7 @@ export class BoardsService {
       })
       )
     } else {
-          return this.http.get<Boards>(boardsURL + `/${name}` + '/find_name')
+          return this.http.get<Boards>(boardsURL + `/${name}` + '/find_boards')
           .pipe(map(responseData => {
             const boards = responseData.boards.map(board => {
               const {_id, name, description, created_date, created_by} = board;

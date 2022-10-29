@@ -1,5 +1,7 @@
 <app-page-top 
     currentRoute={{currentBoard.name}}
+    (findItems)="getTasksByName($event)"
+    (filterItems)="filterTasks($event)"
 ></app-page-top>
 <app-error *ngIf="error && !isFetching" [message]="errorMessage"></app-error>
 <div *ngIf="!error" class="board-details">

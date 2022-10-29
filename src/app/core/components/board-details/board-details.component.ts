@@ -6,6 +6,7 @@ import { State } from 'src/app/shared/task-state.model';
 import { Task } from 'src/app/shared/task.model';
 import { Subscription } from 'rxjs';
 import { TasksService } from '../../services/tasks.service';
+import { FilteringService } from '../../services/filtering.service';
 
 @Component({
   selector: 'app-board-details',
@@ -44,7 +45,6 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   }
 
   taskToOpen: string = '';
-  
 
   // classes
   toDosColor = {
@@ -65,6 +65,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private boardsService: BoardsService,
     private tasksService: TasksService,
+    private filteringService: FilteringService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -94,7 +95,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
       })
   }
 
-  splitTasksByState(tasks: Task[]) {
+  splitTasksByState(tasks: Task[]) {    
     this.newTasks = tasks.filter(task => task.state === State.TODO);
     this.progressTasks = tasks.filter(task => task.state === State.IN_PROGRESS);
     this.doneTasks = tasks.filter(task => task.state === State.DONE);
@@ -147,7 +148,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   }
 
   getTasksForBoard() {
-    this.boardsService.fetchTasksForBoard(this.boardId)
+    this.tasksService.fetchTasksForBoard(this.boardId)
           .subscribe({
             next: data => {
               this.allTasks = data.tasks;
@@ -159,6 +160,34 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
               this.error = true;
             }
           })
+  }
+
+  getTasksByName(event: string) {
+    this.tasksService.getTasksByName(this.boardId, event)
+      .subscribe({
+        next: data => {
+          this.isFetching = false;
+          this.allTasks = data.tasks;
+          this.splitTasksByState(this.allTasks);
+        }, 
+        error: err => {
+          console.log(err);
+          this.isFetching  = false;
+          this.error = true;
+          if (err.error.message) {
+            this.errorMessage = err.error.message;
+          } else if (err.message) {
+            this.errorMessage = err.message;
+          }
+        }
+      })
+  }
+
+  filterTasks(event: {order: string, criteria: string}) {
+    this.filteringService.filterItems(
+      event, 
+      this.allTasks);
+      this.splitTasksByState(this.allTasks)
   }
 
 

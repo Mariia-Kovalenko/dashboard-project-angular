@@ -1,8 +1,8 @@
 <!-- dashboard -->
 <app-page-top 
     currentRoute="dashboard"
-    (findBoards)="getBoardsByName($event)"
-    (filterBoards)="filterBoards($event)"></app-page-top>
+    (findItems)="getBoardsByName($event)"
+    (filterItems)="filterBoards($event)"></app-page-top>
 <!-- add board btn -->
 <button class="add-board" (click)="onOpenAddModal()"></button>
 
@@ -16,6 +16,7 @@
     [mode]="'edit'"
     (openFormModal)="onOpenEditModal($event)"
     (deleteBoard)="onDeleteBoard($event)"
+    (tasksNum)="onGetTasksForBoard($event)"
     ></app-board>
 
 </div>

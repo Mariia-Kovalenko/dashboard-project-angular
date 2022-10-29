@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { FilteringService } from '../../services/filtering.service';
 
 
 @Component({
@@ -22,9 +23,12 @@ export class DashboardComponent implements OnInit {
   boardToUpdate!: string;
   isFetching: boolean = true;
   error = false;
-  errorMessage = 'Some error occured'
+  errorMessage = 'Some error occured';
+
+  numberOfTasksForBoard = new Map();
 
   constructor(private boardsService: BoardsService,
+    private filteringService: FilteringService,
     private router: Router,
     private route: ActivatedRoute) { }
 
@@ -54,6 +58,10 @@ export class DashboardComponent implements OnInit {
         }
       }
     })
+  }
+
+  onGetTasksForBoard(event: {bordId: string, tasksNum: number}) {
+    this.numberOfTasksForBoard.set(event.bordId, event.tasksNum);
   }
 
   getBoardsByName(event: string) {
@@ -102,56 +110,24 @@ export class DashboardComponent implements OnInit {
   }
 
   filterBoards(event: {order: string, criteria: string}) {
-    switch (event.criteria) {
-      case 'name':
-        this.filterBoardsByName(event.order);
-        break;
-      case 'date':
-        this.filterBoardsByDate(event.order);
-        break;
-      case 'tasks':
-        this.filterBoardsByTasks(event.order);
-        break;
-      default:
-        break
+    if (event.criteria === 'tasks') {
+      this.filterBoardsByTasks(event.order);
+    } else {
+      this.filteringService.filterItems(event, this.boards)
     }
-  }
-
-  filterBoardsByName(order: string): void {
-    switch (order) {
-      case 'ascending':
-        this.boards = this.boards.sort((a, b) => a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 :
-          (a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) ? -1 : 0);
-        break;
-        case 'descending':
-          this.boards = this.boards.sort((a, b) => a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase() ? 1 : 
-          (a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) ? -1 : 0);
-          break;
-      default:
-        break
-    }
+    
   }
 
   filterBoardsByTasks(order: string): void {
-    console.log(this.tasks);
-  }
-
-  filterBoardsByDate(order: string): void {
-      switch (order) {
+    switch (order) {
       case 'ascending':
-        this.boards = this.boards.sort((a, b) => {
-          const date1 = new Date(a.created_date).getTime()
-          const date2 = new Date(b.created_date).getTime()
-          return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
-        });
+        this.boards = this.boards.sort((a, b) => this.numberOfTasksForBoard.get(a._id) > this.numberOfTasksForBoard.get(b._id) ? 1 :
+          (this.numberOfTasksForBoard.get(a._id) < this.numberOfTasksForBoard.get(b._id)) ? -1 : 0);
         break;
-      case 'descending':
-        this.boards = this.boards.sort((a, b) => {
-          const date1 = new Date(a.created_date).getTime()
-          const date2 = new Date(b.created_date).getTime()
-          return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
-        });
-        break
+        case 'descending':
+          this.boards = this.boards.sort((a, b) => this.numberOfTasksForBoard.get(a._id) < this.numberOfTasksForBoard.get(b._id) ? 1 : 
+          (this.numberOfTasksForBoard.get(a._id) > this.numberOfTasksForBoard.get(b._id)) ? -1 : 0);
+          break;
       default:
         break
     }
