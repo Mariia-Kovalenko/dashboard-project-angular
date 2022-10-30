@@ -11,6 +11,7 @@ export class UserBoardsComponent implements OnInit {
   boards: Board[] = [];
 
   isLoading = true;
+  error = false;
 
   constructor(private usersService: UsersService) { }
 
@@ -18,12 +19,12 @@ export class UserBoardsComponent implements OnInit {
     this.usersService.getUserBoards()
       .subscribe({
         next: data => {
-          console.log(data);
           this.boards = data.boards
           this.isLoading = false;
         },
         error: err => {
-          console.log(err);
+          this.isLoading = false;
+          this.error = true;
         }
       })
   }

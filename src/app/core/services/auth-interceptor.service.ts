@@ -12,8 +12,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     return this.authService.user.pipe(
       take(1),
       exhaustMap(user => {
-        console.log(user);
-        
         if (!user.jwt_token) {
           return next.handle(req)
         }

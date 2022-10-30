@@ -39,19 +39,22 @@ export class UsersService {
 
   getUserBoards() {
     return this.http.get<{boards: Board[]}>(boardsURL + '/my_boards')
+    .pipe(
+      take(1),
+      catchError(this.handleError))
   }
 
   updateUser(name: string, email: string, password: string) {
     const credentials = {name, email, password}
     this.http.patch<{message: string, user: {name: string, email: string}}>(usersURL + 'me', credentials)
+    .pipe(
+      take(1),
+      catchError(this.handleError)
+    )
     .subscribe({
       next: data => {
-        // console.log(data);
-        // emit event
         this.userUpdated.next(data.user);
       }, error: err => {
-        // console.log(err);
-        // process error
         this.error.next({message: err.error.message});
       }
     })
@@ -59,13 +62,16 @@ export class UsersService {
 
   deleteUser() {
     this.http.delete(usersURL + 'me')
+    .pipe(
+      take(1),
+      catchError(this.handleError)
+      )
       .subscribe({
-        next: data => {
+        next: () => {
           this.localStorage.remove('user')
           this.authService.logout()
         }, error: err => {
-          console.log(err);
-          
+          this.error.next({message: err.error.message});
         }
       })
   }

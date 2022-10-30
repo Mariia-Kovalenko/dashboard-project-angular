@@ -65,11 +65,9 @@ export class TasksService {
       }
     }
 
-    console.log(queryParams);
-    
-
-    return this.http.patch<{ok: boolean, message: string}>(`${tasksURL}${boardId}/${taskId}`, 
-    queryParams)
+    return this.http.patch<{ok: boolean, message: string}>(
+      `${tasksURL}${boardId}/${taskId}`, 
+      queryParams)
   }
 
   commentTask(id: string, message: string) {
@@ -88,8 +86,7 @@ export class TasksService {
     return this.http.get<{tasks: Task[]}>(tasksURL + 'archive')
     .pipe(map(responseData => {
       const tasks = responseData.tasks.map(task => {
-        const {_id, name, created_date, comments} = task;
-        return {_id, name, created_date, comments}
+        return {...task}
       });
       return tasks
     }))

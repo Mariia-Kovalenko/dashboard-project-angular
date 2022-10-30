@@ -30,10 +30,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         next: data => {
           this.isLoading = false;
           this.user = data.user
-          console.log(this.user);
         },
         error: err => {
-          console.log(err);
           this.error = true;
           this.errorMessage = err.message;
         }
@@ -41,7 +39,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.userChangedSubscription = this.usersService.userUpdated
     .subscribe(data => {
-      // console.log('Data from subscription', data);
       if (this.error) {
         this.error = false
       }

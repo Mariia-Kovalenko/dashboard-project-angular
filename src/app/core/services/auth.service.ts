@@ -36,8 +36,6 @@ export class AuthService {
       })
       .pipe(catchError(this.handleError), 
         tap(resData => {
-          console.log('got data', resData);
-          
           if (resData.jwt_token) {
             const token = this.localStorage.get('token');
             if (!token) {
@@ -45,8 +43,6 @@ export class AuthService {
               this.localStorage.set('user', resData.name);
               this.user.next({jwt_token: resData.jwt_token});
             } else if (token){
-              console.log('token already exists');
-              
               this.user.next({jwt_token: token});
             }
           }

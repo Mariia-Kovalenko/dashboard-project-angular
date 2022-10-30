@@ -1,12 +1,12 @@
 <header class="header">
-    <a href="#" class="logo">Task Controll App</a>
+    <a routerLink="/dashboard" class="logo">Task Controll App</a>
     <nav class="nav" *ngIf="isAuthenticated">
       <ul class="nav__list" [ngClass]="{show_menu: isBurgerOpened}">
-        <li class="nav__item"><a routerLink="/dashboard" class="nav__link">All Boards</a></li>
-        <li class="nav__item"><a routerLink="/archive" class="nav__link">Archived Tasks</a></li>
+        <li class="nav__item"><a routerLink="/dashboard" class="nav__link" (click)="onToggleMenu()">All Boards</a></li>
+        <li class="nav__item"><a routerLink="/archive" class="nav__link" (click)="onToggleMenu()">Archived Tasks</a></li>
         <div class="nav__item">
           <li class="profile">
-            <a routerLink="/profile/info" class="nav__link">
+            <a routerLink="/profile/info" class="nav__link" (click)="onToggleMenu()">
               <img src="../../../../assets/images/profile.svg" alt="profile">
             </a>
           </li>

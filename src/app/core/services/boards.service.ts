@@ -1,9 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { map, Subject, mergeMap, take, exhaustMap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { Board } from 'src/app/shared/board.model';
-import { State } from 'src/app/shared/task-state.model';
-import { Task } from 'src/app/shared/task.model';
 import {boardsURL, tasksURL} from 'src/app/shared/URLs';
 import { AuthService } from './auth.service';
 
@@ -15,28 +13,19 @@ interface Boards {
   providedIn: 'root'
 })
 export class BoardsService {
-  // boardsManagened = new Subject<Board[]>();
-  // tasksManaged = new Subject<{tasks: Task[], board: string}>();
-
   boards: Board[]  = [];
-  forbiddenBoardNames = /^[0-9\\\.\+\$\-=_]+|[\\\.\+\$\-=_]+$/;
 
-  constructor(private http: HttpClient,
-    private authService: AuthService) {
+  constructor(private http: HttpClient) {
   }
 
   fetchBoards() {
     return this.http.get<Boards>(boardsURL,
       ).pipe(map(responseData => {
         const boards = responseData.boards.map(board => {
-          const {_id, name, description, created_date, created_by} = board;
-          // const date = this.transformDate(created_date);
-
-          return {_id, name, description, created_date, created_by}
+          return {...board}
         });
         return boards
       }))
-
   }
 
   fetchBoardById(id: string) {
@@ -49,9 +38,7 @@ export class BoardsService {
       .pipe( 
         map(responseData => {
         const boards = responseData.boards.map(board => {
-          const {_id, name, description, created_date, created_by} = board;
-          // const date = this.transformDate(created_date);
-            return {_id, name, description, created_date, created_by}
+          return {...board}
         });
         return boards
       })
@@ -60,10 +47,7 @@ export class BoardsService {
           return this.http.get<Boards>(boardsURL + `/${name}` + '/find_boards')
           .pipe(map(responseData => {
             const boards = responseData.boards.map(board => {
-              const {_id, name, description, created_date, created_by} = board;
-              // const date = this.transformDate(created_date);
-    
-              return {_id, name, description, created_date, created_by}
+              return {...board}
             });
             return boards
           }))
@@ -92,8 +76,6 @@ export class BoardsService {
   }
 
   addTaskToBoard(id: string, taskName: string, description: string, state: string) {
-    console.log(taskName, description);
-    
     return this.http.post(tasksURL + id, {
       name: taskName,
       description,
