@@ -19,6 +19,7 @@ export class BoardsService {
   // tasksManaged = new Subject<{tasks: Task[], board: string}>();
 
   boards: Board[]  = [];
+  forbiddenBoardNames = /^[0-9\\\.\+\$\-=_]+|[\\\.\+\$\-=_]+$/;
 
   constructor(private http: HttpClient,
     private authService: AuthService) {

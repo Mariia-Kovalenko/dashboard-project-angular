@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BoardsService } from '../../services/boards.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class BoardFormComponent implements OnInit {
   constructor(private boardsService: BoardsService) { }
 
   ngOnInit(): void {
-    const nameValidators = [Validators.minLength(4), Validators.maxLength(20)];
+    const nameValidators = [Validators.minLength(4), Validators.maxLength(20), this.forbiddenNames.bind(this)];
     const descriptionValidators = [Validators.minLength(4), Validators.maxLength(45)];
 
     if (this.mode === 'add') {
@@ -32,6 +32,8 @@ export class BoardFormComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form);
+    
     if (this.form.valid) {
       if (this.mode === 'add') {
         this.boardsService.addBoard(
@@ -63,6 +65,14 @@ export class BoardFormComponent implements OnInit {
       }
       this.form.reset();
     }
+  }
+
+  forbiddenNames(control: AbstractControl){
+    const nameEntered = control.value;
+    if (this.boardsService.forbiddenBoardNames.test(nameEntered)) {
+      return {'nameForbidden': true}
+    }
+    return null;
   }
 
   onCloseForm() {
