@@ -92,6 +92,8 @@ export class BoardsService {
   }
 
   addTaskToBoard(id: string, taskName: string, description: string, state: string) {
+    console.log(taskName, description);
+    
     return this.http.post(tasksURL + id, {
       name: taskName,
       description,

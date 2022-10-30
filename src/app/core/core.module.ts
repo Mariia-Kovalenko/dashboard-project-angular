@@ -27,6 +27,7 @@ import { UserProfileComponent } from './components/profile/profile-tabs/user-pro
 import { UserBoardComponent } from './components/profile/user-board/user-board.component';
 import { ArchivedTasksComponent } from './components/archived-tasks/archived-tasks.component';
 import { TaskDetailsComponent } from './components/task-details/task-details.component';
+import { FormComponent } from '../shared/components/form/form.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { TaskDetailsComponent } from './components/task-details/task-details.com
     AuthComponent,
     LoaderComponent,
     ErrorComponent,
+    FormComponent,
     ShortenPipe,
     ProfileComponent,
     EditProfileComponent,

@@ -144,6 +144,37 @@ export class DashboardComponent implements OnInit {
     this.showModal = !this.showModal;
   }
 
+  onAddBoard(event: {boardId: string, name: string, description: string}) {
+    this.boardsService.addBoard(
+      event.name, 
+      event.description)
+        .subscribe({
+          next: data => {
+            console.log(data);
+            this.onCloseModal(true);
+          }, 
+          error: error => {
+            console.log(error);
+            this.onError(error.message)
+          }
+        });
+  }
+
+  onUpdateBoard(event: {boardId: string, name: string, description: string}) {
+    this.boardsService.updateBoard(
+      this.boardToUpdate,
+      event.name)
+      .subscribe({
+        next: data => {
+          this.onCloseModal(true);
+        }, 
+        error: error => {
+          console.log(error);
+          this.onError(error.message)
+        }
+      })
+  }
+
   onCloseModal(event: boolean) {
     if (event) {
       this.showModal = !this.showModal;

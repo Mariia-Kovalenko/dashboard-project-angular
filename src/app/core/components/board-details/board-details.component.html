@@ -143,13 +143,17 @@
     </div>
 </div>
 
-<app-task-form 
+<app-form
     *ngIf="showFormModal"
-    [openTaskForm]="formDetails"
-    (closeFormModal)="onCloseForm()"
-    (addTaskToBoard)="onAddNewTask($event)"
-    (updateTask)="onUpdateTask($event)"
-    ></app-task-form>
+    [openItemForm]="{
+        mode: mode, 
+        itemType: 'task',
+        itemToEdit: taskToEditId, 
+        columnForTask: column}"
+    (addItem)="onAddNewTask($event)"
+    (updateItem)="onUpdateTask($event)"
+    (closeFormModal)="onCloseForm($event)"
+    (error)="onError($event)"></app-form>
 
 <app-task-details 
     *ngIf="showTask" 

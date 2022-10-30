@@ -29,7 +29,6 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   doneTasks: Task[] = [];
   
   draggedItem!: Task;
-  taskToEditId!: string;
   showFormModal: boolean = false;
   showTask = false;
 
@@ -37,13 +36,9 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   error = false;
   errorMessage = 'Some error occured';
 
-  formDetails: {
-    mode: string,
-    column?: string,
-    taskToEdit?: string
-  } = {
-    mode: 'add',
-  }
+  mode: string = 'add';
+  taskToEditId!: string;
+  column: string = '';
 
   taskToOpen: string = '';
 
@@ -128,8 +123,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     }
     // move task to column
     const taskToUpdate = this.allTasks.find(task => task._id === taskToMove._id);
-    // console.log('update ', taskToUpdateIndex);
-    
+
     // update task state
     if (taskToUpdate) {
       this.tasksService.updateTask({
@@ -247,23 +241,14 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   }
 
   onOpenTaskAddForm(btn: HTMLButtonElement) {
-    // console.log(btn.id);
     this.showFormModal = true;
-    this.formDetails = {
-      mode: 'add',
-      column: btn.id
-    }
+    this.column = btn.id;
   }
 
   onEditTask(event: string) {
     this.taskToEditId = event;
-    console.log('Task to edit:', this.taskToEditId);
-    // open form in edit mode
     this.showFormModal = true;
-    this.formDetails = {
-      mode: 'edit',
-      taskToEdit: this.taskToEditId
-    }
+    this.mode = 'edit';
   }
 
   onDeleteTask(event: string) {
@@ -282,9 +267,9 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
-  onAddNewTask(event: {boardId: string, taskName: string, description: string}) {
+  onAddNewTask(event: {boardId: string, name: string, description: string}) {
     let state: State = State.TODO;
-    switch (this.formDetails.column) {
+    switch (this.column) {
       case 'add-todo':
         state = State.TODO;
         break;
@@ -296,23 +281,30 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
         break;
     }
     
-    const {boardId, taskName, description} = event;
-    this.boardsService.addTaskToBoard(boardId, taskName, description, state)
-    .subscribe(data => {
-      this.onCloseForm();
-      this.getTasksForBoard();
-    })
+    const {boardId, name, description} = event;
+
+    this.boardsService.addTaskToBoard(boardId, name, description, state)
+    .subscribe({
+      next: data => {
+        this.getTasksForBoard();
+      }, error: err => {
+        console.log(err);
+      }
+    });
+    this.onCloseForm(true);
   }
 
-  onUpdateTask(event: {boardId: string, taskName: string, taskDesc: string}) {
-    const {boardId, taskName, taskDesc} = event;
+  onUpdateTask(event: {boardId: string, name: string, taskDesc: string}) {
+    const {boardId, name, taskDesc} = event;
     this.tasksService.updateTask({
       boardId: boardId, 
       taskId: this.taskToEditId, 
-      taskName: taskName,
+      taskName: name,
       taskDesc: taskDesc
     })
       .subscribe(data => {
+        console.log(data);
+        
         if (data.ok) {
           this.getTasksForBoard();
         }
@@ -327,12 +319,21 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     this.showTask = true;
   }
 
-  onCloseForm() {
-    this.showFormModal = false;
+  onCloseForm(event: boolean) {
+    if (event) {
+      this.showFormModal = !this.showFormModal;
+    } else {
+      this.error = true;
+    }
   }
 
   onCloseTaskModal() {
     this.showTask = false;
+  }
+
+  onError(event: string) {
+    console.log('Error occured: ', event);
+    this.error = true;    
   }
 
   ngOnDestroy() {

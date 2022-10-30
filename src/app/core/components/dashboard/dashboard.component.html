@@ -26,9 +26,13 @@
 *ngIf="error && !isFetching"
 [message]="'Data not found'"></app-error>
 
-<app-board-form 
-    *ngIf="showModal" 
-    [mode]="mode" 
-    [boardToUpdate]="boardToUpdate"
+<app-form
+    *ngIf="showModal"
+    [openItemForm]="{
+        mode: mode, 
+        itemType: 'board',
+        itemToEdit: boardToUpdate}"
+    (addItem)="onAddBoard($event)"
+    (updateItem)="onUpdateBoard($event)"
     (closeFormModal)="onCloseModal($event)"
-    (error)="onError($event)"></app-board-form>
+    (error)="onError($event)"></app-form>

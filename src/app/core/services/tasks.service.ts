@@ -54,14 +54,19 @@ export class TasksService {
     }
     if (taskState) {
       queryParams = {
+        ...queryParams,
         state: taskState
       }
     }
     if (taskDesc) {
       queryParams = {
+        ...queryParams,
         description: taskDesc
       }
     }
+
+    console.log(queryParams);
+    
 
     return this.http.patch<{ok: boolean, message: string}>(`${tasksURL}${boardId}/${taskId}`, 
     queryParams)
