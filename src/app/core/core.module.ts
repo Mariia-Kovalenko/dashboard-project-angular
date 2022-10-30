@@ -8,12 +8,12 @@ import { AppRoutingModule } from '../app-routing.module';
 import { PageTopComponent } from './components/page-top/page-top.component';
 import { TaskComponent } from './components/task/task.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BoardFormComponent } from './components/board-form/board-form.component';
+// import { BoardFormComponent } from './components/board-form/board-form.component';
 import { DraggableDirective } from './draggable/draggable.directive';
 import { DragAreaDirective } from './draggable/drag-area.directive';
 import { ChangeBgDirective } from '../features/change-bg.directive';
 import { FeaturesModule } from '../features/features.module';
-import { TaskFormComponent } from './components/task-form/task-form.component';
+// import { TaskFormComponent } from './components/task-form/task-form.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthComponent } from './components/auth/auth.component';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
@@ -37,10 +37,8 @@ import { FormComponent } from '../shared/components/form/form.component';
     BoardDetailsComponent,
     PageTopComponent,
     TaskComponent,
-    BoardFormComponent,
     DraggableDirective,
     DragAreaDirective,
-    TaskFormComponent,
     AuthComponent,
     LoaderComponent,
     ErrorComponent,
