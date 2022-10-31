@@ -1,9 +1,9 @@
 import { Injectable, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { boardsURL, usersURL } from 'src/app/shared/URLs';
+import { boardsURL, usersURL } from 'src/app/shared/utils/URLs';
 import { catchError, Subject, take, throwError } from 'rxjs';
-import { Board } from 'src/app/shared/board.model';
+import { Board } from 'src/app/shared/models/board.model';
 import { LocalStorageService } from './local-storage.service';
 
 export interface UserResponseData {

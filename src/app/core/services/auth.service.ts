@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap} from 'rxjs/operators';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
-import {authURL} from '../../shared/URLs';
+import {authURL} from '../../shared/utils/URLs';
 import { LocalStorageService } from './local-storage.service';
 import { Router } from '@angular/router';
 

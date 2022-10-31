@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Comment } from 'src/app/shared/comment.model';
+import { Comment } from 'src/app/shared/models/comment.model';
 import { BoardsService } from '../../../core/services/boards.service';
 import { TasksService } from '../../../core/services/tasks.service';
 

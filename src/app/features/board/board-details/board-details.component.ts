@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Board } from 'src/app/shared/board.model';
+import { Board } from 'src/app/shared/models/board.model';
 import { BoardsService } from '../../../core/services/boards.service';
-import { State } from 'src/app/shared/task-state.model';
-import { Task } from 'src/app/shared/task.model';
+import { State } from 'src/app/shared/models/task-state.model';
+import { Task } from 'src/app/shared/models/task.model';
 import { Subscription } from 'rxjs';
 import { TasksService } from '../../../core/services/tasks.service';
 import { FilteringService } from '../../../core/services/filtering.service';

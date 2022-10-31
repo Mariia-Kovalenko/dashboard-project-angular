@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/core/services/users.service';
-import { Board } from 'src/app/shared/board.model';
+import { Board } from 'src/app/shared/models/board.model';
 
 @Component({
   selector: 'app-user-boards',

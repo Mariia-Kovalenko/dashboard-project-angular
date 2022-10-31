@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { State } from 'src/app/shared/task-state.model';
-import { Task } from 'src/app/shared/task.model';
+import { State } from 'src/app/shared/models/task-state.model';
+import { Task } from 'src/app/shared/models/task.model';
 import { LocalStorageService } from '../../../core/services/local-storage.service';
 import { TasksService } from '../../../core/services/tasks.service';
 import { UsersService } from '../../../core/services/users.service';

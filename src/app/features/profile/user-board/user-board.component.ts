@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BoardsService } from 'src/app/core/services/boards.service';
 import { TasksService } from 'src/app/core/services/tasks.service';
-import { Board } from 'src/app/shared/board.model';
+import { Board } from 'src/app/shared/models/board.model';
 
 @Component({
   selector: 'app-user-board',

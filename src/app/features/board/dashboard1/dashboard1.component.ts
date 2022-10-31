@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BoardsService } from '../../../core/services/boards.service';
-import { Board } from 'src/app/shared/board.model';
-import { Task } from 'src/app/shared/task.model';
+import { Board } from 'src/app/shared/models/board.model';
+import { Task } from 'src/app/shared/models/task.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';

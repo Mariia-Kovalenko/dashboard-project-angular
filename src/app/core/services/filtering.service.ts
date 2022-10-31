@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Board } from 'src/app/shared/board.model';
-import {Task} from 'src/app/shared/task.model';
+import { Board } from 'src/app/shared/models/board.model';
+import {Task} from 'src/app/shared/models/task.model';
 
 @Injectable({
   providedIn: 'root'

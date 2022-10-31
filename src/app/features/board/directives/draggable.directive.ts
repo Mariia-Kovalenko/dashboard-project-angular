@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
-import { Task } from 'src/app/shared/task.model';
+import { Task } from 'src/app/shared/models/task.model';
 
 @Directive({
   selector: '[appDraggable]'

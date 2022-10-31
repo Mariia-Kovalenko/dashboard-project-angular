@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tasksURL } from 'src/app/shared/URLs';
+import { tasksURL } from 'src/app/shared/utils/URLs';
 import { map } from 'rxjs'
-import { Task } from 'src/app/shared/task.model';
-import { State } from 'src/app/shared/task-state.model';
+import { Task } from 'src/app/shared/models/task.model';
+import { State } from 'src/app/shared/models/task-state.model';
 
 interface Tasks {
   tasks: Task[]

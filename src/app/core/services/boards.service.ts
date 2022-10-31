@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { Board } from 'src/app/shared/board.model';
-import {boardsURL, tasksURL} from 'src/app/shared/URLs';
+import { Board } from 'src/app/shared/models/board.model';
+import {boardsURL, tasksURL} from 'src/app/shared/utils/URLs';
 import { AuthService } from './auth.service';
 
 interface Boards {

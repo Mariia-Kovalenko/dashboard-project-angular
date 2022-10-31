@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Task } from 'src/app/shared/task.model';
+import { Task } from 'src/app/shared/models/task.model';
 
 @Component({
   selector: 'app-board-task',
