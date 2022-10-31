@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChangeBgDirective } from './change-bg.directive';
 import { BoardModule } from './board/board.module';
 import { FormsModule } from '@angular/forms';
 import { ShortenPipe } from '../shared/pipes/shorten.pipe';
@@ -13,7 +12,6 @@ import { AuthInterceptorService } from '../core/services/auth-interceptor.servic
 
 @NgModule({
   declarations: [
-    ChangeBgDirective
   ],
   imports: [
     CommonModule,
