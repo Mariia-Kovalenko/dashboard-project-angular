@@ -7,12 +7,12 @@ import { BoardDetailsComponent } from '../board-details/board-details.component'
 
 const appRoutes: Routes = [
   {
-    path: 'dashboard-1',
+    path: '',
     component: Dashboard1Component,
     canActivate: [AuthGuard],
   },
   {
-    path: 'dashboard-1/:id', 
+    path: 'dashboard/:id', 
     component: BoardDetailsComponent,
     canActivate: [AuthGuard],
 },

@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
   {
-    path: 'profile',
+    path: '',
     component: ProfileComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],

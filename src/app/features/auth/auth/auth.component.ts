@@ -54,7 +54,7 @@ export class AuthComponent implements OnInit {
         if (this.isLoginMode) {
           console.log('navigate to dashboards');
           
-          this.router.navigate(['dashboard-1']);
+          this.router.navigate(['dashboard']);
         } else {
           this.onSwitchMode();
         }
