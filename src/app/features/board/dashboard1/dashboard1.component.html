@@ -1,4 +1,44 @@
-<app-page-top></app-page-top>
+<!-- <app-page-top></app-page-top>
 <app-board></app-board>
+<app-error></app-error>
+<app-loader></app-loader>
+<app-form></app-form>  -->
 
-<app-form></app-form>
+<!-- dashboard -->
+<app-page-top 
+    currentRoute="dashboard"
+    (findItems)="getBoardsByName($event)"
+    (filterItems)="filterBoards($event)"></app-page-top>
+<!-- add board btn -->
+<button class="add-board" (click)="onOpenAddModal()"></button>
+
+<!-- boards list -->
+<div class="items__grid" *ngIf="!isFetching && !error">
+    <!-- board -->
+    <app-board
+    *ngFor="let board of boards"
+    [board]="board"
+    [id]="board._id"
+    [mode]="'edit'"
+    (openFormModal)="onOpenEditModal($event)"
+    (deleteBoard)="onDeleteBoard($event)"
+    (tasksNum)="onGetTasksForBoard($event)"
+    ></app-board>
+
+</div>
+
+<app-loader *ngIf="isFetching && !error"></app-loader>
+<app-error 
+*ngIf="error && !isFetching"
+[message]="'Data not found'"></app-error>
+
+<app-form
+    *ngIf="showModal"
+    [openItemForm]="{
+        mode: mode, 
+        itemType: 'board',
+        itemToEdit: boardToUpdate}"
+    (addItem)="onAddBoard($event)"
+    (updateItem)="onUpdateBoard($event)"
+    (closeFormModal)="onCloseModal($event)"
+    (error)="onError($event)"></app-form>

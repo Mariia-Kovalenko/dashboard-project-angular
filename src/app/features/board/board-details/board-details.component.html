@@ -1,0 +1,167 @@
+<app-page-top 
+    currentRoute={{currentBoard.name}}
+    (findItems)="getTasksByName($event)"
+    (filterItems)="filterTasks($event)"
+></app-page-top>
+<app-error *ngIf="error && !isFetching" [message]="errorMessage"></app-error>
+
+<div *ngIf="!error" class="board-details">
+    <div class="board-details__tasks">
+        <div class="board-details__column tasks">
+            <div 
+            class="tasks__container"
+            [ngClass]="{ 
+                blue: toDosColor.blue, 
+                purple: toDosColor.purple, 
+                white: toDosColor.white}">
+                <div id="toDos" class="choose-color">
+                    <button class="color blue" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                </div>
+                
+                <div class="tasks__title">to do <span class="tasks-count">&#8226; {{newTasks.length}}</span></div>
+                <button 
+                id="add-todo" 
+                #addToDo
+                class="add-task-btn" 
+                (click)="onOpenTaskAddForm(addToDo)"></button>
+                
+                <div class="tasks__list"
+                appDragArea
+                [column]="'toDo'"
+                (itemDropped)="onItemDropped($event)">
+                    <div 
+                    *ngIf="!newTasks.length && !isFetching"
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'toDo'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+
+                    <div *ngIf="isFetching" class="task empty-task">Loading...</div>
+
+                    <app-board-task
+                    *ngFor="let newTask of newTasks"
+                    [task]="newTask"
+                    (itemDragged) = "setDraggedItem($event)"
+                    (editTask)="onEditTask($event)"
+                    (deleteTask)="onDeleteTask($event)"
+                    (openTaskDetails)="onOpenTaskDetails($event)"
+                    draggable="true"
+                    appDraggable></app-board-task>
+                </div>
+            </div>
+        </div>
+
+        <div class="board-details__column tasks">
+            <div 
+            class="tasks__container"
+            [ngClass]="{ 
+                blue: inProgressColor.blue, 
+                purple: inProgressColor.purple, 
+                white: inProgressColor.white}">
+                <div id="inProgress" class="choose-color">
+                    <button class="color blue" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                </div>
+                
+                <div class="tasks__title">in progress <span class="tasks-count">&#8226; {{progressTasks.length}}</span></div>
+                <button
+                id="add-in-progress" 
+                #addInProgress
+                class="add-task-btn" 
+                (click)="onOpenTaskAddForm(addInProgress)"></button>
+                
+                <div class="tasks__list"
+                appDragArea
+                [column]="'inProgress'"
+                (itemDropped)="onItemDropped($event)">
+                    <div 
+                    *ngIf="!progressTasks.length && !isFetching"
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'inProgress'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+
+                    <div *ngIf="isFetching" class="task empty-task">Loading...</div>
+
+                    <app-board-task
+                    *ngFor="let progressTask of progressTasks"
+                    [task]="progressTask"
+                    (itemDragged) = "setDraggedItem($event)"
+                    (editTask)="onEditTask($event)"
+                    (deleteTask)="onDeleteTask($event)"
+                    (openTaskDetails)="onOpenTaskDetails($event)"
+                    draggable="true"
+                    appDraggable></app-board-task>
+                </div>
+            </div>
+        </div>
+
+        <div class="board-details__column tasks">
+            <div
+            class="tasks__container"
+            [ngClass]="{ 
+                blue: doneColor.blue, 
+                purple: doneColor.purple, 
+                white: doneColor.white}">
+                <div id="done" class="choose-color">
+                    <button class="color blue" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                    <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
+                </div>
+                
+                <div class="tasks__title">done <span class="tasks-count">&#8226; {{doneTasks.length}}</span></div>
+                <button id="add-done"
+                #addDone
+                class="add-task-btn" 
+                (click)="onOpenTaskAddForm(addDone)"></button>
+                <div class="tasks__list"
+                appDragArea
+                [column]="'done'"
+                (itemDropped)="onItemDropped($event)">
+                    <div 
+                    *ngIf="!doneTasks.length && !isFetching"
+                    class="task empty-task"
+                    appDragArea
+                    [column]="'done'"
+                    (itemDropped)="onItemDropped($event)">Add or drag task here</div>
+
+                    <div *ngIf="isFetching" class="task empty-task">Loading...</div>
+
+                    <app-board-task
+                    *ngFor="let doneTask of doneTasks "
+                    [task]="doneTask"
+                    (itemDragged) = "setDraggedItem($event)"
+                    (editTask)="onEditTask($event)"
+                    (deleteTask)="onDeleteTask($event)"
+                    (archiveTask)="onArchiveTask($event)"
+                    (openTaskDetails)="onOpenTaskDetails($event)"
+                    draggable="true"
+                    appDraggable></app-board-task>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-form
+    *ngIf="showFormModal"
+    [openItemForm]="{
+        mode: mode, 
+        itemType: 'task',
+        itemToEdit: taskToEditId, 
+        columnForTask: column}"
+    (addItem)="onAddNewTask($event)"
+    (updateItem)="onUpdateTask($event)"
+    (closeFormModal)="onCloseForm($event)"
+    (error)="onError($event)"></app-form>
+
+<app-board-task-details 
+    *ngIf="showTask" 
+    (closeModal)="onCloseTaskModal()"
+    [id]="taskToOpen"
+    ></app-board-task-details>
+
+

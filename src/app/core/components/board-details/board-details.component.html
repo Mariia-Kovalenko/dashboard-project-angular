@@ -1,4 +1,4 @@
-<app-page-top 
+<!-- <app-page-top 
     currentRoute={{currentBoard.name}}
     (findItems)="getTasksByName($event)"
     (filterItems)="filterTasks($event)"
@@ -18,14 +18,14 @@
                     <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
                     <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
                 </div>
-                <!-- add task button -->
+                
                 <div class="tasks__title">to do <span class="tasks-count">&#8226; {{newTasks.length}}</span></div>
                 <button 
                 id="add-todo" 
                 #addToDo
                 class="add-task-btn" 
                 (click)="onOpenTaskAddForm(addToDo)"></button>
-                <!-- tasks list -->
+                
                 <div class="tasks__list"
                 appDragArea
                 [column]="'toDo'"
@@ -63,14 +63,14 @@
                     <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
                     <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
                 </div>
-                <!-- add task button -->
+                
                 <div class="tasks__title">in progress <span class="tasks-count">&#8226; {{progressTasks.length}}</span></div>
                 <button
                 id="add-in-progress" 
                 #addInProgress
                 class="add-task-btn" 
                 (click)="onOpenTaskAddForm(addInProgress)"></button>
-                <!-- tasks list -->
+                
                 <div class="tasks__list"
                 appDragArea
                 [column]="'inProgress'"
@@ -108,7 +108,7 @@
                     <button class="color purple" appChangeBg (colorChosen)="onChangeBg($event)"></button>
                     <button class="color white" appChangeBg (colorChosen)="onChangeBg($event)"></button>
                 </div>
-                <!-- add task btn -->
+                
                 <div class="tasks__title">done <span class="tasks-count">&#8226; {{doneTasks.length}}</span></div>
                 <button id="add-done"
                 #addDone
@@ -143,7 +143,7 @@
     </div>
 </div>
 
-<!-- <app-form
+<app-form
     *ngIf="showFormModal"
     [openItemForm]="{
         mode: mode, 
@@ -153,7 +153,7 @@
     (addItem)="onAddNewTask($event)"
     (updateItem)="onUpdateTask($event)"
     (closeFormModal)="onCloseForm($event)"
-    (error)="onError($event)"></app-form> -->
+    (error)="onError($event)"></app-form>
 
 <app-task-details 
     *ngIf="showTask" 
@@ -161,4 +161,4 @@
     [id]="taskToOpen"
     ></app-task-details>
 
-
+ -->

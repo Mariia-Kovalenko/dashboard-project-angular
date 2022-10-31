@@ -6,9 +6,10 @@ import { CoreModule } from './core/core.module';
 import { FeaturesModule } from './features/features.module';
 import { FormComponent } from './shared/components/form/form.component';
 
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

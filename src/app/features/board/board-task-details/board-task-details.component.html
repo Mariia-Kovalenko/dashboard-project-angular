@@ -1,0 +1,89 @@
+<div class="task-details modal">
+    <div class="modal__inner task-details__inner">
+        <h3 class="modal__name">Task Details</h3>
+
+        <app-loader *ngIf="isLoading && !error"></app-loader>
+        <app-error *ngIf="error && !isLoading" [message]="errorMessage"></app-error>
+
+        <div *ngIf="!isLoading && !error" class="task-details__info">
+            <div class="task-details__section-title">Details</div>
+            <div class="task-details__section">
+                <div class="item__name task-item">
+                    {{task.name}}
+                    <span>#{{task._id}}</span> 
+                </div>
+                <div class="task__date">
+                    <div class="date">
+                        <img src="../assets/images/calendar.svg" alt="calendar">
+                        <span>{{task.created_date | date}}</span>
+                    </div>
+                    <span class="task__status" 
+                    [ngClass]="{
+                        task_to_do: statusClass.task_to_do,
+                        task_in_progress: statusClass.task_in_progress,
+                        task_done: statusClass.task_done
+                    }">{{task.state}}</span>
+                </div>
+                <div class="item__name task-item">Board: <span>#1{{task.board_id}}</span></div>
+            </div>
+            
+            <div class="task-details__section-title">Description</div>
+            <div class="task-details__section">
+                <div class="task__desc">{{task.description}}</div>
+            </div>
+
+            <div class="task__comments">
+                <div class="task-details__section-title">Comments</div>
+                <div class="user__comments">
+                    <div *ngFor="let comment of task.comments" class="user__comment comment">
+                        <div class="comment__userpic userpic">
+                            <div class="userpic__img">
+                                <img src="../../../../assets/images/profile.svg" alt="user">
+                            </div>
+                            
+                        </div>
+                        <div class="comment__details">
+                            <div class="comment__top">
+                                <div class="comment__username">{{comment.user_name}}</div>
+                                <div class="comment__date">{{comment.time | date}}</div>
+                            </div>
+                            <div class="comment__text">{{comment.message}}</div>
+                            <button class="delete-comment" (click)="onDeleteComment(comment._id)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="add-comment">
+                        <div class="user__comment comment">
+                            <div class="comment__userpic userpic">
+                                <div class="userpic__img">
+                                    <img src="../../../../assets/images/profile.svg" alt="user">
+                                </div>
+                                
+                            </div>
+                            <div class="comment__details">
+                                <div class="comment__top">
+                                    <div class="comment__username">{{currentUser}}</div>
+                                </div>
+                                <form
+                                [formGroup]="form"
+                                (ngSubmit)="onSubmit()">
+                                    <input 
+                                    formControlName="message"
+                                    class="comment-input" 
+                                    type="text" 
+                                    placeholder="Add comment and press Enter">
+                                    <span 
+                                    *ngIf="!form.get('message')?.valid"
+                                    class="input-error">Maximum message length: 50 char</span>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="close" (click)="onCloseModal()"></div>
+    </div>
+</div>

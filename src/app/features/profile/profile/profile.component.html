@@ -1,0 +1,24 @@
+<app-error *ngIf="error" [message]="errorMessage"></app-error>
+<div class="user-profile">
+    <div class="profile__side side">
+        <app-loader *ngIf="isLoading"></app-loader>
+
+        <div *ngIf="!isLoading" class="profile__info user">
+            <div class="profile__photo">
+                <img src="../../../../assets/images/profile.svg" alt="">
+            </div>
+            <div class="user__name">{{user.name}}</div>
+            <div class="user__email">{{user.email}}</div>
+        </div>
+    </div>
+    <div class="profile__details side details">
+        <ul class="details__tabs">
+            <li class="details__tab" routerLinkActive="active-tab" routerLink="info">Profile Info</li>
+            <li class="details__tab" routerLinkActive="active-tab" routerLink="user-boards">Created Boards</li>
+            <li class="details__tab" routerLinkActive="active-tab" routerLink="edit/{{user._id}}">Edit</li>
+        </ul>
+        <div class="details__content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

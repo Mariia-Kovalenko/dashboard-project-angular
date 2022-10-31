@@ -2,8 +2,8 @@
     <div class="page__top">
         <div class="page__title">Archived Tasks</div>
     </div>
-    <app-loader *ngIf="isLoading"></app-loader>
-    <app-error *ngIf="error" [message]="errorMessage"></app-error>
+    <!-- <app-loader *ngIf="isLoading"></app-loader>
+    <app-error *ngIf="error" [message]="errorMessage"></app-error> -->
     <div *ngIf="!isLoading && !tasks.length" class="no-data">No Data Yet</div>
     <div class="items__grid">
         <div *ngFor="let task of tasks" class="archived__task task">
