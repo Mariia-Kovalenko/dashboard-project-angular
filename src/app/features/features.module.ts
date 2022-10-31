@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChangeBgDirective } from './change-bg.directive';
-
+import { BoardModule } from './board/board.module';
 
 
 @NgModule({
@@ -9,7 +9,8 @@ import { ChangeBgDirective } from './change-bg.directive';
     ChangeBgDirective
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    BoardModule
   ],
   exports: [
     ChangeBgDirective

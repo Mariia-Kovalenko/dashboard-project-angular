@@ -42,7 +42,7 @@ import { FormComponent } from '../shared/components/form/form.component';
     AuthComponent,
     LoaderComponent,
     ErrorComponent,
-    FormComponent,
+    // FormComponent,
     ShortenPipe,
     ProfileComponent,
     EditProfileComponent,
@@ -63,7 +63,7 @@ import { FormComponent } from '../shared/components/form/form.component';
   exports: [
     HeaderComponent,
     DashboardComponent,
-    BoardDetailsComponent
+    BoardDetailsComponent,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}]
 })
