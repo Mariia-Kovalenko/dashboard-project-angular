@@ -4,6 +4,8 @@ import { ErrorComponent } from './components/error/error.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FormComponent } from './components/form/form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ShortenPipe } from './pipes/shorten.pipe';
+import { PipesModule } from './pipes/pipes.module';
 
 
 
@@ -11,7 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     FormComponent,
     ErrorComponent,
-    LoaderComponent
+    LoaderComponent,
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   exports: [
     FormComponent,
     ErrorComponent,
-    LoaderComponent
+    LoaderComponent,
+    PipesModule
   ]
 })
 export class SharedModule { }

@@ -16,13 +16,13 @@ import { DragAreaDirective } from './directives/drag-area.directive';
 import { DraggableDirective } from './directives/draggable.directive';
 import { BoardTaskDetailsComponent } from './board-task-details/board-task-details.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ShortenPipe } from 'src/app/shared/pipes/shorten.pipe';
 
 
 @NgModule({
   declarations: [
     Dashboard1Component,
     BoardComponent,
-    // FormComponent,
     BoardDetailsComponent,
     BoardTaskComponent,
     ChangeBgDirective,
@@ -36,7 +36,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     BoardRoutingModule,
     PageTopModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
   ], 
   exports: [
     Dashboard1Component

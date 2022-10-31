@@ -7,11 +7,12 @@ import { ShortenPipe } from '../shared/pipes/shorten.pipe';
 import { ArchiveModule } from './archive/archive.module';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from '../core/services/auth-interceptor.service';
 
 
 @NgModule({
   declarations: [
-    ShortenPipe,
     ChangeBgDirective
   ],
   imports: [
@@ -22,7 +23,6 @@ import { ProfileModule } from './profile/profile.module';
     AuthModule,
     FormsModule,
   ],
-  exports: [
-  ]
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}]
 })
 export class FeaturesModule { }
