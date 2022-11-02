@@ -16,9 +16,9 @@
                     formControlName="name"
                     class="form__input">
                     <span 
-                    *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
+                    *ngIf="!form.get('name')?.valid && form.get('name')?.touched || !isValidForm"
                     class="input-error">
-                    <span *ngIf="form.get('name')?.errors">Name forbidden.</span>
+                    <span *ngIf="form.get('name')?.errors">{{!isValidForm ? 'Name empty': 'Name forbidden'}}.</span>
                     Please, enter a valid name
                 </span>
                 </div>
@@ -29,8 +29,11 @@
                     formControlName="description"
                     class="form__input">
                     <span 
-                    *ngIf="!form.get('description')?.valid && form.get('description')?.touched"
-                    class="input-error">Please, enter a valid description</span>
+                    *ngIf="!form.get('description')?.valid && form.get('description')?.touched || !isValidForm"
+                    class="input-error">
+                    <span *ngIf="form.get('description')?.errors">{{!isValidForm ? 'Description empty': 'Length not allowed'}}.</span>
+                    Please, enter a valid description
+                </span>
                 </div>
             </div>
             <div class="form__buttons">

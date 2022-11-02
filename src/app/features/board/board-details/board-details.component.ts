@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Board } from 'src/app/shared/models/board.model';
 import { BoardsService } from '../../../core/services/boards.service';
@@ -14,7 +14,7 @@ import { LocalStorageService } from '../../../core/services/local-storage.servic
   templateUrl: './board-details.component.html',
   styleUrls: ['./board-details.component.css']
 })
-export class BoardDetailsComponent implements OnInit, OnDestroy {
+export class BoardDetailsComponent implements OnInit {
   currentBoard: Board = {
     _id: '',
     name: '',
@@ -73,18 +73,15 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
         this.boardsService.fetchBoardById(this.boardId)
           .subscribe({
             next: data => {
-              this.currentBoard = data.board
+              this.currentBoard = data.board;
               // console.log(this.currentBoard);
             },
-            error: error => {
-              console.log(error);
+            error: err => {
+              console.log(err);
               this.isFetching = false;
-              this.error = true;
-              if (error.error.message) {
-                this.errorMessage = error.error.message
-              } else if (error.message) {
-                this.errorMessage = error.message
-              }
+
+              let message = err.message || err.error.message || 'Error fetching tasks';
+              this.onError(message);
             }
           })
 
@@ -105,58 +102,87 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   onItemDropped(event: string) {
     const taskToMove = this.draggedItem;
+    // do nothing if task is about to be dropped to the same column
+    if (taskToMove.state === event) {
+      return;
+    }
+    // remove task from old array in component
+    this.removeTaskFromOldColumn(taskToMove);
 
     let newState!: State;
-
-    switch (event) {
-      case 'toDo':
-        newState = State.TODO;
-        break;
-      case 'inProgress':
-        newState = State.IN_PROGRESS;
-        break;
-      case 'done':
-        newState = State.DONE;
-        break;
-      default: 
-        newState = this.draggedItem.state;
-    }
-    // move task to column
+    // change task state and move to new column in component
+    this.addTaskToNewColumn(event, newState, taskToMove);
+    
     const taskToUpdate = this.allTasks.find(task => task._id === taskToMove._id);
 
-    // update task state
+    // update task state on server
     if (taskToUpdate) {
       this.tasksService.updateTask({
         boardId: this.boardId, 
         taskId: taskToUpdate._id, 
         taskState: newState})
       .subscribe({
-        next: data => {
-          // console.log('response:', data);
-          if (data.ok) {
-            this.getTasksForBoard();
-          }
+        next: () => {
         },
         error: err => {
           console.log(err);
+          this.getTasksForBoard();
         }
       })
     }
   }
 
+  removeTaskFromOldColumn(taskToMove: Task) {
+    switch (taskToMove.state) {
+      case 'toDo':
+        this.newTasks = this.newTasks.filter(task => task._id !== taskToMove._id);
+        break;
+      case 'inProgress':
+        this.progressTasks = this.progressTasks.filter(task => task._id !== taskToMove._id);
+        break;
+      case 'done':
+        this.doneTasks = this.doneTasks.filter(task => task._id !== taskToMove._id);
+        break;
+      default: 
+        break;
+    }
+  }
+
+  addTaskToNewColumn(column: string, newState: State, taskToMove: Task) {
+    switch (column) {
+      case 'toDo':
+        newState = State.TODO;
+        taskToMove.state = newState;
+        this.newTasks.push(taskToMove);
+        break;
+      case 'inProgress':
+        newState = State.IN_PROGRESS;
+        taskToMove.state = newState;
+        this.progressTasks.push(taskToMove);
+        break;
+      case 'done':
+        newState = State.DONE;
+        taskToMove.state = newState;
+        this.doneTasks.push(taskToMove);
+        break;
+      default: 
+        newState = this.draggedItem.state;
+    }
+  }
+
   getTasksForBoard() {
     this.tasksService.fetchTasksForBoard(this.boardId)
-          .subscribe({
-            next: data => {
-              this.allTasks = data.tasks;
-              this.splitTasksByState(this.allTasks);
-              this.isFetching = false;
-            },
-            error: error => {
-              console.log(error);
-              this.error = true;
-            }
-          })
+      .subscribe({
+        next: data => {
+          this.allTasks = data.tasks;
+          this.splitTasksByState(this.allTasks);
+          this.isFetching = false;
+        },
+        error: err => {
+          let message = err.message || err.error.message || 'Error fetching tasks';
+          this.onError(message);
+        }
+      })
   }
 
   getTasksByName(event: string) {
@@ -168,14 +194,10 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
           this.splitTasksByState(this.allTasks);
         }, 
         error: err => {
-          console.log(err);
+          // console.log(err);
           this.isFetching  = false;
-          this.error = true;
-          if (err.error.message) {
-            this.errorMessage = err.error.message;
-          } else if (err.message) {
-            this.errorMessage = err.message;
-          }
+          let message = err.message || err.error.message || 'Error fetching tasks';
+          this.onError(message);
         }
       })
   }
@@ -243,6 +265,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   onOpenTaskAddForm(btn: HTMLButtonElement) {
     this.showFormModal = true;
     this.column = btn.id;
+    this.mode = 'add';
   }
 
   onEditTask(event: string) {
@@ -252,18 +275,28 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   }
 
   onDeleteTask(event: string) {
-    // console.log('Task to delete:', event);
     this.tasksService.deleteTask(this.boardId, event)
-    .subscribe(data => {
-      this.getTasksForBoard()
+    .subscribe({
+      next: () => {
+        this.getTasksForBoard()
+      },
+      error: err => {
+        let message = err.error.message || 'Error deleting tasks';
+        this.onError(message);
+      }
     })
   }
 
   onArchiveTask(event: string) {
-    console.log('task to be archived', event);
     this.tasksService.archiveTask(this.boardId, event)
-    .subscribe(data => {
-      this.getTasksForBoard()
+    .subscribe({
+      next: () => {
+        this.getTasksForBoard()
+      },
+      error: err => {
+        let message = err.error.message || 'Error archiving tasks';
+        this.onError(message);
+      }
     })
   }
 
@@ -289,6 +322,8 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
         this.getTasksForBoard();
       }, error: err => {
         console.log(err);
+        let message = err.error.message || 'Error adding task';
+        this.onError(message)
       }
     });
     this.onCloseForm(true);
@@ -302,11 +337,14 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
       taskName: name,
       taskDesc: taskDesc
     })
-      .subscribe(data => {
-        console.log(data);
-        
-        if (data.ok) {
-          this.getTasksForBoard();
+      .subscribe({
+        next: data => {
+          if (data.ok) {
+            this.getTasksForBoard();
+          }
+        }, error: err => {
+          let message = err.error.message || 'Error archiving tasks';
+          this.onError(message);
         }
       })
     this.showFormModal = false;
@@ -332,11 +370,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   }
 
   onError(event: string) {
-    console.log('Error occured: ', event);
-    this.error = true;    
-  }
-
-  ngOnDestroy() {
-    
+    this.error = true;  
+    this.errorMessage = event;  
   }
 }

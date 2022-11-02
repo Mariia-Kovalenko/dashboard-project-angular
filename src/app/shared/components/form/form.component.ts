@@ -10,6 +10,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class FormComponent implements OnInit {
   form!: FormGroup;
+  isValidForm = true;
 
   boardId: string = '';
 
@@ -24,7 +25,7 @@ export class FormComponent implements OnInit {
   @Output() closeFormModal = new EventEmitter<boolean>();
   @Output() error = new EventEmitter<string>();
 
-  forbiddenItemNames = /^[0-9\\\.\+\$\-=_]+|[\\\.\+\$\-=_]+$/;
+  forbiddenItemNames = /^[0-9\\\.\+\$\-=_%/]+|[\\\.\+\$\-=_%/]+$/;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -70,25 +71,26 @@ export class FormComponent implements OnInit {
   }
 
   onSubmit() {
-if (this.form.valid) {
-      if (this.openItemForm.mode === 'add') {
-        this.addItem.emit({
-          boardId: this.boardId, 
-          name: this.form.value.name, 
-          description: this.form.value.description
-        });
-      } else if (this.openItemForm.mode === 'edit') {
-        this.updateItem.emit({
-          boardId: this.boardId, 
-          name: this.form.value.name,
-          taskDesc: this.form.value.description
-        })
+  if (this.form.valid) {
+    this.isValidForm = true;
+        if (this.openItemForm.mode === 'add') {
+          this.addItem.emit({
+            boardId: this.boardId, 
+            name: this.form.value.name, 
+            description: this.form.value.description
+          });
+        } else if (this.openItemForm.mode === 'edit') {
+          this.updateItem.emit({
+            boardId: this.boardId, 
+            name: this.form.value.name,
+            taskDesc: this.form.value.description
+          })
+        }
+        this.form.reset();
+      } else {
+        console.log('form invalid');
+        this.isValidForm = false;
       }
-      this.form.reset();
-    } else {
-      console.log('form invalid');
-      
     }
-  }
 
 }

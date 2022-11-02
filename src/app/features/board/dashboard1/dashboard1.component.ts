@@ -155,7 +155,8 @@ export class Dashboard1Component implements OnInit {
           }, 
           error: error => {
             console.log(error);
-            this.onError(error.message)
+            let message = error.message || error.error.message || 'Error adding board'
+            this.onError(message)
           }
         });
   }
@@ -170,7 +171,8 @@ export class Dashboard1Component implements OnInit {
         }, 
         error: error => {
           console.log(error);
-          this.onError(error.message)
+          let message = error.message || error.error.message || 'Error adding board'
+          this.onError(message);
         }
       })
   }
@@ -185,8 +187,8 @@ export class Dashboard1Component implements OnInit {
   }
 
   onError(event: string) {
-    console.log('Error occured: ', event);
-    this.error = true;    
+    this.error = true;  
+    this.errorMessage = event;  
   }
 
 }

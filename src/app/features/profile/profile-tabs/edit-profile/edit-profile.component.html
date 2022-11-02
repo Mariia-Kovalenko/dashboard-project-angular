@@ -1,5 +1,6 @@
 <div class="user__edit">
     <div class="details__title">Edit profile info</div>
+    <app-error *ngIf="error" [message]="errorMessage"></app-error>
     <form class="user-edit__form"
     [formGroup]="form"
     (ngSubmit)="onSubmit()">

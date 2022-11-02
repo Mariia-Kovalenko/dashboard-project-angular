@@ -1,5 +1,5 @@
 <header class="header">
-    <a routerLink="/dashboard-1" class="logo">Task Controll App</a>
+    <a routerLink="/dashboard" class="logo">Task Controll App</a>
     <nav class="nav" *ngIf="isAuthenticated">
       <ul class="nav__list" [ngClass]="{show_menu: isBurgerOpened}">
         <li class="nav__item"><a routerLink="/dashboard" class="nav__link" (click)="onToggleMenu()">All Boards</a></li>

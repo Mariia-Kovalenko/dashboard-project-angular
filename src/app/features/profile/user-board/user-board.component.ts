@@ -30,9 +30,7 @@ export class UserBoardComponent implements OnInit {
         },
         error: err => {
           console.log(err);
-          
         }
       })
   }
-
 }

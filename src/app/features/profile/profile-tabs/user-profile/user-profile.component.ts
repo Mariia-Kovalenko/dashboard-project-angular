@@ -16,6 +16,8 @@ export class UserProfileComponent implements OnInit {
   };
 
   isLoading = true;
+  error = false;
+  errorMessage = 'Error';
   showConfirm = false;
 
   constructor(private usersService: UsersService) { }
@@ -26,10 +28,23 @@ export class UserProfileComponent implements OnInit {
         next: data => {
           this.isLoading = false;
           this.user = data.user
-          console.log(this.user);
+          
+          if (this.error) {
+            this.error = false;
+          }
         },
         error: err => {
           console.log(err);
+          this.error = true;
+          if (this.isLoading) {
+            this.isLoading = false;
+          }
+          
+          if (err.message) {
+            this.errorMessage = err.message;
+          } else if (err.error.message) {
+            this.errorMessage = err.error.message;
+          }
         }
       })
   }

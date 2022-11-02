@@ -9,10 +9,14 @@ import { UsersService } from 'src/app/core/services/users.service';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent implements OnInit, OnDestroy {
 
   form!: FormGroup;
   userId: string = '';
+  error = false;
+  errorMessage = 'Error';
+
+  errorSubscription!: Subscription;
 
   constructor(private usersService: UsersService,
     private route: ActivatedRoute) { }
@@ -34,7 +38,10 @@ export class EditProfileComponent implements OnInit {
       'password': new FormControl('', passwordValidators)
     });
 
-    
+    this.errorSubscription = this.usersService.error.subscribe(err => {
+      this.errorMessage = err.message;
+      this.error = true;
+    })
   }
 
   onSubmit() {
@@ -44,6 +51,10 @@ export class EditProfileComponent implements OnInit {
         this.form.value.email, this.form.value.password)
         this.form.reset();
     }
+  }
+
+  ngOnDestroy() {
+    this.errorSubscription.unsubscribe();
   }
 
 }

@@ -1,7 +1,8 @@
 <div class="user__info">
     <div class="details__title">Profile Details</div>
-    <!-- <app-loader *ngIf="isLoading"></app-loader> -->
-    <div *ngIf="!isLoading" class="user__data">
+    <app-loader *ngIf="isLoading"></app-loader>
+    <app-error *ngIf="error" [message]="errorMessage"></app-error>
+    <div *ngIf="!isLoading && !error" class="user__data">
         <div class="user__credentials">Name: <span>{{user.name}}</span></div>
         <div class="user__credentials">Email: <span>{{user.email}}</span></div>
         <div class="user__credentials">Created: <span>{{user.created_date | date}}</span></div>

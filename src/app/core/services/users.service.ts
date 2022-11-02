@@ -48,14 +48,20 @@ export class UsersService {
     const credentials = {name, email, password}
     this.http.patch<{message: string, user: {name: string, email: string}}>(usersURL + 'me', credentials)
     .pipe(
-      take(1),
-      catchError(this.handleError)
+      take(1)
     )
     .subscribe({
       next: data => {
         this.userUpdated.next(data.user);
-      }, error: err => {
-        this.error.next({message: err.error.message});
+        // update user in local storage
+        this.localStorage.set('user', data.user.name);
+      }, 
+      error: err => {
+        if (err.error.message) {
+          this.error.next({message: err.error.message});
+        } else if (err.message) {
+          this.error.next({message: err.message});
+        }
       }
     })
   }
@@ -82,6 +88,7 @@ export class UsersService {
     if (err.error.message) {
       errorMessage = err.error.message;
     }
+
     return throwError(() => new Error(errorMessage));
   }
 }

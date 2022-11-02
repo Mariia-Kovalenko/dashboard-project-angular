@@ -19,6 +19,8 @@ export class PageTopComponent implements OnInit{
   placeholder: string = 'Enter '
 
   showFilter = true;
+  forbiddenFilterValues = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\s]/;
+  isInvalidInput = false;
 
   @Output() findItems = new EventEmitter<string>()
   @Output() filterItems = new EventEmitter<{order: string, criteria: string}>();
@@ -48,9 +50,19 @@ export class PageTopComponent implements OnInit{
       debounceTime(250),
       distinctUntilChanged(),
     )
-    .subscribe(val => {
-      this.filterValue = val.name;
-        this.findItems.emit(this.filterValue);
+    .subscribe({
+      next: val => {
+        if (this.forbiddenFilterValues.test(val.name)) {
+          this.isInvalidInput = true;
+        } else {
+          this.filterValue = val.name;
+          this.findItems.emit(this.filterValue);
+          this.isInvalidInput = false;
+        }
+      },
+      error: err => {
+        console.log(err);
+      }
     })
   }
 

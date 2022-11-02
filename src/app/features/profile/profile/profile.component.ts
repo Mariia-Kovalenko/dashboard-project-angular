@@ -20,7 +20,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   error = false;
   errorMessage = 'Something went wrong';
   userChangedSubscription!: Subscription;
-  errorSubscription!: Subscription;
 
   constructor(private usersService: UsersService) { }
 
@@ -29,36 +28,49 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           this.isLoading = false;
-          this.user = data.user
+          this.user = data.user;
+
+          if (this.error) {
+            this.error = false;
+          }
         },
         error: err => {
-          this.error = true;
-          this.errorMessage = err.message;
+          if (this.isLoading) {
+            this.isLoading = false;
+          }
+
+          let message = err.message || err.error.message || 'Error getting data';
+          this.onError(message);
         }
       })
 
     this.userChangedSubscription = this.usersService.userUpdated
-    .subscribe(data => {
-      if (this.error) {
-        this.error = false
-      }
-      const {name, email} = data;
-      if (name) {
-        this.user.name = name
-      }
-      if (email) {
-        this.user.email = email
-      }
-    })
+      .subscribe({
+        next: data => {
+          if (this.error) {
+            this.error = false;
+          }
+          const {name, email} = data;
+          if (name) {
+            this.user.name = name;
+          }
+          if (email) {
+            this.user.email = email;
+          }
+        }, error: err => {
+          let message = err.message || err.error.message || 'Error getting data';
+          this.onError(message);
+        }
+      })
 
-    this.errorSubscription = this.usersService.error.subscribe(err => {
-      this.errorMessage = err.message;
-      this.error = true;
-    })
+  }
+
+  onError(event: string) {
+    this.error = true;  
+    this.errorMessage = event;  
   }
 
   ngOnDestroy() {
-    this.userChangedSubscription.unsubscribe()
-    this.errorSubscription.unsubscribe();
+    this.userChangedSubscription.unsubscribe();
   }
 }

@@ -7,10 +7,12 @@
             <input 
             formControlName="name" 
             class="filter__input" 
-            placeholder="{{placeholder}}">
+            placeholder="{{placeholder}}"
+            [ngClass]="{
+                forbidden: isInvalidInput
+            }">
         </form>  
         <div class="filter-buttons">
-            <!-- <button class="btn filter dropdown">Sort</button> -->
             <div class="dropdown">
                 <button class="btn filter-btn order">ASC</button>
                 <div class="dropdown-content">

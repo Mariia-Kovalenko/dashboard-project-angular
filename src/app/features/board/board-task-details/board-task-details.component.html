@@ -1,6 +1,9 @@
 <div class="task-details modal">
     <div class="modal__inner task-details__inner">
-        <h3 class="modal__name">Task Details</h3>
+        <div class="modal__top">
+            <h3 class="modal__name">Task Details</h3>
+            <div class="close-btn" (click)="onCloseModal()"></div>
+        </div>
 
         <app-loader *ngIf="isLoading && !error"></app-loader>
         <app-error *ngIf="error && !isLoading" [message]="errorMessage"></app-error>
@@ -84,6 +87,6 @@
                 </div>
             </div>
         </div>
-        <div class="close" (click)="onCloseModal()"></div>
+        <!-- <div class="close" (click)="onCloseModal()"></div> -->
     </div>
 </div>

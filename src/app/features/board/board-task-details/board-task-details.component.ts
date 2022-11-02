@@ -69,17 +69,15 @@ export class BoardTaskDetailsComponent implements OnInit {
           this.setTaskStatusColor(this.task.state);
 
           this.isLoading = false;
-        }, error: err => {
+        }, 
+        error: err => {
           console.log(err);
-          this.error = true;
           if (this.isLoading) {
             this.isLoading = false;
           }
-          if (err.error) {
-            this.errorMessage = err.error.message
-          } else {
-            this.errorMessage = err.message
-          }
+
+          let message = err.error.message || err.message || 'Error fetching task';
+          this.onError(message);
         }
       })
   }
@@ -102,7 +100,7 @@ export class BoardTaskDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('comment');
+    // console.log('comment');
     if (this.form.valid) {
       this.tasksService.commentTask(this.task._id, this.form.value.message)
         .subscribe({
@@ -112,6 +110,12 @@ export class BoardTaskDetailsComponent implements OnInit {
           }, error: err => {
             console.log(err);
             
+            if (this.isLoading) {
+              this.isLoading = false;
+            }
+  
+            let message = err.error.message || err.message || 'Error commenting task';
+            this.onError(message);
           }
         })
 
@@ -128,11 +132,22 @@ export class BoardTaskDetailsComponent implements OnInit {
       }, error: err => {
         console.log(err);
         
+        if (this.isLoading) {
+          this.isLoading = false;
+        }
+
+        let message = err.error.message || err.message || 'Error deleting task';
+        this.onError(message);
       }
     })
   }
 
   onCloseModal() {
     this.closeModal.emit()
+  }
+
+  onError(event: string) {
+    this.error = true;  
+    this.errorMessage = event;  
   }
 }
