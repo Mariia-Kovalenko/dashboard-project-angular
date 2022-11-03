@@ -62,7 +62,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.onError(message);
         }
       })
-
   }
 
   onError(event: string) {
