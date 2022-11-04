@@ -12,7 +12,8 @@ import { FilteringService } from '../../../core/services/filtering.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard1.component.html',
-  styleUrls: ['./dashboard1.component.css']
+  styleUrls: ['./dashboard1.component.css'],
+  providers: [BoardsService, FilteringService]
 })
 export class Dashboard1Component implements OnInit {
   boards: Board[] = [];

@@ -7,7 +7,8 @@ import { UsersService } from 'src/app/core/services/users.service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.css']
+  styleUrls: ['./edit-profile.component.css'],
+  providers: [UsersService]
 })
 export class EditProfileComponent implements OnInit, OnDestroy {
 

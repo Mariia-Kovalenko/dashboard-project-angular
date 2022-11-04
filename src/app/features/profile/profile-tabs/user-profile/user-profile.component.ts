@@ -4,7 +4,8 @@ import { UserResponseData, UsersService } from 'src/app/core/services/users.serv
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  styleUrls: ['./user-profile.component.css'],
+  providers: [UsersService]
 })
 export class UserProfileComponent implements OnInit {
   

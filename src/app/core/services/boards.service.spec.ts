@@ -1,16 +1,47 @@
-import { TestBed } from '@angular/core/testing';
+import { Board } from "src/app/shared/models/board.model";
+import { BoardsService } from "./boards.service";
+import {boardsURL} from '../../shared/utils/URLs';
+import { TestBed } from "@angular/core/testing";
+import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { HttpClient } from "@angular/common/http";
 
-import { BoardsService } from './boards.service';
+describe('Boards Service', () => {
+    let service: BoardsService;
+    let httpClient: HttpClient;
+    let httpTestingController: HttpTestingController;
 
-describe('BoardsService', () => {
-  let service: BoardsService;
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                HttpClientTestingModule
+            ],
+            providers: [
+                BoardsService,
+                HttpClient
+            ]
+        });
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(BoardsService);
-  });
+        httpClient = TestBed.inject(HttpClient);
+        httpTestingController = TestBed.inject(HttpTestingController);
+        service = TestBed.inject(BoardsService);
+    });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+    afterEach(() => {
+        httpTestingController.verify();
+    });
+
+    it('should be created', () => {
+        expect(service).toBeTruthy();
+    });
+
+    it('should test #fetchBoards', () => {
+        const response = [
+            new Board('Board', '2022-02-02', 'desc', '00098765443', '998876540'),
+            new Board('Board 2', '2022-02-02', 'desc', '00098765443', '998876540'),
+            new Board('Board 3', '2022-02-02', 'desc', '00098765443', '998876540')
+        ]
+        const url = boardsURL;
+
+        // let spy = spyOn(httpClientSpy, 'get').m
+    })
+})
