@@ -5,7 +5,8 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  providers: [AuthService]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private userSub!: Subscription;
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe(user => {
-      // console.log('userSub', user);
+      console.log('userSub', user);
       this.isAuthenticated = !!user.jwt_token;
     })
   }

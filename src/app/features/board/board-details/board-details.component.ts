@@ -73,7 +73,7 @@ export class BoardDetailsComponent implements OnInit {
         this.boardsService.fetchBoardById(this.boardId)
           .subscribe({
             next: data => {
-              this.currentBoard = data.board;
+              this.currentBoard = data;
               // console.log(this.currentBoard);
             },
             error: err => {

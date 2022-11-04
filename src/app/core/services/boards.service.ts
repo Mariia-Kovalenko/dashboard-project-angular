@@ -9,6 +9,10 @@ interface Boards {
   boards: Board[]
 }
 
+interface BoardResponse {
+  board: Board
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,38 +23,18 @@ export class BoardsService {
   }
 
   fetchBoards() {
-    return this.http.get<Boards>(boardsURL,
-      ).pipe(map(responseData => {
-        const boards = responseData.boards.map(board => {
-          return {...board}
-        });
-        return boards
-      }))
+    return this.http.get<Board[]>(boardsURL)
   }
 
   fetchBoardById(id: string) {
-    return this.http.get<{board: Board}>(boardsURL + id)
+    return this.http.get<Board>(boardsURL + id)
   }
 
   findBoardsByName(name: string) {
     if (!name) {
-      return this.http.get<Boards>(boardsURL)
-      .pipe( 
-        map(responseData => {
-        const boards = responseData.boards.map(board => {
-          return {...board}
-        });
-        return boards
-      })
-      )
+      return this.http.get<Board[]>(boardsURL);
     } else {
-          return this.http.get<Boards>(boardsURL + `/${name}` + '/find_boards')
-          .pipe(map(responseData => {
-            const boards = responseData.boards.map(board => {
-              return {...board}
-            });
-            return boards
-          }))
+      return this.http.get<Board[]>(boardsURL + `/${name}` + '/find_boards')
     }
   }
 

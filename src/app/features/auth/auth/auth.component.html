@@ -1,4 +1,4 @@
-<div class="auth">
+<div class="auth" id="auth-form">
     <app-loader *ngIf="isLoading"></app-loader>
     <app-error *ngIf="error" [message]="errorMessage"></app-error>
     <form 
@@ -11,7 +11,7 @@
         </h1>
         <div class="auth-form__inputs">
             <div *ngIf="!isLoginMode" class="form-group">
-                <label class="form-label" for="password">Name</label>
+                <label class="form-label" for="username">Name</label>
                 <input 
                 id="username" 
                 type="text" 
@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label class="form-label" for="password">Email</label>
                 <input 
-                id="password" 
+                id="email" 
                 type="email" 
                 class="form__input" 
                 ngModel
@@ -32,9 +32,9 @@
                 email>
             </div>
             <div class="form-group">
-                <label class="form-label" for="email">Password</label>
+                <label class="form-label" for="password">Password</label>
                 <input 
-                id="email"  
+                id="password"  
                 type="password" 
                 class="form__input"
                 ngModel

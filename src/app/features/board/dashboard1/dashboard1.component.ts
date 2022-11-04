@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { FilteringService } from '../../../core/services/filtering.service';
-
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -70,7 +70,6 @@ export class Dashboard1Component implements OnInit {
     this.boardsService.findBoardsByName(event)
       .subscribe({
         next: data => {
-          // console.log(data);
           if (data.length) {
             this.boards = data;
             this.error = false;

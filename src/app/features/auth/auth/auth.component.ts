@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthResponseData, AuthService } from '../../../core/services/auth.service';
@@ -15,6 +15,9 @@ export class AuthComponent implements OnInit {
   isLoading = false;
   error = false;
   errorMessage = '';
+
+  @ViewChild("authForm")
+    public ngForm!: NgForm;
 
   constructor(private authService: AuthService,
     private router: Router) { }
@@ -54,7 +57,6 @@ export class AuthComponent implements OnInit {
         }
         if (this.isLoginMode) {
           console.log('navigate to dashboards');
-          
           this.router.navigate(['dashboard']);
         } else {
           this.onSwitchMode();

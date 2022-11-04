@@ -38,6 +38,8 @@ export class AuthService {
         tap(resData => {
           if (resData.jwt_token) {
             const token = this.localStorage.get('token');
+            console.log(token);
+            
             if (!token) {
               this.localStorage.set('token', resData.jwt_token);
               this.localStorage.set('user', resData.name);
@@ -51,7 +53,7 @@ export class AuthService {
 
   autoLogin() {
     const token = this.localStorage.get('token');
-
+    // console.log(token);
     if (!token) {
       return;
     } else {
