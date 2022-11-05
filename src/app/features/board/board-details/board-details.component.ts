@@ -174,7 +174,7 @@ export class BoardDetailsComponent implements OnInit {
     this.tasksService.fetchTasksForBoard(this.boardId)
       .subscribe({
         next: data => {
-          this.allTasks = data.tasks;
+          this.allTasks = data;
           this.splitTasksByState(this.allTasks);
           this.isFetching = false;
         },
@@ -190,7 +190,7 @@ export class BoardDetailsComponent implements OnInit {
       .subscribe({
         next: data => {
           this.isFetching = false;
-          this.allTasks = data.tasks;
+          this.allTasks = data;
           this.splitTasksByState(this.allTasks);
         }, 
         error: err => {

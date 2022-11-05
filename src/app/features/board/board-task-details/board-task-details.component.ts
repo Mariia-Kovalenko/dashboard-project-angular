@@ -63,7 +63,7 @@ export class BoardTaskDetailsComponent implements OnInit {
             created_date,
             name,
             state
-          } = data.task;
+          } = data;
 
           this.task = new Task(_id, board_id, name, description, state, created_date, comments);
           this.setTaskStatusColor(this.task.state);

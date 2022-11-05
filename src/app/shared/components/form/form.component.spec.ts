@@ -33,6 +33,7 @@ describe('Form Component', () => {
         component.boardId = '45678ijhbvft6yu78io';
         component.openItemForm = {
             mode: 'add',
+            itemToEdit: '56789oiuhg',
             itemType: 'board'
         }
         fixture.detectChanges();
@@ -91,6 +92,7 @@ describe('Form Component', () => {
         }
         component.openItemForm = {
             mode: 'edit',
+            itemToEdit: '56789oiuhg',
             itemType: 'task'
         }  
         const spy = spyOn(component.updateItem, 'emit');

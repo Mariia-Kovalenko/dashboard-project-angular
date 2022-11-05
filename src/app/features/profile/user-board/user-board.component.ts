@@ -26,7 +26,7 @@ export class UserBoardComponent implements OnInit {
       .subscribe({
         next: data => {
           console.log(data);
-          this.tasksNum = data.tasks.length
+          this.tasksNum = data.length
         },
         error: err => {
           console.log(err);

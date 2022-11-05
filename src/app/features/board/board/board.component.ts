@@ -36,11 +36,11 @@ export class BoardComponent implements OnInit {
   getTasksForBoard(id: string) {
     this.tasksService.fetchTasksForBoard(id)
     .subscribe(data => {
-      this.tasksNum.emit({bordId: id, tasksNum: data.tasks.length});
+      this.tasksNum.emit({bordId: id, tasksNum: data.length});
 
-      this.newTasks = data.tasks.filter(task => task.state === State.TODO);
-      this.progressTasks = data.tasks.filter(task => task.state === State.IN_PROGRESS);
-      this.doneTasks = data.tasks.filter(task => task.state === State.DONE);
+      this.newTasks = data.filter(task => task.state === State.TODO);
+      this.progressTasks = data.filter(task => task.state === State.IN_PROGRESS);
+      this.doneTasks = data.filter(task => task.state === State.DONE);
       })
     }
 

@@ -17,20 +17,19 @@ export class TasksService {
   constructor(private http: HttpClient) { }
 
   fetchTasksForBoard(id: string) {
-    return this.http.get<Tasks>(tasksURL + id)
+    return this.http.get<Task[]>(tasksURL + id)
   }
 
   getTasksByName(boardId: string, name: string) {
     if (!name) {
-      return this.http.get<Tasks>(tasksURL + boardId)
+      return this.http.get<Task[]>(tasksURL + boardId)
     } else {
-      return this.http.get<Tasks>(tasksURL + `${boardId}` + `/${name}` + '/find_tasks')
+      return this.http.get<Task[]>(tasksURL + `${boardId}` + `/${name}` + '/find_tasks')
     }
-    
   }
 
   getTaskById(id: string) {
-    return this.http.get<{task: Task}>(`${tasksURL}${id}/task`)
+    return this.http.get<Task>(`${tasksURL}${id}/task`)
   }
 
   deleteTask(boardId: string, taskId: string) {
@@ -83,13 +82,7 @@ export class TasksService {
   }
   
   getArchivedTasks() {
-    return this.http.get<{tasks: Task[]}>(tasksURL + 'archive')
-    .pipe(map(responseData => {
-      const tasks = responseData.tasks.map(task => {
-        return {...task}
-      });
-      return tasks
-    }))
+    return this.http.get<Task[]>(tasksURL + 'archive')
   }
 
   archiveTask(boardId: string, taskId: string) {
