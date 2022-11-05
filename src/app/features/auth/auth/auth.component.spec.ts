@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationBehaviorOptions, Router, UrlTree } from '@angular/router';
 import { AuthComponent } from './auth.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -18,11 +18,6 @@ describe('Auth Component', () => {
     let authService: AuthService;
     const user = userMock;
 
-    let authServiceStub: Partial<AuthService> = {
-        register: () => of({'ok': true, 'name': user.name, message: 'Profile created successfully'}),
-        login: () => of({'ok': true, 'name': user.name, 'jwt_token': user.jwt_token})
-    }
-
     beforeEach(async() => {
         await TestBed.configureTestingModule({
             declarations: [
@@ -34,6 +29,7 @@ describe('Auth Component', () => {
                 HttpClientTestingModule
             ],
             providers: [
+                AuthService
                 // { provide: AuthService, useValue: authServiceStub }
             ]
         })
@@ -43,7 +39,7 @@ describe('Auth Component', () => {
         authService = TestBed.inject(AuthService);
     
         router = TestBed.inject(Router);
-        spyOn(router, 'navigateByUrl');
+        spyOn(router, 'navigate');
     
         component = fixture.componentInstance;
         component.isLoginMode = true;
@@ -69,26 +65,27 @@ describe('Auth Component', () => {
         })
     })
 
-    // it('call login method in login mode on form submit', () => {
-    //     fixture.detectChanges();
-    //     fixture.whenStable().then(() => {
-    //         const emailInputElement = fixture.debugElement.nativeElement.querySelector('#email');
-    //         const passwordInputElement = fixture.debugElement.nativeElement.querySelector('#password');
+    it('call login method in login mode on form submit', () => {
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+            const emailInputElement = fixture.debugElement.nativeElement.querySelector('#email');
+            const passwordInputElement = fixture.debugElement.nativeElement.querySelector('#password');
             
-    //         emailInputElement.value = 'tomas@email.com';
-    //         passwordInputElement.value = '12345';
+            emailInputElement.value = 'tomas@email.com';
+            passwordInputElement.value = '12345';
 
-    //         emailInputElement.dispatchEvent(new Event('input'));
-    //         passwordInputElement.dispatchEvent(new Event('input'));
+            emailInputElement.dispatchEvent(new Event('input'));
+            passwordInputElement.dispatchEvent(new Event('input'));
 
-    //         const spy = spyOn(authService, 'login').and.callThrough();
+            const spy = spyOn(authService, 'login').and.callThrough();
 
-    //         // fixture.detectChanges();
-    //         // fixture.whenStable().then(() => {
-    //         //     component.onSubmit(component.ngForm);
-    //         //     fixture.detectChanges();
-    //         //     expect(spy).toHaveBeenCalled();
-    //         // })
-    //     })
-    // })
+            fixture.detectChanges();
+            fixture.whenStable().then(() => {
+                component.onSubmit(component.ngForm);
+                fixture.detectChanges();
+                expect(spy).toHaveBeenCalled();
+                fixture.detectChanges();
+            })
+        })
+    })
 })

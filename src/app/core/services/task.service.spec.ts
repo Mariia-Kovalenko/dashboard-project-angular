@@ -122,9 +122,6 @@ describe('Tasks Service', () => {
             const req = httpTestingController.expectOne(`${tasksURL}${taskId}/comment`);
             expect(req.request.method).toEqual('PATCH');
             expect(req.request.body).toEqual(request);
-
-            // const response = new HttpResponse({ status: 200, statusText: 'OK', body: { success: true } });
-            // req.event(response);
         })
     })
 })

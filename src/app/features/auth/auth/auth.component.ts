@@ -7,8 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
-  providers: [AuthService]
+  styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
   isLoginMode = true;
@@ -57,7 +56,7 @@ export class AuthComponent implements OnInit {
         }
         if (this.isLoginMode) {
           console.log('navigate to dashboards');
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['dashboard']);
         } else {
           this.onSwitchMode();
         }
