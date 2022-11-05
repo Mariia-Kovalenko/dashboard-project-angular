@@ -26,8 +26,7 @@ export class BoardComponent implements OnInit {
   progressTasks: Task[] = [];
   doneTasks: Task[] = [];
 
-  constructor(private boardsService: BoardsService,
-    private tasksService: TasksService) { }
+  constructor(private tasksService: TasksService) { }
 
   ngOnInit(): void {
     this.getTasksForBoard(this.board._id);

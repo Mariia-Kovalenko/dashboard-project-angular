@@ -28,7 +28,7 @@ export class UserProfileComponent implements OnInit {
       .subscribe({
         next: data => {
           this.isLoading = false;
-          this.user = data.user
+          this.user = data
           
           if (this.error) {
             this.error = false;

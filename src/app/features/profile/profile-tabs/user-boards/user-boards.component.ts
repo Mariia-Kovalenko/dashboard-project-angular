@@ -20,7 +20,7 @@ export class UserBoardsComponent implements OnInit {
     this.usersService.getUserBoards()
       .subscribe({
         next: data => {
-          this.boards = data.boards
+          this.boards = data
           this.isLoading = false;
         },
         error: err => {

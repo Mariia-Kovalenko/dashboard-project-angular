@@ -26,7 +26,7 @@ export class UsersService {
     private authService: AuthService) { }
 
   getUserInfo() {
-    return this.http.get<{user: {_id: string, name: string, email: string, created_date: string}}>(usersURL + 'me')
+    return this.http.get<{_id: string, name: string, email: string, created_date: string}>(usersURL + 'me')
     .pipe(catchError(this.handleError))
   }
 
@@ -38,7 +38,7 @@ export class UsersService {
   }
 
   getUserBoards() {
-    return this.http.get<{boards: Board[]}>(boardsURL + '/my_boards')
+    return this.http.get<Board[]>(boardsURL + '/my_boards')
     .pipe(
       take(1),
       catchError(this.handleError))
