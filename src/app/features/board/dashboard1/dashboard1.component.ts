@@ -24,7 +24,7 @@ export class Dashboard1Component implements OnInit {
   boardToUpdate!: string;
   isFetching: boolean = true;
   error = false;
-  errorMessage = 'Some error occured';
+  errorMessage = '';
 
   numberOfTasksForBoard = new Map();
 
@@ -51,12 +51,8 @@ export class Dashboard1Component implements OnInit {
       error: err => {
         console.log(err);
         this.isFetching = false;
-        this.error = true;
-        if (err.error.message) {
-          this.errorMessage = err.error.message
-        } else if (err.message) {
-          this.errorMessage = err.message;
-        }
+        let message = err.error.message ? err.error.message: 'Some error occured';
+        this.onError(message);
       }
     })
   }
@@ -74,8 +70,7 @@ export class Dashboard1Component implements OnInit {
             this.boards = data;
             this.error = false;
           } else if (!data.length) {
-            this.error = true;
-            this.errorMessage = 'Data not found'
+            this.onError('Data not found');
           }
           this.isFetching = false;
       }, 

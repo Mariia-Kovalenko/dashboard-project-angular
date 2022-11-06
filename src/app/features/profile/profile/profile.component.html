@@ -5,10 +5,12 @@
 
         <div *ngIf="!isLoading && !error" class="profile__info user">
             <div class="profile__photo">
-                <img src="../../../../assets/images/profile.svg" alt="profile">
+                <img src="../../../../assets/images/profile-default.png" alt="profile">
             </div>
-            <div class="user__name">{{user.name}}</div>
-            <div class="user__email">{{user.email}}</div>
+            <div class="profile__data">
+                <div class="user__name">{{user.name}}</div>
+                <div class="user__email">{{user.email}}</div>
+            </div>
         </div>
     </div>
     <div class="profile__details side details">

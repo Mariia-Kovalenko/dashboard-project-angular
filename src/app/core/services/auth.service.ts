@@ -63,8 +63,15 @@ export class AuthService {
   logout() {
     this.localStorage.remove('token');
     this.localStorage.remove('user');
+    this.clearColumnsBackground();
     this.user.next({jwt_token: ''});
     this.router.navigate(['/auth']);
+  }
+
+  private clearColumnsBackground() {
+    this.localStorage.remove('toDosBg');
+    this.localStorage.remove('inProgressBg');
+    this.localStorage.remove('doneBg');
   }
 
   private handleError(err: HttpErrorResponse) {

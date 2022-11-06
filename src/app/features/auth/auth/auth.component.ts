@@ -38,6 +38,9 @@ export class AuthComponent implements OnInit {
     const password = form.value.password;
 
     this.isLoading = true;
+    if (this.error) {
+      this.error = false;
+    }
 
     let authObs: Observable<AuthResponseData>;
 
@@ -49,21 +52,17 @@ export class AuthComponent implements OnInit {
 
     authObs.subscribe({
       next: data => {
-        console.log('Auth componen', data);
         this.isLoading = false;
         if (this.error) {
           this.error = false;
         }
         if (this.isLoginMode) {
-          console.log('navigate to dashboards');
           this.router.navigate(['dashboard']);
         } else {
           this.onSwitchMode();
         }
       },
       error: err => {
-        console.log(err);
-        
         this.error = true;
         this.isLoading = false;
         this.errorMessage = err;

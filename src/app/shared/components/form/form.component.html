@@ -16,11 +16,10 @@
                     formControlName="name"
                     class="form__input">
                     <span 
-                    *ngIf="!form.get('name')?.valid && form.get('name')?.touched || !isValidForm"
-                    class="input-error">
-                    <span *ngIf="form.get('name')?.errors">{{!isValidForm ? 'Name empty': 'Name forbidden'}}.</span>
-                    Please, enter a valid name
-                </span>
+                        *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
+                        class="input-error">
+                        Please, enter a valid name
+                    </span>
                 </div>
                 <div class="form-group" 
                 *ngIf="(openItemForm.mode === 'add' && openItemForm.itemType === 'board') || ((openItemForm.mode === 'edit' || openItemForm.mode === 'add') && openItemForm.itemType === 'task')">
@@ -28,12 +27,11 @@
                     <input 
                     formControlName="description"
                     class="form__input">
-                    <span 
-                    *ngIf="!form.get('description')?.valid && form.get('description')?.touched || !isValidForm"
-                    class="input-error">
-                    <span *ngIf="form.get('description')?.errors">{{!isValidForm ? 'Description empty': 'Length not allowed'}}.</span>
-                    Please, enter a valid description
-                </span>
+                        <span 
+                        *ngIf="!form.get('description')?.valid && form.get('description')?.touched"
+                        class="input-error">
+                        Please, enter a valid description
+                    </span>
                 </div>
             </div>
             <div class="form__buttons">
