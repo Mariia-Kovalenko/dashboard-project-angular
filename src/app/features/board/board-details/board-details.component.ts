@@ -109,20 +109,18 @@ export class BoardDetailsComponent implements OnInit {
     // remove task from old array in component
     this.removeTaskFromOldColumn(taskToMove);
 
-    let newState!: State;
     // change task state and move to new column in component
-    this.addTaskToNewColumn(event, newState, taskToMove);
-    
-    const taskToUpdate = this.allTasks.find(task => task._id === taskToMove._id);
+    const taskToUpdate = this.addTaskToNewColumn(event, taskToMove);
 
     // update task state on server
     if (taskToUpdate) {
       this.tasksService.updateTask({
         boardId: this.boardId, 
         taskId: taskToUpdate._id, 
-        taskState: newState})
+        taskState: taskToUpdate.state})
       .subscribe({
-        next: () => {
+        next: (data) => {
+          console.log(data);
         },
         error: err => {
           console.log(err);
@@ -148,25 +146,27 @@ export class BoardDetailsComponent implements OnInit {
     }
   }
 
-  addTaskToNewColumn(column: string, newState: State, taskToMove: Task) {
+  addTaskToNewColumn(column: string, taskToMove: Task) {
+    let newState!: State;
     switch (column) {
       case 'toDo':
         newState = State.TODO;
         taskToMove.state = newState;
         this.newTasks.push(taskToMove);
-        break;
+        return taskToMove;
       case 'inProgress':
         newState = State.IN_PROGRESS;
         taskToMove.state = newState;
         this.progressTasks.push(taskToMove);
-        break;
+        return taskToMove;
       case 'done':
         newState = State.DONE;
         taskToMove.state = newState;
         this.doneTasks.push(taskToMove);
-        break;
+        return taskToMove;
       default: 
         newState = this.draggedItem.state;
+        return taskToMove;
     }
   }
 
