@@ -45,6 +45,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log('submit');
+    
     if (this.form.valid) {
       console.log(this.form.value);
       this.usersService.updateUser(this.form.value.name, 
