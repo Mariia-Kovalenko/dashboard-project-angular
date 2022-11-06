@@ -5,8 +5,7 @@ import { Board } from 'src/app/shared/models/board.model';
 @Component({
   selector: 'app-user-boards',
   templateUrl: './user-boards.component.html',
-  styleUrls: ['./user-boards.component.css'],
-  providers: [UsersService]
+  styleUrls: ['./user-boards.component.css']
 })
 export class UserBoardsComponent implements OnInit {
   boards: Board[] = [];

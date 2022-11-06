@@ -2,7 +2,7 @@ import { Injectable, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { boardsURL, usersURL } from 'src/app/shared/utils/URLs';
-import { catchError, Subject, take, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Subject, take, throwError } from 'rxjs';
 import { Board } from 'src/app/shared/models/board.model';
 import { LocalStorageService } from './local-storage.service';
 
@@ -18,7 +18,7 @@ export interface UserResponseData {
 })
 export class UsersService {
 
-  @Output() userUpdated = new Subject<{name: string, email: string}>();
+  @Output() userUpdated = new BehaviorSubject<{name: string, email: string}>({name: '', email: ''});
   @Output() error = new Subject<{message: string}>();
 
   constructor(private http: HttpClient,
@@ -52,6 +52,8 @@ export class UsersService {
     )
     .subscribe({
       next: data => {
+        console.log(data);
+        
         this.userUpdated.next(data.user);
         // update user in local storage
         this.localStorage.set('user', data.user.name);

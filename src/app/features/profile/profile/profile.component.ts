@@ -5,8 +5,7 @@ import { UserResponseData, UsersService } from '../../../core/services/users.ser
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
-  providers: [UsersService]
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
