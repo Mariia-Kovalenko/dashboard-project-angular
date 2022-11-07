@@ -609,6 +609,10 @@ body {
 .task__name {
     margin-bottom: 5px;
 }
+.task__name:hover {
+    cursor: pointer;
+    color: var(--light-purple);
+}
 
 .empty-task {
     background-color:white;
