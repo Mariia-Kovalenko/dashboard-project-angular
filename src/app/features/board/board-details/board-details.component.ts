@@ -100,6 +100,12 @@ export class BoardDetailsComponent implements OnInit {
     this.draggedItem = event;
   }
 
+  onMoveTask(event: {task: Task, column: string}) {
+    this.draggedItem = event.task;
+
+    this.onItemDropped(event.column);
+  }
+
   onItemDropped(event: string) {
     const taskToMove = this.draggedItem;
     // do nothing if task is about to be dropped to the same column

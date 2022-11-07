@@ -14,6 +14,7 @@ export class BoardTaskComponent implements OnInit {
   @Output() deleteTask = new EventEmitter<string>()
   @Output() archiveTask = new EventEmitter<string>()
   @Output() openTaskDetails = new EventEmitter<string>()
+  @Output() moveTask = new EventEmitter<{task: Task, column: string}>()
 
   constructor() { }
 
@@ -34,6 +35,10 @@ export class BoardTaskComponent implements OnInit {
 
   onOpenTaskDetails() {
     this.openTaskDetails.emit(this.task._id)
+  }
+
+  onMoveTask(column: string) {
+    this.moveTask.emit({task: this.task, column});
   }
 
 }

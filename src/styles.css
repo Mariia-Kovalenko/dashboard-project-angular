@@ -7,7 +7,7 @@
     --dark-grey: #494949;
     --light-purple: #6A7CEC;
 
-    --purple-theme: #deeefa;
+    --purple-theme: #deeefa1e;
     --creme: #A6977B;
 }
 *, :before, :after, body {
@@ -614,6 +614,20 @@ body {
     color: var(--light-purple);
 }
 
+.task-manage__buttons {
+    display: flex;
+    gap: 10px;
+    display: none;
+}
+
+
+.change-state {
+    flex: 1 1 auto;
+    background-color: rgba(255, 255, 255, 0.669);
+    border: 1px solid var(--light-purple);
+    height: 35px;
+}
+
 .empty-task {
     background-color:white;
     border: 1px dashed #a1a1a1;
@@ -636,6 +650,9 @@ body {
     .tasks {
         flex: 1 1 100%;
         margin-bottom: 20px;
+    }
+    .task-manage__buttons {
+        display: flex;
     }
 }
 
