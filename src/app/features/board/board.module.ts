@@ -4,11 +4,8 @@ import { RouterModule } from '@angular/router';
 import { BoardRoutingModule } from './board-routing/board-routing.module';
 import { PageTopModule } from '../page-top/page-top.module';
 import { BoardComponent } from './board/board.component';
-import { FormComponent } from 'src/app/shared/components/form/form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ErrorComponent } from 'src/app/shared/components/error/error.component';
-import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
-import { Dashboard1Component } from './dashboard1/dashboard1.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { BoardDetailsComponent } from './board-details/board-details.component';
 import { BoardTaskComponent } from './board-task/board-task.component';
 import { ChangeBgDirective } from './directives/change-bg.directive';
@@ -21,7 +18,7 @@ import { ShortenPipe } from 'src/app/shared/pipes/shorten.pipe';
 
 @NgModule({
   declarations: [
-    Dashboard1Component,
+    DashboardComponent,
     BoardComponent,
     BoardDetailsComponent,
     BoardTaskComponent,
@@ -39,7 +36,7 @@ import { ShortenPipe } from 'src/app/shared/pipes/shorten.pipe';
     SharedModule,
   ], 
   exports: [
-    Dashboard1Component
+    DashboardComponent
   ]
 })
 export class BoardModule { }

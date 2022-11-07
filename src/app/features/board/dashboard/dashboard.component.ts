@@ -11,11 +11,10 @@ import { map } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard1.component.html',
-  styleUrls: ['./dashboard1.component.css'],
+  templateUrl: './dashboard.component.html',
   providers: [BoardsService, FilteringService]
 })
-export class Dashboard1Component implements OnInit {
+export class DashboardComponent implements OnInit {
   boards: Board[] = [];
   tasks: Task[] = [];
 
