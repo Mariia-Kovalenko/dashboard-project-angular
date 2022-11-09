@@ -4,7 +4,6 @@ import { Board } from 'src/app/shared/models/board.model';
 import { BoardsService } from '../../../core/services/boards.service';
 import { State } from 'src/app/shared/models/task-state.model';
 import { Task } from 'src/app/shared/models/task.model';
-import { Subscription } from 'rxjs';
 import { TasksService } from '../../../core/services/tasks.service';
 import { FilteringService } from '../../../core/services/filtering.service';
 import { LocalStorageService } from '../../../core/services/local-storage.service';

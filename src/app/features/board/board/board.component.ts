@@ -1,10 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Board } from 'src/app/shared/models/board.model';
 import { State } from 'src/app/shared/models/task-state.model';
-import { BoardsService } from '../../../core/services/boards.service';
 import { Task } from 'src/app/shared/models/task.model';
-import { HttpClient } from '@angular/common/http';
 import { TasksService } from '../../../core/services/tasks.service';
 
 @Component({

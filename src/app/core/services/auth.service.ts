@@ -52,7 +52,6 @@ export class AuthService {
 
   autoLogin() {
     const token = this.localStorage.get('token');
-    console.log(token);
     if (!token) {
       return;
     } else {
