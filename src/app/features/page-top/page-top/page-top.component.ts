@@ -1,5 +1,5 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -8,7 +8,8 @@ import { BoardsService } from '../../../core/services/boards.service';
 @Component({
   selector: 'app-page-top',
   templateUrl: './page-top.component.html',
-  styleUrls: ['./page-top.component.css']
+  styleUrls: ['./page-top.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageTopComponent implements OnInit{
   @Input('currentRoute') currentRoute: string = '';

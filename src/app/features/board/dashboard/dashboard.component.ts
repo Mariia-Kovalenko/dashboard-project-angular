@@ -3,11 +3,7 @@ import { BoardsService } from '../../../core/services/boards.service';
 import { Board } from 'src/app/shared/models/board.model';
 import { Task } from 'src/app/shared/models/task.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { AuthService } from '../../../core/services/auth.service';
 import { FilteringService } from '../../../core/services/filtering.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
