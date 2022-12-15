@@ -4,6 +4,10 @@ This is a JIRA-like task managment application created using AngularJS.
 It that allows users to authorise and create personal boards with tasks,
 add/delete/update boards and tasks as well as manage personal information.
 
+# Deploy
+
+Application is available via this link: https://mariia-kovalenko.github.io/dashboard-project-angular/dashboard/
+
 # Stack
 
 * Data Storage: MongoDB
