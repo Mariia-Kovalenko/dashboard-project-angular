@@ -16,16 +16,16 @@
             <div class="dropdown">
                 <button class="btn filter-btn order">ASC</button>
                 <div class="dropdown-content">
-                    <button class="dropdown-btn" (click)="onFilterItemsByName('ascending')">Name</button>
-                    <button class="dropdown-btn" (click)="onFilterItemsByDate('ascending')">Date</button>
+                    <button class="dropdown-btn" (click)="onFilterItems('name', 'ascending')">Name</button>
+                    <button class="dropdown-btn" (click)="onFilterItems('date', 'ascending')">Date</button>
                     <button *ngIf="showFilter" class="dropdown-btn" (click)="onFilterBoardsByTasks('ascending')">№ Tasks</button>
                 </div>
             </div>
             <div class="dropdown">
                 <button class="btn filter-btn order">DESC</button>
                 <div class="dropdown-content">
-                    <button class="dropdown-btn" (click)="onFilterItemsByName('descending')">Name</button>
-                    <button class="dropdown-btn" (click)="onFilterItemsByDate('descending')">Date</button>
+                    <button class="dropdown-btn" (click)="onFilterItems('name', 'descending')">Name</button>
+                    <button class="dropdown-btn" (click)="onFilterItems('date', 'descending')">Date</button>
                     <button *ngIf="showFilter" class="dropdown-btn" (click)="onFilterBoardsByTasks('descending')">№ Tasks</button>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BoardRoutingModule } from './board-routing/board-routing.module';
+import { BoardRoutingModule } from './board-routing.module';
 import { PageTopModule } from '../page-top/page-top.module';
 import { BoardComponent } from './board/board.component';
 import { ReactiveFormsModule } from '@angular/forms';

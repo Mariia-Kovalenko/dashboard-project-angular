@@ -44,23 +44,23 @@ export class FilteringService {
   filterItemsByDate(
     order: string, 
     array: Task[] | Board[]): void {
-    switch (order) {
-    case 'ascending':
-      array = array.sort((a, b) => {
-        const date1 = new Date(a.created_date).getTime()
-        const date2 = new Date(b.created_date).getTime()
-        return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
-      });
-      break;
-    case 'descending':
-      array = array.sort((a, b) => {
-        const date1 = new Date(a.created_date).getTime()
-        const date2 = new Date(b.created_date).getTime()
-        return date1 < date2 ? 1 : (date1 > date2) ? -1 : 0
-      });
-      break
-    default:
-      break
+      switch (order) {
+      case 'ascending':
+        array = array.sort((a, b) => {
+          const date1 = new Date(a.created_date).getTime()
+          const date2 = new Date(b.created_date).getTime()
+          return date1 > date2 ? 1 : (date1 < date2) ? -1 : 0
+        });
+        break;
+      case 'descending':
+        array = array.sort((a, b) => {
+          const date1 = new Date(a.created_date).getTime()
+          const date2 = new Date(b.created_date).getTime()
+          return date1 < date2 ? 1 : (date1 > date2) ? -1 : 0
+        });
+        break
+      default:
+        break
+    }
   }
-}
 }

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../../auth/auth.guard';
-import { ArchivedTasksComponent } from '../archived-tasks/archived-tasks.component';
+import { AuthGuard } from '../auth/auth.guard';
+import { ArchivedTasksComponent } from './archived-tasks/archived-tasks.component';
 const appRoutes: Routes = [
   {
     path: 'archived',  

@@ -22,9 +22,9 @@
                     </div>
                     <span class="task__status" 
                     [ngClass]="{
-                        task_to_do: statusClass.task_to_do,
-                        task_in_progress: statusClass.task_in_progress,
-                        task_done: statusClass.task_done
+                        task_to_do: statusClass.taskToDo,
+                        task_in_progress: statusClass.taskInProgress,
+                        task_done: statusClass.taskDone
                     }">{{task.state}}</span>
                 </div>
                 <div class="item__name task-item">Board: <span>#1{{task.board_id}}</span></div>

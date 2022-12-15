@@ -3,13 +3,14 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { BoardsService } from '../../../core/services/boards.service';
+import { ValidationService } from '../../../core/services/validation.service';
 
 @Component({
   selector: 'app-page-top',
   templateUrl: './page-top.component.html',
   styleUrls: ['./page-top.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ValidationService]
 })
 export class PageTopComponent implements OnInit{
   @Input('currentRoute') currentRoute: string = '';
@@ -20,13 +21,12 @@ export class PageTopComponent implements OnInit{
   placeholder: string = 'Enter '
 
   showFilter = true;
-  forbiddenFilterValues = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\s]/;
   isInvalidInput = false;
 
   @Output() findItems = new EventEmitter<string>()
   @Output() filterItems = new EventEmitter<{order: string, criteria: string}>();
 
-  constructor(private boardsService: BoardsService,
+  constructor(private validationService: ValidationService,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class PageTopComponent implements OnInit{
     )
     .subscribe({
       next: val => {
-        if (this.forbiddenFilterValues.test(val.name)) {
+        if (this.validationService.validateName(val.name)) {
           this.isInvalidInput = true;
         } else {
           this.filterValue = val.name;
@@ -67,11 +67,11 @@ export class PageTopComponent implements OnInit{
     })
   }
 
-  onFilterItemsByName(order: string) {
+  onFilterItems(criteria: string, order: string) {
     if (this.filter.value.name) {
       this.filter.reset();
     }
-    this.filterItems.emit({order: order, criteria: 'name'});
+    this.filterItems.emit({order: order, criteria: criteria});
   }
 
   onFilterBoardsByTasks(order: string) {
@@ -79,12 +79,5 @@ export class PageTopComponent implements OnInit{
       this.filter.reset();
     }
     this.filterItems.emit({order: order, criteria: 'tasks'});
-  }
-
-  onFilterItemsByDate(order: string) {
-    if (this.filter.value.name) {
-      this.filter.reset();
-    }
-    this.filterItems.emit({order: order, criteria: 'date'});
   }
 }

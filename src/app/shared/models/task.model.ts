@@ -1,13 +1,12 @@
 import { State } from "./task-state.model"
 import { Comment } from "./comment.model"
 
-export class Task {
-    constructor(
-        public _id: string,
-        public board_id: string,
-        public name: string,
-        public description: string,
-        public state: State,
-        public created_date: string,
-        public comments: Comment[]) {}
+export interface Task {
+    _id: string,
+    board_id: string,
+    name: string,
+    description: string,
+    state: State,
+    created_date: string,
+    comments: Comment[]
 }

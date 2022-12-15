@@ -29,9 +29,9 @@ export class BoardTaskDetailsComponent implements OnInit {
   };
 
   statusClass = {
-    task_to_do: false,
-    task_in_progress: false,
-    task_done: false
+    taskToDo: false,
+    taskInProgress: false,
+    taskDone: false
   }
 
   isLoading = true;
@@ -54,24 +54,12 @@ export class BoardTaskDetailsComponent implements OnInit {
   fetchTask() {
     this.tasksService.getTaskById(this.id)
       .subscribe({
-        next: data => {
-          const {
-            board_id,
-            _id,
-            comments,
-            description,
-            created_date,
-            name,
-            state
-          } = data;
-
-          this.task = new Task(_id, board_id, name, description, state, created_date, comments);
+        next: (task: Task) => {
+          this.task = task;
           this.setTaskStatusColor(this.task.state);
-
           this.isLoading = false;
         }, 
         error: err => {
-          console.log(err);
           if (this.isLoading) {
             this.isLoading = false;
           }
@@ -85,13 +73,13 @@ export class BoardTaskDetailsComponent implements OnInit {
   setTaskStatusColor(status: string) {
     switch (status) {
       case State.TODO:
-        this.statusClass.task_to_do = true;
+        this.statusClass.taskToDo = true;
         break;
       case State.IN_PROGRESS:
-        this.statusClass.task_in_progress = true;
+        this.statusClass.taskInProgress = true;
         break;
       case State.DONE:
-        this.statusClass.task_done = true;
+        this.statusClass.taskDone = true;
         break;
     
       default:
@@ -108,7 +96,6 @@ export class BoardTaskDetailsComponent implements OnInit {
             console.log(data);
             this.fetchTask();
           }, error: err => {
-            console.log(err);
             
             if (this.isLoading) {
               this.isLoading = false;

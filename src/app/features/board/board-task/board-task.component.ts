@@ -10,10 +10,7 @@ import { Task } from 'src/app/shared/models/task.model';
 export class BoardTaskComponent implements OnInit {
   @Input() task!: Task;
 
-  @Output() editTask = new EventEmitter<string>()
-  @Output() deleteTask = new EventEmitter<string>()
-  @Output() archiveTask = new EventEmitter<string>()
-  @Output() openTaskDetails = new EventEmitter<string>()
+  @Output() taskAction = new EventEmitter<{action: string, taskId: string}>();
   @Output() moveTask = new EventEmitter<{task: Task, column: string}>()
 
   constructor() { }
@@ -22,19 +19,19 @@ export class BoardTaskComponent implements OnInit {
   }
 
   onEditTask() {
-    this.editTask.emit(this.task._id);
+    this.taskAction.emit({action: 'edit', taskId: this.task._id});
   }
 
   onDeleteTask() {
-    this.deleteTask.emit(this.task._id);
+    this.taskAction.emit({action: 'delete', taskId: this.task._id});
   }
 
   onArchiveTask() {
-    this.archiveTask.emit(this.task._id);
+    this.taskAction.emit({action: 'archive', taskId: this.task._id});
   }
 
   onOpenTaskDetails() {
-    this.openTaskDetails.emit(this.task._id)
+    this.taskAction.emit({action: 'details', taskId: this.task._id})
   }
 
   onMoveTask(column: string) {

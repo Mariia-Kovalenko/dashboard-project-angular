@@ -4,7 +4,7 @@ import { AuthComponent } from './auth/auth.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule } from '@angular/forms';
-import { AuthRoutingModule } from './auth-routing/auth-routing.module';
+import { AuthRoutingModule } from './auth-routing.module';
 
 
 

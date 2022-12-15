@@ -47,7 +47,6 @@ describe('Auth Component', () => {
     })
 
     it('form should be valid', () => {
-        fixture.detectChanges();
         fixture.whenStable().then(() => {
             const emailInputElement = fixture.debugElement.nativeElement.querySelector('#email');
             const passwordInputElement = fixture.debugElement.nativeElement.querySelector('#password');

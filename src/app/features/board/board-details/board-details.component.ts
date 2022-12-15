@@ -273,14 +273,14 @@ export class BoardDetailsComponent implements OnInit {
     this.mode = 'add';
   }
 
-  onEditTask(event: string) {
-    this.taskToEditId = event;
+  onEditTask(taskId: string) {
+    this.taskToEditId = taskId;
     this.showFormModal = true;
     this.mode = 'edit';
   }
 
-  onDeleteTask(event: string) {
-    this.tasksService.deleteTask(this.boardId, event)
+  onDeleteTask(taskId: string) {
+    this.tasksService.deleteTask(this.boardId, taskId)
     .subscribe({
       next: () => {
         this.getTasksForBoard()
@@ -292,8 +292,8 @@ export class BoardDetailsComponent implements OnInit {
     })
   }
 
-  onArchiveTask(event: string) {
-    this.tasksService.archiveTask(this.boardId, event)
+  onArchiveTask(taskId: string) {
+    this.tasksService.archiveTask(this.boardId, taskId)
     .subscribe({
       next: () => {
         this.getTasksForBoard()
@@ -303,6 +303,31 @@ export class BoardDetailsComponent implements OnInit {
         this.onError(message);
       }
     })
+  }
+
+  onOpenTaskDetails(taskId: string) {
+    this.taskToOpen = taskId;
+    // open task details modal
+    this.showTask = true;
+  }
+
+  onToggleTaskAction(event: {action: string, taskId: string}) {
+    switch (event.action) {
+      case 'edit':
+        this.onEditTask(event.taskId);
+        break;
+      case 'delete': 
+        this.onDeleteTask(event.taskId);
+        break;
+      case 'archive':
+        this.onArchiveTask(event.taskId);
+        break;
+      case 'details':
+        this.onOpenTaskDetails(event.taskId);
+        break;
+      default: 
+        break;
+    }
   }
 
   onAddNewTask(event: {boardId: string, name: string, description: string}) {
@@ -353,13 +378,6 @@ export class BoardDetailsComponent implements OnInit {
         }
       })
     this.showFormModal = false;
-  }
-
-  onOpenTaskDetails(event: string) {
-    console.log(event);
-    this.taskToOpen = event;
-    // open task details modal
-    this.showTask = true;
   }
 
   onCloseForm(event: boolean) {

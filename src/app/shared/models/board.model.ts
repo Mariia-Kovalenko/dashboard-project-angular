@@ -1,12 +1,9 @@
 import { Task } from "./task.model";
 
-export class Board {
-    constructor(
-        public name: string,
-        public created_date: string,
-        public description: string,
-        public _id: string,
-        public created_by?: string,
-        // public tasks?: Task[]
-        ) {}
+export interface Board {
+    name: string,
+    created_date: string,
+    description: string,
+    _id: string,
+    created_by?: string
 }

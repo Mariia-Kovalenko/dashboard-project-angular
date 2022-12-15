@@ -44,9 +44,7 @@
                     *ngFor="let newTask of newTasks"
                     [task]="newTask"
                     (itemDragged) = "setDraggedItem($event)"
-                    (editTask)="onEditTask($event)"
-                    (deleteTask)="onDeleteTask($event)"
-                    (openTaskDetails)="onOpenTaskDetails($event)"
+                    (taskAction)="onToggleTaskAction($event)"
                     (moveTask)="onMoveTask($event)"
                     draggable="true"
                     appDraggable></app-board-task>
@@ -91,9 +89,7 @@
                     *ngFor="let progressTask of progressTasks"
                     [task]="progressTask"
                     (itemDragged) = "setDraggedItem($event)"
-                    (editTask)="onEditTask($event)"
-                    (deleteTask)="onDeleteTask($event)"
-                    (openTaskDetails)="onOpenTaskDetails($event)"
+                    (taskAction)="onToggleTaskAction($event)"
                     (moveTask)="onMoveTask($event)"
                     draggable="true"
                     appDraggable></app-board-task>
@@ -136,10 +132,7 @@
                     *ngFor="let doneTask of doneTasks "
                     [task]="doneTask"
                     (itemDragged) = "setDraggedItem($event)"
-                    (editTask)="onEditTask($event)"
-                    (deleteTask)="onDeleteTask($event)"
-                    (archiveTask)="onArchiveTask($event)"
-                    (openTaskDetails)="onOpenTaskDetails($event)"
+                    (taskAction)="onToggleTaskAction($event)"
                     (moveTask)="onMoveTask($event)"
                     draggable="true"
                     appDraggable></app-board-task>
