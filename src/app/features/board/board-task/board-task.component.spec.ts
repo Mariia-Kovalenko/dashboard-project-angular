@@ -33,7 +33,7 @@ describe('Board Task Component', () => {
     });
 
     it('should emit #editTask event', () => {
-        const spy = spyOn(component.editTask, 'emit');
+        const spy = spyOn(component.onEditTask, 'emit');
         fixture.detectChanges();
 
         const button = fixture.debugElement.nativeElement.querySelector('#edit-task');
